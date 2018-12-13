@@ -1,32 +1,41 @@
 import React from 'react'
-import { commonStateType } from '../../reducer/commonReducer'
+import { CommonStateType } from '@Reducers/commonReducer'
 import { Map } from 'immutable'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { fetchData } from '../../action/common'
+import { initContract, newChallengeGroup } from '@Action/common'
+import Button from '@material-ui/core/Button'
 
-const mapStateToProps = (state: Map<string, commonStateType>) => {
+const mapStateToProps = (state: Map<string, object>) => {
   return {
-    data: state.get('commonReducer') as commonStateType
+    data: state.get('commonReducer') as CommonStateType
   }
 }
 
 const mapDispatchToProps = (dispath: Dispatch) => ({
-  fetchData: () => dispath(fetchData())
+  initContract: () => dispath(initContract()),
+  newChallengeGroup: (data: Object) => dispath(newChallengeGroup(data))
 })
 
 interface Props {
-  data: commonStateType
-  fetchData: Function
+  data: CommonStateType
+  initContract: () => void
+  newChallengeGroup: (data: Object) => void
 }
 
 class Home extends React.Component<Props> {
-  componentDidMount() {
-    this.props.fetchData()
+  public async componentDidMount() {
+    this.props.initContract()
   }
 
   render() {
-    return <div>this is home</div>
+    return (
+      <div>
+        <Button variant="contained" color="primary">
+          Hello World
+        </Button>
+      </div>
+    )
   }
 }
 

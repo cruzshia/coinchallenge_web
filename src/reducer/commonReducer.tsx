@@ -1,22 +1,33 @@
-import { Action, FETCH_DATA_DONE } from '../action/common'
+import { Action, SET_CONTRACT } from '../action/common'
+import Web3 from 'web3'
 import { Record, RecordOf } from 'immutable'
 
-export type commonState = {
+export type CommonState = {
   userAddress: string
+  contract: Web3 | null
+  loading: boolean
+  isConnectError: boolean
 }
 
-export type commonStateType = RecordOf<commonState>
+export type CommonStateType = RecordOf<CommonState>
 
-const stateMaker = Record<commonState>({
-  userAddress: '0xwqeqwescefglnk'
+const stateMaker = Record<CommonState>({
+  userAddress: '0xwqeqwescefglnk',
+  contract: null,
+  loading: true,
+  isConnectError: false
 })
 
-const initialState = stateMaker()
+export const initialState = stateMaker()
 
 const commonReducer = (state = initialState, action: Action) => {
   switch (action.type) {
-    case FETCH_DATA_DONE:
-    // return state.set('isLogin', true)
+    case SET_CONTRACT:
+      const contract = action.payload && action.payload.contract
+      return state.merge({
+        contract,
+        loading: false
+      })
 
     default:
       return state
