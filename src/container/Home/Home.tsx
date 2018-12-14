@@ -4,7 +4,7 @@ import { Map } from 'immutable'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { initContract, newChallengeGroup } from '@Action/common'
-import Button from '@material-ui/core/Button'
+import Header from '@Components/Header'
 
 const mapStateToProps = (state: Map<string, object>) => {
   return {
@@ -30,11 +30,9 @@ class Home extends React.Component<Props> {
 
   render() {
     return (
-      <div>
-        <Button variant="contained" color="primary">
-          Hello World
-        </Button>
-      </div>
+      <React.Fragment>
+        <Header title='CoinChallenges' />
+      </React.Fragment>
     )
   }
 }

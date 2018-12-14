@@ -1,18 +1,12 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
-// import { ChallengeGroupType } from '../../typing/globalTypes'
-
-import store from '../../store'
+import store from '@Src/store'
 import Home from '@Container/Home'
+import NewChallengeGroup from '@Container/NewChallengeGroup'
 
-// const challengeGroup = {
-//   id: 'com.1secspeed.walking',
-//   minDays: 12,
-//   maxDays: 30,
-//   maxDelayDays: 20,
-//   minAmount: 1001
-// } as ChallengeGroupType
+import 'reset-css'
+import './app.css'
 
 class App extends Component {
   public render() {
@@ -20,9 +14,9 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <React.Fragment>
-            <Route path="/" exact component={Home} />
-            <Route path="/about/" component={() => <div>about</div>} />
-            <Route path="/users/" component={() => <div>users</div>} />
+            <Home />
+            <Route path='/create_group/' component={NewChallengeGroup} />
+            <Route path='/users/' component={() => <div>users</div>} />
           </React.Fragment>
         </Router>
       </Provider>

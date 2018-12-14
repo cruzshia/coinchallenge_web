@@ -6,7 +6,7 @@ export type CommonState = {
   userAddress: string
   contract: Web3 | null
   loading: boolean
-  isConnectError: boolean
+  error: boolean
 }
 
 export type CommonStateType = RecordOf<CommonState>
@@ -15,7 +15,7 @@ const stateMaker = Record<CommonState>({
   userAddress: '0xwqeqwescefglnk',
   contract: null,
   loading: true,
-  isConnectError: false
+  error: false
 })
 
 export const initialState = stateMaker()

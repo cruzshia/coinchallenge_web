@@ -1,8 +1,8 @@
 export interface ChallengeGroupType {
   id: string
-  minDays: number
-  maxDays: number
-  maxDelayDays: number
-  minAmount: number
-  agent: string
+  minDays: string
+  maxDays: string
+  maxDelayDays: string
+  minAmount: string
+  agent?: string
 }
