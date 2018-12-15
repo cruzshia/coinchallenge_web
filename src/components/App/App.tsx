@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from '@Src/store'
 import Home from '@Container/Home'
 import NewChallengeGroup from '@Container/NewChallengeGroup'
+import Challenge from '@Container/Challenge'
 
+import TranslateHoc from '@Src/translation'
 import 'reset-css'
 import './app.css'
 
@@ -15,8 +22,14 @@ class App extends Component {
         <Router>
           <React.Fragment>
             <Home />
-            <Route path='/create_group/' component={NewChallengeGroup} />
-            <Route path='/users/' component={() => <div>users</div>} />
+            <Switch>
+              <Route path='/' exact component={NewChallengeGroup} />
+              <Route
+                path='/challenge/:address/:groupId'
+                component={Challenge}
+              />
+              <Route component={() => <Redirect to='/' />} />
+            </Switch>
           </React.Fragment>
         </Router>
       </Provider>
@@ -24,4 +37,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default TranslateHoc(App)

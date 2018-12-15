@@ -6,3 +6,11 @@ export interface ChallengeGroupType {
   minAmount: string
   agent?: string
 }
+
+export interface ChallengeType {
+  targetDays: number
+  totalDays: number
+  completeDays: number
+  startDayTimestamp: number
+  sponserNum: number
+}
