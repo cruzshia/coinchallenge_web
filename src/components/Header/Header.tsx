@@ -2,9 +2,11 @@ import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import AppBar from '@material-ui/core/AppBar'
 
+const { REACT_APP_THEME } = process.env
+
 const useStyles = makeStyles({
   topBar: {
-    background: process.env.REACT_APP_THEME,
+    background: REACT_APP_THEME,
     textAlign: 'center',
     lineHeight: '50px'
   }

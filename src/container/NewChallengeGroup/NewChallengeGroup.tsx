@@ -1,7 +1,7 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import { styled } from '@material-ui/styles'
-import TouchApp from '@material-ui/icons/TouchApp'
+import { TouchApp } from '@material-ui/icons'
 import Button from '@material-ui/core/Button'
 import { ChallengeGroupType } from '@Src/typing/globalTypes'
 import Trophy from '@Src/images/trophy.svg'
