@@ -6,6 +6,9 @@ const { REACT_APP_THEME } = process.env
 
 const useStyles = makeStyles({
   topBar: {
+    position: 'fixed',
+    left: 0,
+    top: 0,
     background: REACT_APP_THEME,
     textAlign: 'center',
     lineHeight: '50px'

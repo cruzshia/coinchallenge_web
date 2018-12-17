@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { styled } from '@material-ui/styles'
 import { Helmet } from 'react-helmet'
 import ChallengeCard from './components/ChallengeCard'
-import Typography from '@material-ui/core/Typography'
+import { Divider } from '@material-ui/core'
+import ChallengeInfo from './components/ChallengeInfo'
 
 // import { FormattedMessage } from 'react-intl'
 // import CountUp from 'react-countup'
@@ -25,14 +26,14 @@ export interface RouteParams {
 }
 
 const mockData = {
-  completeDays: 5,
+  completeDays: 8,
   targetDays: 10,
   totalDays: 20,
   startDayTimestamp: 1321231,
   sponserNum: 1
 } as ChallengeType
 
-const mapStateToProps = (state: Map<string, object>) => {
+const mapStateToProps = (_state: Map<string, object>) => {
   return {
     groupId: 'walk.speed.com',
     ...mockData
@@ -48,39 +49,34 @@ class Challenge extends React.Component<ChallengeProp> {
       targetDays,
       startDayTimestamp
     } = this.props
+
+    let percent = Math.floor((completeDays * 100) / targetDays)
+    percent = percent > 100 ? 100 : percent
+
     return (
-      <ChallengeContainer>
-        <Helmet>
-          <title>{params.address}'s coin challenge</title>
-          <link rel='canonical' href='http://mysite.com/example' />
-        </Helmet>
-        <ChallengeCard
-          address={params.address}
-          groupId={params.groupId}
-          startDayTimestamp={startDayTimestamp}
-        />
-        <div>
-          <Typography variant='h6' gutterBottom>
-            CompleteDays
-          </Typography>
-          <Typography variant='subtitle1' gutterBottom>
-            {completeDays}
-          </Typography>
-          <Typography variant='h6' gutterBottom>
-            TargetDays
-          </Typography>
-          <Typography variant='subtitle1' gutterBottom>
-            {targetDays}
-          </Typography>
-          <Typography variant='h6' gutterBottom>
-            TotalDays
-          </Typography>
-          <Typography variant='subtitle1' gutterBottom>
-            {totalDays}
-          </Typography>
-        </div>
-        {/* <CountUp end={1000} /> */}
-      </ChallengeContainer>
+      <React.Fragment>
+        <ChallengeContainer>
+          <Helmet>
+            <title>{params.address}'s coin challenge</title>
+            <link rel='canonical' href='http://mysite.com/example' />
+          </Helmet>
+          <ChallengeCard
+            address={params.address}
+            groupId={params.groupId}
+            startDayTimestamp={startDayTimestamp}
+          />
+          <ChallengeInfo
+            completeDays={completeDays}
+            totalDays={totalDays}
+            targetDays={targetDays}
+            percent={percent}
+          />
+          {/* <CountUp end={1000} /> */}
+        </ChallengeContainer>
+        <br />
+        <br />
+        <Divider variant='inset' component='div' />
+      </React.Fragment>
     )
   }
 }

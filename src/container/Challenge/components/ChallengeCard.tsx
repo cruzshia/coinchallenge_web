@@ -5,14 +5,12 @@ import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import CardHeader from '@material-ui/core/CardHeader'
-import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
-import { FormattedMessage } from 'react-intl'
+// import { FormattedMessage } from 'react-intl'
 import Img from '@Src/images/pic.png'
+import Medal from '@Src/images/medal.svg'
 
 import { RouteParams } from '../Challenge'
-
-const { REACT_APP_THEME } = process.env
 
 const StyledCard = styled(Card)({
   maxWidth: 500,
@@ -24,9 +22,8 @@ const StyledCardMedia = styled(CardMedia)({
   height: 200
 })
 
-const StyledAvatar = styled(Avatar)({
-  background: REACT_APP_THEME,
-  opacity: 0.8
+const StyledAvatar = styled('img')({
+  width: 40
 })
 
 interface ChallengeCardProp extends RouteParams {
@@ -37,9 +34,9 @@ const ChallengeCard = React.memo(
   ({ address, groupId, startDayTimestamp }: ChallengeCardProp) => (
     <StyledCard>
       <CardHeader
-        avatar={<StyledAvatar aria-label='Recipe'>C</StyledAvatar>}
-        title={`challenge from ${address}`}
-        subheader={startDayTimestamp}
+        avatar={<StyledAvatar src={Medal} />}
+        title={address}
+        subheader={`start a challenge at ${startDayTimestamp}`}
       />
       <CardActionArea>
         <StyledCardMedia image={Img} title='Contemplative Reptile' />

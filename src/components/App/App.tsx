@@ -20,17 +20,17 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <React.Fragment>
+          <div id='body'>
             <Home />
             <Switch>
               <Route path='/' exact component={NewChallengeGroup} />
               <Route
-                path='/challenge/:address/:groupId'
+                path='/challenge/:groupId/:address'
                 component={Challenge}
               />
               <Route component={() => <Redirect to='/' />} />
             </Switch>
-          </React.Fragment>
+          </div>
         </Router>
       </Provider>
     )
