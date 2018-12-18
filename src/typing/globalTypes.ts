@@ -12,5 +12,10 @@ export interface ChallengeType {
   totalDays: number
   completeDays: number
   startDayTimestamp: number
-  sponserNum: number
+  sponserSize: number
+}
+
+export interface Action {
+  type: string
+  payload?: { [s: string]: any }
 }

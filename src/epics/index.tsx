@@ -1,6 +1,10 @@
 import { combineEpics } from 'redux-observable'
-import commonEpics from './commonEpics'
+import commonEpics from './commonEpic'
+import challengeGroupEpics from './challengeGroupEpic'
+import challengeEpics from './challengeEpic'
 
 export default combineEpics(
-  ...commonEpics
-);
+  ...commonEpics,
+  ...challengeGroupEpics,
+  ...challengeEpics
+)

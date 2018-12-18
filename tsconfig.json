@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@Src/*": ["src/*"],
-      "@Action/*": ["src/action/*"],
+      "@Epics/*": ["src/epics/*"],
       "@Components/*": ["src/components/*"],
       "@Container/*": ["src/container/*"],
       "@Reducers/*": ["src/reducer/*"]

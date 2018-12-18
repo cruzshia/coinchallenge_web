@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet'
 import ChallengeCard from './components/ChallengeCard'
 import { Divider } from '@material-ui/core'
 import ChallengeInfo from './components/ChallengeInfo'
+import { ChallengeStateType } from '@Reducers/challengeReducer'
 
 // import { FormattedMessage } from 'react-intl'
 // import CountUp from 'react-countup'
@@ -25,25 +26,20 @@ const StyledDivider = styled(Divider)({
   backgroundColor: REACT_APP_FONT_COLOR
 })
 
-interface ChallengeProp extends RouteComponentProps, ChallengeType {}
+interface ChallengeProp extends RouteComponentProps, ChallengeType {
+  error: boolean
+}
 
 export interface RouteParams {
   address: string
   groupId: string
 }
 
-const mockData = {
-  completeDays: 8,
-  targetDays: 10,
-  totalDays: 20,
-  startDayTimestamp: 1321231,
-  sponserNum: 1
-} as ChallengeType
-
-const mapStateToProps = (_state: Map<string, object>) => {
+const mapStateToProps = (state: Map<string, object>) => {
+  const challengeState = state.get('challenge') as ChallengeStateType
   return {
     groupId: 'walk.speed.com',
-    ...mockData
+    ...challengeState.toJS()
   }
 }
 

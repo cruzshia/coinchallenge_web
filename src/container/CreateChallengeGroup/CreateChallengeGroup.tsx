@@ -3,8 +3,15 @@ import TextField from '@material-ui/core/TextField'
 import { styled } from '@material-ui/styles'
 import { TouchApp } from '@material-ui/icons'
 import Button from '@material-ui/core/Button'
+import Web3 from 'web3'
 import { ChallengeGroupType } from '@Src/typing/globalTypes'
 import Trophy from '@Src/images/trophy.svg'
+
+import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
+import { newChallengeGroup } from '@Epics/challengeGroupEpic/action'
+import { CommonStateType } from '@Reducers/commonReducer'
+import { ChallengeGroupStateType } from '@Reducers/challengeGroupReducer'
 
 const Form = styled('form')({
   display: 'flex',
@@ -35,13 +42,35 @@ function Label({ text }: { text: string }) {
   return <LabelTxt>{text}</LabelTxt>
 }
 
+type CreateChallengeGroupProp = {
+  contract: Web3 | null
+  createResult: ChallengeGroupStateType
+  newChallengeGroup: (payload: ChallengeGroupType) => void
+}
+
 type ErrorProp = { [s in keyof ChallengeGroupType]?: boolean }
 type StateProp = {
   challengeGroup: ChallengeGroupType
   error: ErrorProp
 }
 
-class NewChallengeGroup extends React.Component<{}, StateProp> {
+const mapStateToProps = (state: Map<string, object>) => {
+  const commonReducer = state.get('common') as CommonStateType
+  return {
+    contract: commonReducer.get('contract'),
+    createResult: state.get('challengeGroup') as ChallengeGroupStateType
+  }
+}
+
+const mapDispatchToProps = (dispath: Dispatch) => ({
+  newChallengeGroup: (payload: ChallengeGroupType) =>
+    dispath(newChallengeGroup(payload))
+})
+
+class CreateChallengeGroup extends React.Component<
+  CreateChallengeGroupProp,
+  StateProp
+> {
   static LabelProp = {
     shrink: true
   }
@@ -97,7 +126,7 @@ class NewChallengeGroup extends React.Component<{}, StateProp> {
           placeholder='e.g: com.coin.challenge'
           value={challengeGroup.id}
           error={error.id}
-          InputLabelProps={NewChallengeGroup.LabelProp}
+          InputLabelProps={CreateChallengeGroup.LabelProp}
           required
         />
         <StyledTextField
@@ -109,7 +138,7 @@ class NewChallengeGroup extends React.Component<{}, StateProp> {
           value={challengeGroup.minDays}
           error={error.minDays}
           onChange={this.onDayChange('minDays')}
-          InputLabelProps={NewChallengeGroup.LabelProp}
+          InputLabelProps={CreateChallengeGroup.LabelProp}
           required
         />
 
@@ -122,7 +151,7 @@ class NewChallengeGroup extends React.Component<{}, StateProp> {
           error={error.maxDays}
           onChange={this.onDayChange('maxDays')}
           placeholder='12 - 90'
-          InputLabelProps={NewChallengeGroup.LabelProp}
+          InputLabelProps={CreateChallengeGroup.LabelProp}
           required
         />
 
@@ -135,7 +164,7 @@ class NewChallengeGroup extends React.Component<{}, StateProp> {
           error={error.maxDelayDays}
           variant='outlined'
           placeholder='< 90 (day)'
-          InputLabelProps={NewChallengeGroup.LabelProp}
+          InputLabelProps={CreateChallengeGroup.LabelProp}
           required
         />
 
@@ -146,7 +175,7 @@ class NewChallengeGroup extends React.Component<{}, StateProp> {
           value={challengeGroup.minAmount}
           error={error.minAmount}
           variant='outlined'
-          InputLabelProps={NewChallengeGroup.LabelProp}
+          InputLabelProps={CreateChallengeGroup.LabelProp}
           required
         />
         <br />
@@ -159,4 +188,7 @@ class NewChallengeGroup extends React.Component<{}, StateProp> {
   }
 }
 
-export default NewChallengeGroup
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateChallengeGroup)

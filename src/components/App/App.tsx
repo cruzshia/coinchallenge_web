@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import { styled } from '@material-ui/styles'
 import store from '@Src/store'
 import Home from '@Container/Home'
-import NewChallengeGroup from '@Container/NewChallengeGroup'
+import CreateChallengeGroup from '@Container/CreateChallengeGroup'
 import Challenge from '@Container/Challenge'
 
 import TranslateHoc from '@Src/translation'
@@ -38,7 +38,7 @@ class App extends Component {
             <MainContainer>
               <Home />
               <Switch>
-                <Route path='/' exact component={NewChallengeGroup} />
+                <Route path='/' exact component={CreateChallengeGroup} />
                 <Route
                   path='/challenge/:groupId/:address'
                   component={Challenge}
