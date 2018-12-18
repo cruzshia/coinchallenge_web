@@ -1,7 +1,6 @@
 import React from 'react'
 import LiquidFillGauge from 'react-liquid-gauge'
-
-const { REACT_APP_FONT_COLOR } = process.env
+import { APP_FONT_COLOR } from '@Src/contants/themeColor'
 interface ChartProp {
   width: number
   height: number
@@ -17,8 +16,8 @@ interface ChartProp {
 
 function getColor(value: number) {
   let colorPlate = {
-    fillColor: REACT_APP_FONT_COLOR,
-    fontColor: REACT_APP_FONT_COLOR
+    fillColor: APP_FONT_COLOR,
+    fontColor: APP_FONT_COLOR
   }
   // if (value >= 50 && value < 100) {
   //   colorPlate = {

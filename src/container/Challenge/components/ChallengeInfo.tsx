@@ -1,19 +1,20 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
 import { CheckCircle, MyLocation, Directions } from '@material-ui/icons'
-import { styled } from '@material-ui/styles'
+import styled from 'styled-components'
 import ProgressChart from './ProgressChart'
 import Podium from '@Src/images/podium.svg'
 import css from '../Challenge.module.css'
-
-const { REACT_APP_FONT_COLOR } = process.env
+import { APP_FONT_COLOR } from '@Src/contants/themeColor'
 
 const PodiumImg = styled('img')({
   width: 150
 })
 
-const StyledTypography = styled(Typography)({
-  color: REACT_APP_FONT_COLOR
+const StyledFont = styled('div')({
+  fontSize: '20px',
+  color: APP_FONT_COLOR,
+  textAlign: 'center',
+  margin: '10px 0'
 })
 
 function StyledIcon({ Icons }: { Icons: React.ComponentType }) {
@@ -39,27 +40,14 @@ function ChallengeInfo({
 }: ChallengeInfoProp) {
   return (
     <div>
-      <StyledTypography variant='h6' gutterBottom>
+      <StyledFont>
         <StyledIcon Icons={CheckCircle} />
-        CompleteDays
-      </StyledTypography>
-      <StyledTypography variant='subtitle1' gutterBottom>
-        {completeDays}
-      </StyledTypography>
-      <StyledTypography variant='h6' gutterBottom>
-        <StyledIcon Icons={MyLocation} />
-        TargetDays
-      </StyledTypography>
-      <StyledTypography variant='subtitle1' gutterBottom>
-        {targetDays}
-      </StyledTypography>
-      <StyledTypography variant='h6' gutterBottom>
+        CompleteDays: {completeDays}
+      </StyledFont>
+      <StyledFont>
         <StyledIcon Icons={Directions} />
-        TotalDays
-      </StyledTypography>
-      <StyledTypography variant='subtitle1' gutterBottom>
-        {totalDays}
-      </StyledTypography>
+        TargetDays: {targetDays}
+      </StyledFont>
       {percent === 100 ? (
         <PodiumImg src={Podium} className={css.jumpAnimation} />
       ) : (

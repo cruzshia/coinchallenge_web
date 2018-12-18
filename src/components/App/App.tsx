@@ -6,26 +6,26 @@ import {
   Redirect
 } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { styled } from '@material-ui/styles'
+import styled from 'styled-components'
 import store from '@Src/store'
 import Home from '@Container/Home'
 import CreateChallengeGroup from '@Container/CreateChallengeGroup'
 import Challenge from '@Container/Challenge'
 
 import TranslateHoc from '@Src/translation'
+import { APP_FONT_COLOR } from '@Src/contants/themeColor'
 import 'reset-css'
 import './app.css'
 
-const { REACT_APP_THEME, REACT_APP_SUB_THEME } = process.env
-
 const Body = styled('div')({
   fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-  background: `linear-gradient(45deg, ${REACT_APP_THEME} 30%, ${REACT_APP_SUB_THEME} 90%)`,
+  // background: `linear-gradient(45deg, ${APP_THEME} 30%, ${APP_SUB_THEME} 90%)`,
+  background: APP_FONT_COLOR,
   minHeight: '100vh'
 })
 
 const MainContainer = styled('div')({
-  margin: '0 auto',
+  margin: '0 auto 40px',
   paddingTop: 60
 })
 
