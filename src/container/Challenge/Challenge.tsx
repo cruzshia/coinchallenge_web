@@ -12,10 +12,17 @@ import ChallengeInfo from './components/ChallengeInfo'
 
 import { ChallengeType } from '@Src/typing/globalTypes'
 
+const { REACT_APP_FONT_COLOR } = process.env
+
 const ChallengeContainer = styled('div')({
   display: 'flex',
   justifyContent: 'center',
   marginTop: '30px'
+})
+
+const StyledDivider = styled(Divider)({
+  margin: '0 40px',
+  backgroundColor: REACT_APP_FONT_COLOR
 })
 
 interface ChallengeProp extends RouteComponentProps, ChallengeType {}
@@ -75,7 +82,7 @@ class Challenge extends React.Component<ChallengeProp> {
         </ChallengeContainer>
         <br />
         <br />
-        <Divider variant='inset' component='div' />
+        <StyledDivider variant='inset' component='div' />
       </React.Fragment>
     )
   }
