@@ -97,7 +97,7 @@ class Challenge extends React.Component<ChallengeProp> {
                 <CrowdInfo />
               </Grid>
             </StyledInfoCtr>
-            <Sponsers Container={StyledInfoCtr} Grid={Grid} />
+            <Sponsers />
           </StyledGridList>
           {/* <CountUp end={1000} /> */}
         </ChallengeContainer>
