@@ -56,9 +56,7 @@ function Sponsers() {
   return (
     <SponserCtr>
       {sponsers.map((sponser: any, idx: number) => (
-        <SnackbarCtr
-        // data-aos='flip-up' data-aos-delay={idx * 100}
-        >
+        <SnackbarCtr>
           <SnackbarContent
             key={idx}
             aria-describedby='client-snackbar'
