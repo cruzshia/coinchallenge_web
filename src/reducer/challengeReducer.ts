@@ -24,7 +24,7 @@ const mockData = {
   completeDays: 8,
   targetDays: 10,
   totalDays: 20,
-  startDayTimestamp: 1321231,
+  startDayTimestamp: 1545221927571,
   sponserSize: 1
 } as ChallengeType
 

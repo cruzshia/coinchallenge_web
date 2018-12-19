@@ -22,7 +22,8 @@ const ChallengeContainer = styled('div')({
 })
 
 const StyledGridList = styled('div')({
-  width: 800
+  width: 800,
+  zIndex: 1
 })
 
 interface InfoCtrProp {

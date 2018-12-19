@@ -1,46 +1,52 @@
 import React from 'react'
 import styled from 'styled-components'
-import Particles from './Particles'
 import { sentences } from '@Src/contants/mockSenteces'
 import { Decimal } from 'decimal.js'
 
-const SponserContainer = styled('div')({
+import { COLOR_BAR } from '@Src/contants/themeColor'
+import SnackbarContent from '@material-ui/core/SnackbarContent'
+
+const SnackbarCtr = styled('div')({
   position: 'relative',
-  minHeight: 300,
-  background: 'rgba(0, 0, 0, 0.1)'
+  margin: '10px 0',
+  '.bar-item': {
+    width: '558px'
+  }
 })
 
-const StyledTxt = styled('div')({
-  fontSize: '12px'
-})
-
-const StyledComment = styled('div')({
-  flex: 2
-})
-
-const StyledCoinTxt = styled('span')({
-  color: '#34314c',
-  marginLeft: '20px',
-  fontSize: '20px',
-  fontStyle: 'italic',
-  minWidth: '150px'
-})
-
-const SponserItem = styled('div')({
+const SponserCtr = styled('div')({
+  marginTop: '10px',
   display: 'flex',
-  padding: '8px 15px',
-  minHeight: '30px',
-  fontSize: '16px',
-  lineHeight: '20px',
+  flexDirection: 'column',
   alignItems: 'center',
+  '.MuiSnackbarContent-message-47': {
+    width: '100%'
+  }
+})
+
+const Address = styled('span')({
+  fontSize: '12px',
+  color: 'rgba(0, 0, 0, 0.3)'
+})
+
+const InnerContent = styled('div')({
+  display: 'flex',
   justifyContent: 'space-between'
 })
 
-//sentences
+const CoinTxt = styled('div')({
+  color: '#ffeb3b',
+  textAlign: 'right'
+})
+
+const Comment = styled('span')({
+  fontSize: '16px'
+})
+
 let sponsers: any = []
 for (let i = 0; i < 5; i++) {
   sponsers.push({
-    comment: sentences[Math.floor(Math.random() * 13)],
+    comment: sentences[Math.floor(Math.random() * 9)],
     who: '0xCB4b9C9292410007D6FB7a7C061666B298f06ee2',
     amount: new Decimal(Math.random() * 13).toPrecision(8)
   })
@@ -48,18 +54,31 @@ for (let i = 0; i < 5; i++) {
 
 function Sponsers() {
   return (
-    <SponserContainer>
-      <Particles />
+    <SponserCtr>
       {sponsers.map((sponser: any, idx: number) => (
-        <SponserItem key={idx}>
-          <StyledComment>
-            {sponser.comment}
-            <StyledTxt>{sponser.who}</StyledTxt>
-          </StyledComment>
-          <StyledCoinTxt>+ {sponser.amount}</StyledCoinTxt>
-        </SponserItem>
+        <SnackbarCtr
+        // data-aos='flip-up' data-aos-delay={idx * 100}
+        >
+          <SnackbarContent
+            key={idx}
+            aria-describedby='client-snackbar'
+            style={{ backgroundColor: COLOR_BAR[idx % 3] }}
+            className='bar-item'
+            message={
+              <React.Fragment>
+                <InnerContent>
+                  <Address>{sponser.who}</Address>
+                  <CoinTxt>
+                    +{sponser.amount} {process.env.REACT_APP_COIN}
+                  </CoinTxt>
+                </InnerContent>
+                <Comment>{sponser.comment}</Comment>
+              </React.Fragment>
+            }
+          />
+        </SnackbarCtr>
       ))}
-    </SponserContainer>
+    </SponserCtr>
   )
 }
 

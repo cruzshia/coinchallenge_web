@@ -19,7 +19,6 @@ import './app.css'
 
 const Body = styled('div')({
   fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-  // background: `linear-gradient(45deg, ${APP_THEME} 30%, ${APP_SUB_THEME} 90%)`,
   background: APP_FONT_COLOR,
   minHeight: '100vh'
 })

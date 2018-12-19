@@ -1,27 +1,11 @@
-export const sentences = `7. 蟻穴雖小，潰之千里。
-
-8. 最有效的資本是我們的信譽，它24小時不停為我們工作。
-
-9. 絆腳石乃是進身之階。
-
-10. 銷售世界上第一號的產品——不是汽車，而是自己。 在你成功地把自己推銷給別人之前，你必須百分之百的把自己推銷給自己。
-
-11. 即使爬到最高的山上，一次也只能腳踏實地地邁一步。
-
-12. 積極思考造成積極人生，消極思考造成消極人生。
-
-13. 人之所以有一張嘴，而有兩隻耳朵，原因是聽的要比說的多一倍。
-
-14. 別想一下造出大海，必須先由小河川開始。
-
-15. 有事者，事竟成;破釜沉舟，百二秦關終歸楚;苦心人，天不負;臥薪嘗膽，三千越甲可吞吳。
-
-16. 你的臉是為了呈現上帝賜給人類最貴重的禮物——微笑，一定要成為你工作最大的資產。
-
-17. 以誠感人者，人亦誠而應。
-
-18. 世上並沒有用來鼓勵工作努力的賞賜，所有的賞賜都只是被用來獎勵工作成果的。
-
-19. 即使是不成熟的嘗試，也勝於胎死腹中的策略。`
-  .replace(/[1-9][0-9]?./gi, '')
-  .split('\n\n')
+export const sentences = [
+  'Giving vent to anger is temporary insanity.',
+  'We do not have a claim on our life, but only the right to use it.',
+  'A frown and a smile are both possible.  Why not smile?',
+  'There are two things in life that cannot wait, fulfilling filial piety and doing good deeds.',
+  'Recognize, appreciate and repay your parents love.',
+  'Include me when doing good deeds, exclude me when doing evil deeds.',
+  'An idle man has no pleasure, a busy man has no time for dispute.',
+  'To change yourself is to save yourself, to influence others is to save other people.',
+  'Only through repentance of one s sins will one achieve tranquility and relief from worry and anxiety.'
+]

@@ -4,6 +4,7 @@ import { GradientFont } from '@Components/Styled/Common'
 // import { FormattedMessage } from 'react-intl'
 import Img from '@Src/images/pic.png'
 import Medal from '@Src/images/medal.svg'
+import Moment from 'moment'
 
 import { RouteParams } from '../Challenge'
 
@@ -14,7 +15,8 @@ const StyledFont = styled(GradientFont('div'))({
 })
 
 const StyledTtitleCtr = styled('div')({
-  position: 'relative'
+  position: 'relative',
+  minHeight: '450px'
 })
 
 const StyledMedal = styled('img')({
@@ -41,12 +43,10 @@ const ChallengeCard = React.memo(
   ({ address, groupId, startDayTimestamp }: ChallengeCardProp) => (
     <React.Fragment>
       <StyledFont>Challenger: {address}</StyledFont>
-      {/* {groupId}
-      {startDayTimestamp} */}
       <StyledTtitleCtr>
         <StyledTitle>
           <StyledMedal src={Medal} />
-          {groupId}
+          {groupId} @{Moment(startDayTimestamp).format('MM/DD')}
         </StyledTitle>
         <img src={Img} width='100%' />
       </StyledTtitleCtr>
