@@ -1,5 +1,10 @@
 import { Action } from '@Src/typing/globalTypes'
 import { SET_CONTRACT } from '@Epics/commonEpic/action'
+import { GET_CAHLLENGE, SET_CAHLLENGE } from '@Epics/challengeEpic/action'
+import {
+  CREATE_CHALLENGE_GROUP,
+  SET_CREATE_RESULT
+} from '@Epics/challengeGroupEpic/action'
 import Web3 from 'web3'
 import { Record, RecordOf } from 'immutable'
 
@@ -42,7 +47,12 @@ const commonReducer = (state = initialState, action: Action) => {
         loading: false,
         error
       })
-
+    case GET_CAHLLENGE:
+    case CREATE_CHALLENGE_GROUP:
+      return state.set('loading', true)
+    case SET_CAHLLENGE:
+    case SET_CREATE_RESULT:
+      return state.set('loading', false)
     default:
       return state
   }

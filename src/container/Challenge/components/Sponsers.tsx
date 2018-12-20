@@ -56,9 +56,8 @@ function Sponsers() {
   return (
     <SponserCtr>
       {sponsers.map((sponser: any, idx: number) => (
-        <SnackbarCtr>
+        <SnackbarCtr key={idx}>
           <SnackbarContent
-            key={idx}
             aria-describedby='client-snackbar'
             style={{ backgroundColor: COLOR_BAR[idx % 3] }}
             className='bar-item'

@@ -9,6 +9,7 @@ import CrowdInfo from './components/CrowdInfo'
 import Sponsers from './components/Sponsers'
 import { ChallengeStateType } from '@Reducers/challengeReducer'
 import { APP_THEME_BACKGROUND } from '@Src/contants/themeColor'
+import HistoryTimeline from './components/HistoryTimeline'
 
 // import { FormattedMessage } from 'react-intl'
 // import CountUp from 'react-countup'
@@ -99,6 +100,7 @@ class Challenge extends React.Component<ChallengeProp> {
               </Grid>
             </StyledInfoCtr>
             <Sponsers />
+            <HistoryTimeline />
           </StyledGridList>
           {/* <CountUp end={1000} /> */}
         </ChallengeContainer>

@@ -19,13 +19,6 @@ function getColor(value: number) {
     fillColor: APP_FONT_COLOR,
     fontColor: APP_FONT_COLOR
   }
-  // if (value >= 50 && value < 100) {
-  //   colorPlate = {
-  //     fillColor: 'rgb(129, 202, 156)',
-  //     fontColor: '#59af79'
-  //   }
-  // }
-
   return colorPlate
 }
 
