@@ -19,7 +19,7 @@ export const getAllChallenges = async ({
     {
       filter: { proposer: challenger },
       fromBlock: 0
-      // to: 'latest'
+      // toBlock: 'latest'
     },
     function(_error: any, event: any) {
       console.log('event,', event)

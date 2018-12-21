@@ -5,18 +5,15 @@ import { GradientFont } from '@Components/Styled/Common'
 import Img from '@Src/images/pic.png'
 import Medal from '@Src/images/medal.svg'
 import Moment from 'moment'
-
+import { breakPoint } from '@Src/contants/common'
 import { RouteParams } from '../Challenge'
-
-const StyledFont = styled(GradientFont('div'))({
-  fontSize: '20px',
-  textAlign: 'center',
-  marginBottom: '5px'
-})
 
 const StyledTtitleCtr = styled('div')({
   position: 'relative',
-  minHeight: '450px'
+  minHeight: '450px',
+  [`@media (max-width: ${breakPoint})`]: {
+    minHeight: 0
+  }
 })
 
 const StyledMedal = styled('img')({
@@ -42,7 +39,7 @@ interface ChallengeCardProp extends RouteParams {
 const ChallengeCard = React.memo(
   ({ address, groupId, startDayTimestamp }: ChallengeCardProp) => (
     <React.Fragment>
-      <StyledFont>Challenger: {address}</StyledFont>
+      {/* <StyledFont>Challenger: {address}</StyledFont> */}
       <StyledTtitleCtr>
         <StyledTitle>
           <StyledMedal src={Medal} />

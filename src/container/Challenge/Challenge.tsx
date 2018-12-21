@@ -10,6 +10,8 @@ import Sponsers from './components/Sponsers'
 import { ChallengeStateType } from '@Reducers/challengeReducer'
 import { APP_THEME_BACKGROUND } from '@Src/contants/themeColor'
 import HistoryTimeline from './components/HistoryTimeline'
+// import Notifier from './components/Notifier'
+import { breakPoint } from '@Src/contants/common'
 
 // import { FormattedMessage } from 'react-intl'
 // import CountUp from 'react-countup'
@@ -19,12 +21,18 @@ import { ChallengeType } from '@Src/typing/globalTypes'
 const ChallengeContainer = styled('div')({
   display: 'flex',
   justifyContent: 'center',
-  marginTop: '30px'
+  marginTop: '30px',
+  [`@media (max-width: ${breakPoint})`]: {
+    marginTop: 0
+  }
 })
 
 const StyledGridList = styled('div')({
   width: 800,
-  zIndex: 1
+  zIndex: 1,
+  [`@media (max-width: ${breakPoint})`]: {
+    width: '100%'
+  }
 })
 
 interface InfoCtrProp {
@@ -36,11 +44,17 @@ const StyledInfoCtr = styled('div')<InfoCtrProp>`
     props.bgcolor ? props.bgcolor : APP_THEME_BACKGROUND};
   justify-content: center;
   align-items: center;
+  @media (max-width: ${breakPoint}) {
+    flex-direction: column;
+  }
 `
 
 const Grid = styled('div')({
   width: '50%',
-  paddingBottom: '10px'
+  paddingBottom: '10px',
+  [`@media (max-width: ${breakPoint})`]: {
+    width: '100%'
+  }
 })
 
 interface ChallengeProp extends RouteComponentProps, ChallengeType {
@@ -104,6 +118,7 @@ class Challenge extends React.Component<ChallengeProp> {
           </StyledGridList>
           {/* <CountUp end={1000} /> */}
         </ChallengeContainer>
+        {/* <Notifier /> */}
       </React.Fragment>
     )
   }

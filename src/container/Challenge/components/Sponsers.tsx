@@ -5,12 +5,19 @@ import { Decimal } from 'decimal.js'
 
 import { COLOR_BAR } from '@Src/contants/themeColor'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
+import { breakPoint } from '@Src/contants/common'
 
 const SnackbarCtr = styled('div')({
   position: 'relative',
   margin: '10px 0',
   '.bar-item': {
     width: '558px'
+  },
+  [`@media (max-width:${breakPoint})`]: {
+    width: '100%',
+    '.bar-item': {
+      width: '100%'
+    }
   }
 })
 
@@ -31,7 +38,10 @@ const Address = styled('span')({
 
 const InnerContent = styled('div')({
   display: 'flex',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  [`@media (max-width: ${breakPoint})`]: {
+    flexDirection: 'column-reverse'
+  }
 })
 
 const CoinTxt = styled('div')({
