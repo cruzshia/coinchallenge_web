@@ -6,7 +6,15 @@ export const newChallengeGroup = (payload: object) => ({
   payload
 })
 
-export const setCreateResult = (payload: object) => ({
+interface SetResultProp {
+  response: {
+    status?: boolean
+    gasUsed?: number
+  }
+  error: boolean
+}
+
+export const setCreateResult = (payload: SetResultProp) => ({
   type: SET_CREATE_RESULT,
   payload
 })

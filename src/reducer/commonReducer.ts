@@ -9,8 +9,9 @@ import Web3 from 'web3'
 import { Record, RecordOf } from 'immutable'
 
 export type CommonState = {
-  userAddress: string
+  userAddress: string | null
   contract: Web3 | null
+  accounts: Array<string>
   loading: boolean
   error: {
     code: number
@@ -21,7 +22,8 @@ export type CommonState = {
 export type CommonStateType = RecordOf<CommonState>
 
 const stateMaker = Record<CommonState>({
-  userAddress: '0xwqeqwescefglnk',
+  userAddress: null,
+  accounts: [],
   contract: null,
   loading: true,
   error: null
@@ -29,6 +31,8 @@ const stateMaker = Record<CommonState>({
 
 interface SetContractPayload {
   contract: Web3 | null
+  userAddress: string | null
+  accounts: Array<string>
   loading: boolean
   error: {
     code: number
@@ -41,9 +45,16 @@ export const initialState = stateMaker()
 const commonReducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case SET_CONTRACT:
-      const { contract, error } = action.payload as SetContractPayload
+      const {
+        contract,
+        userAddress,
+        accounts = [],
+        error
+      } = action.payload as SetContractPayload
       return state.merge({
         contract,
+        userAddress,
+        accounts,
         loading: false,
         error
       })

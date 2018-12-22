@@ -6,15 +6,38 @@ const STATUS = {
   Aborted: 2
 }
 
-interface GetChallengeProp {
+interface GetChallengeEvevntProp {
   contract: Contract
   challenger: string
+}
+
+interface GetChallengeProp {
+  contract: Contract
+  groupId: string
+  challenger: string
+}
+
+export const getChallenge = async ({
+  contract,
+  groupId,
+  challenger
+}: GetChallengeProp) => {
+  let response: object
+  try {
+    response = await contract.methods.getChallenge(groupId, challenger).call()
+  } catch (err) {
+    response = {
+      message: err,
+      error: true
+    }
+  }
+  return response
 }
 
 export const getAllChallenges = async ({
   contract,
   challenger
-}: GetChallengeProp) => {
+}: GetChallengeEvevntProp) => {
   await contract.events.NewChallenge(
     {
       filter: { proposer: challenger },
@@ -53,6 +76,8 @@ export const getNewChallengeGroup = async (contract: Contract) => {
     }
   )
 }
+
+// contract.getPastEvents('allEvents', {fromBlock: 0}, function(error, events){ console.log(events); })
 
 // web3.eth.sendTransaction({
 //   from: '0xE13acF256C86292d0f808eA58B8afFE162927a3D',

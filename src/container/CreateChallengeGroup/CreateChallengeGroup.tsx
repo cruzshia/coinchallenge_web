@@ -5,7 +5,8 @@ import { TouchApp } from '@material-ui/icons'
 import Button from '@material-ui/core/Button'
 import Web3 from 'web3'
 import { ChallengeGroupType } from '@Src/typing/globalTypes'
-import Trophy from '@Src/images/trophy.svg'
+// import Trophy from '@Src/images/trophy.svg'
+import Logo from '@Src/images/logo.png'
 
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
@@ -78,6 +79,8 @@ class CreateChallengeGroup extends React.Component<
   public state = {
     challengeGroup: {
       id: '',
+      name: '',
+      url: '',
       minDays: '',
       maxDays: '',
       maxDelayDays: '',
@@ -114,18 +117,54 @@ class CreateChallengeGroup extends React.Component<
     })
   }
 
+  private onChange = (field: keyof ChallengeGroupType) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let val = e.currentTarget.value as string
+    const { challengeGroup } = this.state
+    challengeGroup[field] = val
+    this.setState({
+      challengeGroup
+    })
+  }
+
+  private onSubmit = () => {
+    this.props.newChallengeGroup(this.state.challengeGroup)
+  }
+
   public render() {
     const { challengeGroup, error } = this.state
     return (
       <Form noValidate autoComplete='off'>
-        <Icon src={Trophy} />
+        <Icon src={Logo} />
         <StyledTextField
           label={<Label text='Challenge Group id' />}
           margin='normal'
           variant='outlined'
           placeholder='e.g: com.coin.challenge'
           value={challengeGroup.id}
+          onChange={this.onChange('id')}
           error={error.id}
+          InputLabelProps={CreateChallengeGroup.LabelProp}
+          required
+        />
+        <StyledTextField
+          label={<Label text='Challenge Group name' />}
+          margin='normal'
+          variant='outlined'
+          value={challengeGroup.name}
+          onChange={this.onChange('name')}
+          error={error.name}
+          InputLabelProps={CreateChallengeGroup.LabelProp}
+          required
+        />
+        <StyledTextField
+          label={<Label text='Cover image url' />}
+          margin='normal'
+          variant='outlined'
+          value={challengeGroup.url}
+          onChange={this.onChange('url')}
+          error={error.url}
           InputLabelProps={CreateChallengeGroup.LabelProp}
           required
         />
@@ -173,13 +212,14 @@ class CreateChallengeGroup extends React.Component<
           type='number'
           margin='normal'
           value={challengeGroup.minAmount}
+          onChange={this.onChange('minAmount')}
           error={error.minAmount}
           variant='outlined'
           InputLabelProps={CreateChallengeGroup.LabelProp}
           required
         />
         <br />
-        <Button variant='contained' color='default'>
+        <Button variant='contained' color='default' onClick={this.onSubmit}>
           Create
           <TouchApp />
         </Button>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
 import ChallengeCard from './components/ChallengeCard'
@@ -8,6 +9,7 @@ import ChallengeInfo from './components/ChallengeInfo'
 import CrowdInfo from './components/CrowdInfo'
 import Sponsers from './components/Sponsers'
 import { ChallengeStateType } from '@Reducers/challengeReducer'
+import { CommonStateType } from '@Reducers/commonReducer'
 import { APP_THEME_BACKGROUND } from '@Src/contants/themeColor'
 import HistoryTimeline from './components/HistoryTimeline'
 // import Notifier from './components/Notifier'
@@ -15,7 +17,8 @@ import { breakPoint } from '@Src/contants/common'
 
 // import { FormattedMessage } from 'react-intl'
 // import CountUp from 'react-countup'
-
+import Web3 from 'web3'
+import { getChallenge } from '@Epics/challengeEpic/action'
 import { ChallengeType } from '@Src/typing/globalTypes'
 
 const ChallengeContainer = styled('div')({
@@ -58,7 +61,9 @@ const Grid = styled('div')({
 })
 
 interface ChallengeProp extends RouteComponentProps, ChallengeType {
+  contract: Web3 | null
   error: boolean
+  fetchChallenge: (data: RouteParams) => void
 }
 export interface RouteParams {
   address: string
@@ -67,15 +72,54 @@ export interface RouteParams {
 
 const mapStateToProps = (state: Map<string, object>) => {
   const challengeState = state.get('challenge') as ChallengeStateType
+  const commonState = state.get('common') as CommonStateType
   return {
-    groupId: 'walk.speed.com',
+    contract: commonState.get('contract'),
     ...challengeState.toJS()
   }
 }
 
+const mapDispathToProps = (dispatch: Dispatch) => ({
+  fetchChallenge: (data: RouteParams) =>
+    dispatch(
+      getChallenge({
+        groupId: data.groupId,
+        challenger: data.address
+      })
+    )
+})
+
 class Challenge extends React.Component<ChallengeProp> {
-  public render() {
+  public address: string = ''
+  public groupId: string = ''
+  public fetched: boolean = false
+
+  constructor(props: ChallengeProp) {
+    super(props)
     const params = this.props.match.params as RouteParams
+    this.address = params.address
+    this.groupId = params.groupId
+  }
+
+  private checkAndFetch() {
+    if (this.props.contract && !this.fetched) {
+      this.props.fetchChallenge({
+        address: this.address,
+        groupId: this.groupId
+      })
+      this.fetched = true
+    }
+  }
+
+  public componentDidUpdate() {
+    this.checkAndFetch()
+  }
+
+  public componentDidMount() {
+    this.checkAndFetch()
+  }
+
+  public render() {
     const {
       completeDays,
       totalDays,
@@ -90,14 +134,14 @@ class Challenge extends React.Component<ChallengeProp> {
       <React.Fragment>
         <ChallengeContainer>
           <Helmet>
-            <title>{params.address}'s coin challenge</title>
+            <title>{this.address}'s coin challenge</title>
             <link rel='canonical' href='http://mysite.com/example' />
           </Helmet>
 
           <StyledGridList>
             <ChallengeCard
-              address={params.address}
-              groupId={params.groupId}
+              address={this.address}
+              groupId={this.groupId}
               startDayTimestamp={startDayTimestamp}
             />
             <StyledInfoCtr>
@@ -124,4 +168,7 @@ class Challenge extends React.Component<ChallengeProp> {
   }
 }
 
-export default connect(mapStateToProps)(Challenge)
+export default connect(
+  mapStateToProps,
+  mapDispathToProps
+)(Challenge)

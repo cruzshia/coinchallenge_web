@@ -13,6 +13,7 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
       let accounts: string[]
       const errorAction = setContract({
         contract: null,
+        userAddress: null,
         error: NO_PROVIDER
       })
 
@@ -23,7 +24,6 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
           )
 
           accounts = await web3.eth.getAccounts()
-          web3.eth.defaultAccount = accounts[0]
           const contract = new web3.eth.Contract(
             CoinChallengs.abi,
             '0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c',
@@ -31,8 +31,11 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
               gas: 4600000
             }
           )
+          window.contract = contract
           return setContract({
             contract,
+            userAddress: accounts.length ? accounts[0] : null,
+            accounts,
             error: null
           })
         } else {

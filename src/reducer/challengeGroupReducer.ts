@@ -19,8 +19,10 @@ export const initialState = stateMaker()
 const challengeGroupReducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case SET_CREATE_RESULT:
+      const { response, error } = action.payload as ChallengeGroupState
       return state.merge({
-        ...action.payload
+        response,
+        error
       })
 
     default:

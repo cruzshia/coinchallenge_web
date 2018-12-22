@@ -1,5 +1,7 @@
 export interface ChallengeGroupType {
   id: string
+  name: string
+  url: string
   minDays: string
   maxDays: string
   maxDelayDays: string
