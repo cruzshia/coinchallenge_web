@@ -11,8 +11,16 @@ import { renderToString } from 'react-dom/server'
 import fs from 'fs'
 import { StaticRouter } from 'react-router'
 import App from '../dist/components/App/index.js'
+import { APP_THEME } from '../dist/contants/themeColor.js'
 import { ServerStyleSheet } from 'styled-components'
 import { Provider } from 'react-redux'
+import { SheetsRegistry } from 'jss'
+import JssProvider from 'react-jss/lib/JssProvider'
+import {
+  MuiThemeProvider,
+  createMuiTheme,
+  createGenerateClassName
+} from '@material-ui/core/styles'
 import store from '../dist/store'
 
 let filePath = path.resolve(__dirname, '../build', 'index.html')
@@ -33,17 +41,42 @@ app.use(express.static(path.resolve(__dirname, '../build')))
 
 app.get('**', function(req, res) {
   const sheet = new ServerStyleSheet()
+
+  const sheetsRegistry = new SheetsRegistry()
+  // Create a sheetsManager instance.
+  const sheetsManager = new Map()
+  const generateClassName = createGenerateClassName()
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: APP_THEME
+      },
+      type: 'light'
+    }
+  })
+
   const html = renderToString(
     sheet.collectStyles(
       <Provider store={store}>
         <StaticRouter context={{}} location={req.url}>
-          <App />
+          <JssProvider
+            registry={sheetsRegistry}
+            generateClassName={generateClassName}
+          >
+            <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
+              <App />
+            </MuiThemeProvider>
+          </JssProvider>
         </StaticRouter>
       </Provider>
     )
   )
   const styleTags = sheet.getStyleTags()
-  index = index.replace('</head>', `${styleTags}</head>`)
+  const css = sheetsRegistry.toString()
+  index = index.replace(
+    '</head>',
+    `${styleTags}<style id='jss-ssr'>${css}</style></head>`
+  )
   res.send(
     index.replace('<div id="root"></div>', `<div id="root">${html}</div>`)
   )

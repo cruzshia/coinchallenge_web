@@ -14,7 +14,6 @@ export type Sponser = {
 }
 
 export type ChallengeState = {
-  error: boolean
   sponsers: Array<Sponser>
 } & ChallengeType
 
@@ -30,7 +29,6 @@ const mockData = {
 
 const stateMaker = Record<ChallengeState>({
   ...mockData,
-  error: false,
   sponsers: []
 })
 

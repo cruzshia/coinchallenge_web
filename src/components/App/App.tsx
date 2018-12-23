@@ -24,6 +24,10 @@ const MainContainer = styled('div')({
 })
 
 class App extends Component {
+  public componentDidMount() {
+    const jssStyles = document.getElementById('jss-ssr')
+    jssStyles && jssStyles.remove()
+  }
   public render() {
     return (
       <Body>

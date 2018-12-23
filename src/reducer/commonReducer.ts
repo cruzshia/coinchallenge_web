@@ -1,5 +1,5 @@
 import { Action } from '@Src/typing/globalTypes'
-import { SET_CONTRACT } from '@Epics/commonEpic/action'
+import { SET_CONTRACT, SET_POPUP, SetPopProps } from '@Epics/commonEpic/action'
 import { GET_CAHLLENGE, SET_CAHLLENGE } from '@Epics/challengeEpic/action'
 import {
   CREATE_CHALLENGE_GROUP,
@@ -13,6 +13,8 @@ export type CommonState = {
   contract: Web3 | null
   accounts: Array<string>
   loading: boolean
+  showPop: boolean
+  popMessage: string
   error: {
     code: number
     text: string
@@ -26,6 +28,8 @@ const stateMaker = Record<CommonState>({
   accounts: [],
   contract: null,
   loading: true,
+  showPop: false,
+  popMessage: '',
   error: null
 })
 
@@ -58,6 +62,14 @@ const commonReducer = (state = initialState, action: Action) => {
         loading: false,
         error
       })
+
+    case SET_POPUP:
+      const payload = action.payload as SetPopProps
+      return state.merge({
+        showPop: payload.showPop,
+        popMessage: payload.popMessage
+      })
+
     case GET_CAHLLENGE:
     case CREATE_CHALLENGE_GROUP:
       return state.set('loading', true)
