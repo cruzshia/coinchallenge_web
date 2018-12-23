@@ -12,7 +12,7 @@ import { ChallengeStateType } from '@Reducers/challengeReducer'
 import { CommonStateType } from '@Reducers/commonReducer'
 import { APP_THEME_BACKGROUND } from '@Src/contants/themeColor'
 import HistoryTimeline from './components/HistoryTimeline'
-// import Notifier from './components/Notifier'
+import Notifier from './components/Notifier'
 import { breakPoint } from '@Src/contants/common'
 
 // import { FormattedMessage } from 'react-intl'
@@ -162,7 +162,7 @@ class Challenge extends React.Component<ChallengeProp> {
           </StyledGridList>
           {/* <CountUp end={1000} /> */}
         </ChallengeContainer>
-        {/* <Notifier /> */}
+        <Notifier />
       </React.Fragment>
     )
   }

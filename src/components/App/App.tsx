@@ -1,14 +1,8 @@
 import React, { Component } from 'react'
-import {
-  BrowserRouter,
-  StaticRouter,
-  Route,
-  Switch,
-  Redirect
-} from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { Route, Switch, Redirect } from 'react-router-dom'
+// import { Provider } from 'react-redux'
 import styled from 'styled-components'
-import store from '@Src/store'
+// import store from '@Src/store'
 import Home from '@Container/Home'
 import CreateChallengeGroup from '@Container/CreateChallengeGroup'
 import Challenge from '@Container/Challenge'
@@ -29,28 +23,19 @@ const MainContainer = styled('div')({
   paddingTop: 60
 })
 
-const Router = process.env.browser ? BrowserRouter : StaticRouter
-
 class App extends Component {
   public render() {
     return (
-      <Provider store={store}>
-        <Router context={{}}>
-          <Body>
-            <MainContainer>
-              <Home />
-              <Switch>
-                <Route path='/' exact component={CreateChallengeGroup} />
-                <Route
-                  path='/challenge/:groupId/:address'
-                  component={Challenge}
-                />
-                <Route component={() => <Redirect to='/' />} />
-              </Switch>
-            </MainContainer>
-          </Body>
-        </Router>
-      </Provider>
+      <Body>
+        <MainContainer>
+          <Home />
+          <Switch>
+            <Route path='/' exact component={CreateChallengeGroup} />
+            <Route path='/challenge/:groupId/:address' component={Challenge} />
+            <Route component={() => <Redirect to='/' />} />
+          </Switch>
+        </MainContainer>
+      </Body>
     )
   }
 }

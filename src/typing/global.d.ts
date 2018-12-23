@@ -7,3 +7,8 @@ declare module 'node-window-polyfill'
 interface Window {
   [key: string]: any
 }
+declare namespace NodeJS {
+  interface Process {
+    browser: boolean
+  }
+}

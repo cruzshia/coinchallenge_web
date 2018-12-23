@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../src/container/Challenge/index.tsx"],"names":[],"mappings":";;;;;;;;;;;;AAAA","sourcesContent":["export { default } from './Challenge'\n"],"file":"index.js"}

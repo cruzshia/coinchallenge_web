@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/contants/errorCode.ts"],"names":["NO_PROVIDER","error","text"],"mappings":";;;;;;AAAO,IAAMA,WAAW,GAAG;AACzBC,EAAAA,KAAK,EAAE,GADkB;AAEzBC,EAAAA,IAAI,EAAE;AAFmB,CAApB","sourcesContent":["export const NO_PROVIDER = {\n  error: 511,\n  text: 'no provider was founded'\n}\n"],"file":"errorCode.js"}

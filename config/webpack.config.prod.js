@@ -291,6 +291,7 @@ module.exports = {
 
             loader: require.resolve('babel-loader'),
             options: {
+              babelrc: false,
               customize: require.resolve(
                 'babel-preset-react-app/webpack-overrides'
               ),

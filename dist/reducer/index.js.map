@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/reducer/index.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA","sourcesContent":["export { default } from './rootReducer'"],"file":"index.js"}

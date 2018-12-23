@@ -23,7 +23,7 @@ const Form = styled('form')({
 const Styles = {
   marginTop: '30px',
   minWidth: '400px',
-  '@media only screen and (max-width: 480px)': {
+  '@media only screen and (maxWidth: 480px)': {
     width: '95%',
     minWidth: '0'
   }

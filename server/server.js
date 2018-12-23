@@ -12,14 +12,14 @@ import fs from 'fs'
 import { StaticRouter } from 'react-router'
 import App from '../dist/components/App/index.js'
 import { ServerStyleSheet } from 'styled-components'
+import { Provider } from 'react-redux'
+import store from '../dist/store'
 
 let filePath = path.resolve(__dirname, '../build', 'index.html')
 let index = fs.readFileSync(filePath, 'utf8')
 
 // Our loader - this basically acts as the entry point for each page load
-// import loader from './loader';
 
-// Create our express app using the port optionally specified
 const app = express()
 const PORT = process.env.PORT || 4000
 
@@ -29,18 +29,17 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 // app.use(cookieParser());
 
-// Set up homepage, static assets, and capture everything else
-// app.use(express.Router().get('/', loader));
 app.use(express.static(path.resolve(__dirname, '../build')))
-// app.use(loader);
 
 app.get('**', function(req, res) {
   const sheet = new ServerStyleSheet()
   const html = renderToString(
     sheet.collectStyles(
-      <StaticRouter context={req.url} url={{}}>
-        <App />
-      </StaticRouter>
+      <Provider store={store}>
+        <StaticRouter context={{}} location={req.url}>
+          <App />
+        </StaticRouter>
+      </Provider>
     )
   )
   const styleTags = sheet.getStyleTags()
