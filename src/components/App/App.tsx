@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
+  StaticRouter,
   Route,
   Switch,
   Redirect
@@ -28,11 +29,13 @@ const MainContainer = styled('div')({
   paddingTop: 60
 })
 
+const Router = process.env.browser ? BrowserRouter : StaticRouter
+
 class App extends Component {
   public render() {
     return (
       <Provider store={store}>
-        <Router>
+        <Router context={{}}>
           <Body>
             <MainContainer>
               <Home />

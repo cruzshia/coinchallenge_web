@@ -5,8 +5,9 @@ import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { initContract } from '@Epics/commonEpic/action'
 import Header from '@Components/Header'
-import 'particles.js'
 import styled from 'styled-components'
+import nodeWindowPolyfill from 'node-window-polyfill'
+nodeWindowPolyfill.register()
 
 const StyledParticle = styled('div')({
   position: 'fixed',
@@ -34,7 +35,10 @@ interface Props {
 class Home extends React.Component<Props> {
   public async componentDidMount() {
     this.props.initContract()
-    window.particlesJS.load('particle-body', '/particlesjs-config.json')
+    if (process.env.browser) {
+      require('particles.js')
+      window.particlesJS.load('particle-body', '/particlesjs-config.json')
+    }
   }
 
   render() {

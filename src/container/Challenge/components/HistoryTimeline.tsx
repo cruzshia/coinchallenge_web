@@ -5,7 +5,7 @@ import {
 } from 'react-vertical-timeline-component'
 import 'react-vertical-timeline-component/style.min.css'
 
-import { APP_THEME, APP_SUB_THEME } from '@Src/contants/themeColor'
+import { APP_THEME } from '@Src/contants/themeColor'
 
 import styled from 'styled-components'
 
@@ -18,8 +18,6 @@ const TimelineCtr = styled('div')({
     background: '#aab9c2'
   }
 })
-
-const IconStyl2 = { background: APP_THEME, color: '#fff' }
 
 const IconStyle = {
   start: {
@@ -40,10 +38,6 @@ const IconStyle = {
     shadow: '#34495d',
     icon: <MoodBad />
   }
-}
-
-interface Props {
-  background?: string
 }
 
 const StyledVerticalTimelineElement = styled(VerticalTimelineElement)`

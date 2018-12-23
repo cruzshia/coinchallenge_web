@@ -11,50 +11,50 @@ declare namespace NodeJS {
 }
 
 declare module '*.bmp' {
-  const src: string
+  var src: string
   export default src
 }
 
 declare module '*.gif' {
-  const src: string
+  var src: string
   export default src
 }
 
 declare module '*.jpg' {
-  const src: string
+  var src: string
   export default src
 }
 
 declare module '*.jpeg' {
-  const src: string
+  var src: string
   export default src
 }
 
 declare module '*.png' {
-  const src: string
+  var src: string
   export default src
 }
 
 declare module '*.svg' {
   import * as React from 'react'
 
-  export const ReactComponent: React.SFC<React.SVGProps<SVGSVGElement>>
+  export var ReactComponent: React.SFC<React.SVGProps<SVGSVGElement>>
 
-  const src: string
+  var src: string
   export default src
 }
 
 declare module '*.module.css' {
-  const classes: { [key: string]: string }
+  var classes: { [key: string]: string }
   export default classes
 }
 
 declare module '*.module.scss' {
-  const classes: { [key: string]: string }
+  var classes: { [key: string]: string }
   export default classes
 }
 
 declare module '*.module.sass' {
-  const classes: { [key: string]: string }
+  var classes: { [key: string]: string }
   export default classes
 }

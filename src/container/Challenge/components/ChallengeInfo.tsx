@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckCircle, MyLocation, Directions } from '@material-ui/icons'
+import { CheckCircle, Directions } from '@material-ui/icons'
 import styled from 'styled-components'
 import ProgressChart from './ProgressChart'
 import Podium from '@Src/images/podium.svg'

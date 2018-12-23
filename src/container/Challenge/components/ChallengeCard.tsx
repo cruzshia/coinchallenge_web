@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { GradientFont } from '@Components/Styled/Common'
 // import { FormattedMessage } from 'react-intl'
 import Img from '@Src/images/pic.png'
 import Medal from '@Src/images/medal.svg'

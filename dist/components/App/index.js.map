@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/components/App/index.tsx"],"names":[],"mappings":";;;;;;;;;;;;AAAA","sourcesContent":["export { default } from './App'"],"file":"index.js"}
