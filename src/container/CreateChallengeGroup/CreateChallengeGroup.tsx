@@ -1,11 +1,10 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField'
-import { styled } from '@material-ui/styles'
+import styled from 'styled-components'
 import { TouchApp } from '@material-ui/icons'
 import Button from '@material-ui/core/Button'
 import Web3 from 'web3'
 import { ChallengeGroupType } from '@Src/typing/globalTypes'
-// import Trophy from '@Src/images/trophy.svg'
 import Logo from '@Src/images/logo.png'
 
 import { connect } from 'react-redux'
@@ -21,14 +20,14 @@ const Form = styled('form')({
   alignItems: 'center'
 })
 
-const StyledTextField = styled(TextField)({
+const Styles = {
   marginTop: '30px',
   minWidth: '400px',
   '@media only screen and (max-width: 480px)': {
     width: '95%',
     minWidth: '0'
   }
-})
+}
 
 const Icon = styled('img')({
   margin: '20px 0',
@@ -137,7 +136,7 @@ class CreateChallengeGroup extends React.Component<
     return (
       <Form noValidate autoComplete='off'>
         <Icon src={Logo} />
-        <StyledTextField
+        <TextField
           label={<Label text='Challenge Group id' />}
           margin='normal'
           variant='outlined'
@@ -146,9 +145,10 @@ class CreateChallengeGroup extends React.Component<
           onChange={this.onChange('id')}
           error={error.id}
           InputLabelProps={CreateChallengeGroup.LabelProp}
+          style={Styles}
           required
         />
-        <StyledTextField
+        <TextField
           label={<Label text='Challenge Group name' />}
           margin='normal'
           variant='outlined'
@@ -156,9 +156,10 @@ class CreateChallengeGroup extends React.Component<
           onChange={this.onChange('name')}
           error={error.name}
           InputLabelProps={CreateChallengeGroup.LabelProp}
+          style={Styles}
           required
         />
-        <StyledTextField
+        <TextField
           label={<Label text='Cover image url' />}
           margin='normal'
           variant='outlined'
@@ -166,9 +167,10 @@ class CreateChallengeGroup extends React.Component<
           onChange={this.onChange('url')}
           error={error.url}
           InputLabelProps={CreateChallengeGroup.LabelProp}
+          style={Styles}
           required
         />
-        <StyledTextField
+        <TextField
           label={<Label text='Min days' />}
           type='number'
           margin='normal'
@@ -178,10 +180,11 @@ class CreateChallengeGroup extends React.Component<
           error={error.minDays}
           onChange={this.onDayChange('minDays')}
           InputLabelProps={CreateChallengeGroup.LabelProp}
+          style={Styles}
           required
         />
 
-        <StyledTextField
+        <TextField
           label={<Label text='Max days' />}
           type='number'
           margin='normal'
@@ -191,10 +194,11 @@ class CreateChallengeGroup extends React.Component<
           onChange={this.onDayChange('maxDays')}
           placeholder='12 - 90'
           InputLabelProps={CreateChallengeGroup.LabelProp}
+          style={Styles}
           required
         />
 
-        <StyledTextField
+        <TextField
           label={<Label text='Max delay days' />}
           type='number'
           margin='normal'
@@ -204,10 +208,11 @@ class CreateChallengeGroup extends React.Component<
           variant='outlined'
           placeholder='< 90 (day)'
           InputLabelProps={CreateChallengeGroup.LabelProp}
+          style={Styles}
           required
         />
 
-        <StyledTextField
+        <TextField
           label={<Label text='Min Challenge Coin' />}
           type='number'
           margin='normal'
@@ -216,6 +221,7 @@ class CreateChallengeGroup extends React.Component<
           error={error.minAmount}
           variant='outlined'
           InputLabelProps={CreateChallengeGroup.LabelProp}
+          style={Styles}
           required
         />
         <br />

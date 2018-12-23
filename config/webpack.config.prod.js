@@ -296,6 +296,7 @@ module.exports = {
               ),
               presets: ['react-app'],
               plugins: [
+                require.resolve('babel-plugin-styled-components'),
                 [
                   require.resolve('babel-plugin-named-asset-import'),
                   {
