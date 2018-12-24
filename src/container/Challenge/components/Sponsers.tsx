@@ -12,7 +12,10 @@ const SnackbarCtr = styled('div')({
   position: 'relative',
   margin: '10px 0',
   '.bar-item': {
-    width: '558px'
+    width: '558px',
+    div: {
+      width: '100%'
+    }
   },
   [`@media (max-width:${breakPoint})`]: {
     width: '100%',
@@ -26,10 +29,7 @@ const SponserCtr = styled('div')({
   marginTop: '10px',
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-  '.MuiSnackbarContent-message-47': {
-    width: '100%'
-  }
+  alignItems: 'center'
 })
 
 const Address = styled('span')({

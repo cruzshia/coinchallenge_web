@@ -60,7 +60,7 @@ export const getNewChallengeGroup = async (contract: Contract) => {
   )
 }
 
-export const getAllEvents = async (contract: Contract | null) => {
+export const getAllPastEvents = async (contract: Contract | null) => {
   if (!contract) {
     return
   }
@@ -70,6 +70,24 @@ export const getAllEvents = async (contract: Contract | null) => {
   ) {
     console.log(events)
   })
+}
+
+interface SponsorEventProp {
+  contract: Contract
+  challenger: string
+}
+export const sponsorEvents = async ({
+  contract,
+  challenger
+}: SponsorEventProp) => {
+  contract.events
+    .SponsorChallenge({
+      filter: { challenger: challenger },
+      fromBlock: 0
+    })
+    .on('data', function(event) {
+      console.log(event)
+    })
 }
 
 interface GetSponsorProp {

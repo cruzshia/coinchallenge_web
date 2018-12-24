@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
+import Fab from '@material-ui/core/Fab'
+import NavigationIcon from '@material-ui/icons/Navigation'
 import ChallengeCard from './components/ChallengeCard'
 import ChallengeInfo from './components/ChallengeInfo'
 import CrowdInfo from './components/CrowdInfo'
@@ -22,7 +24,7 @@ import { getChallenge, setChallengeSponsers } from '@Epics/challengeEpic/action'
 import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
 
 import {
-  getAllEvents,
+  sponsorEvents,
   getChellengeSponsors,
   sponsorChallenge
 } from '@Src/contracts/contractService'
@@ -64,6 +66,13 @@ const Grid = styled('div')({
   [`@media (max-width: ${breakPoint})`]: {
     width: '100%'
   }
+})
+
+const FabCtr = styled('span')({
+  position: 'fixed',
+  bottom: '20px',
+  right: '20px',
+  zIndex: 6
 })
 
 interface ChallengeProp extends RouteComponentProps, ChallengeType {
@@ -128,12 +137,10 @@ class Challenge extends React.Component<ChallengeProp> {
         })
         this.fetched = true
       } else if (!this.sponsorFetched && targetDays > 0) {
-        // sponsorChallenge({
-        //   contract,
-        //   groupId: this.groupId,
-        //   address: this.address
-        // })
-        // getAllEvents(this.props.contract)
+        sponsorEvents({
+          contract,
+          challenger: this.address
+        })
         this.sponsorFetched = true
         const sponsors = await getChellengeSponsors({
           contract,
@@ -143,6 +150,16 @@ class Challenge extends React.Component<ChallengeProp> {
         })
         setChallengeSponsersAction(sponsors)
       }
+    }
+  }
+
+  private onSponsor = async () => {
+    if (this.props.contract) {
+      await sponsorChallenge({
+        contract: this.props.contract,
+        groupId: this.groupId,
+        address: this.address
+      })
     }
   }
 
@@ -173,7 +190,12 @@ class Challenge extends React.Component<ChallengeProp> {
             <title>{this.address}'s coin challenge</title>
             <link rel='canonical' href='http://mysite.com/example' />
           </Helmet>
-
+          <FabCtr>
+            <Fab variant='extended' color='primary' aria-label='Delete'>
+              <NavigationIcon onClick={this.onSponsor} />
+              Sponsor
+            </Fab>
+          </FabCtr>
           <StyledGridList>
             <ChallengeCard
               address={this.address}
