@@ -1,5 +1,5 @@
 import { ChallengeType } from '@Src/typing/globalTypes'
-import { Sponser } from '@Reducers/challengeReducer'
+import { Sponsor } from '@Src/typing/globalTypes'
 
 interface GetChallengeProp {
   groupId: string
@@ -7,7 +7,7 @@ interface GetChallengeProp {
 }
 
 export interface SetSponserProp {
-  sponsers: Array<Sponser>
+  sponsors: Array<Sponsor>
 }
 
 interface SponserProp {
@@ -16,11 +16,8 @@ interface SponserProp {
   comment: string
 }
 
-//sponsorChallenge
-
 export const GET_CAHLLENGE = 'GET_CAHLLENGE'
 export const SET_CAHLLENGE = 'SET_CAHLLENGE'
-export const GET_CAHLLENGE_SPONSERS = 'GET_CAHLLENGE_SPONSERS'
 export const SET_CAHLLENGE_SPONSERS = 'SET_CAHLLENGE_SPONSERS'
 export const SPONSER_CHALLENGE = 'SPONSER_CHALLENGE'
 export const SET_SPONSER_RESULT = 'SET_SPONSER_RESULT'
@@ -45,12 +42,7 @@ export const setChallenge = (payload: ChallengeType) => ({
   payload
 })
 
-export const getChallengeSponsers = (payload: GetChallengeProp) => ({
-  type: GET_CAHLLENGE_SPONSERS,
-  payload
-})
-
 export const setChallengeSponsers = (payload: SetSponserProp) => ({
-  type: GET_CAHLLENGE_SPONSERS,
+  type: SET_CAHLLENGE_SPONSERS,
   payload
 })

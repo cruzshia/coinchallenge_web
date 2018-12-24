@@ -6,6 +6,7 @@ import { Decimal } from 'decimal.js'
 import { COLOR_BAR } from '@Src/contants/themeColor'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import { breakPoint } from '@Src/contants/common'
+import { Sponsor } from '@Src/typing/globalTypes'
 
 const SnackbarCtr = styled('div')({
   position: 'relative',
@@ -53,19 +54,19 @@ const Comment = styled('span')({
   fontSize: '16px'
 })
 
-let sponsers: any = []
+let fakeSponsors: any = []
 for (let i = 0; i < 5; i++) {
-  sponsers.push({
+  fakeSponsors.push({
     comment: sentences[Math.floor(Math.random() * 9)],
     who: '0xCB4b9C9292410007D6FB7a7C061666B298f06ee2',
     amount: new Decimal(Math.random() * 13).toPrecision(8)
   })
 }
 
-function Sponsers() {
+function Sponsers({ sponsors }: { sponsors: Sponsor[] }) {
   return (
     <SponserCtr>
-      {sponsers.map((sponser: any, idx: number) => (
+      {sponsors.map((sponser: any, idx: number) => (
         <SnackbarCtr key={idx}>
           <SnackbarContent
             aria-describedby='client-snackbar'

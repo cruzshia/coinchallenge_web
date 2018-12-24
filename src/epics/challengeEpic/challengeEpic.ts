@@ -1,9 +1,7 @@
 import {
   GET_CAHLLENGE,
-  GET_CAHLLENGE_SPONSERS,
   SPONSER_CHALLENGE,
   setChallenge,
-  setChallengeSponsers,
   setSponserResult
 } from './action'
 import { Action, ChallengeType } from '@Src/typing/globalTypes'
@@ -54,27 +52,5 @@ export const sponserChallengeEpic = (
       return setSponserResult({})
     })
   )
-
-// export const getChallengeSponserEpic = async (
-// action$: ActionsObservable<Action>,
-// state$: StateObservable<any>
-// ) =>
-//   action$.pipe(
-//     ofType(GET_CAHLLENGE_SPONSERS),
-//     map(async (action: Action) => {
-//       const contract = state$.value.get('common').get('contract')
-//       const sponserSize = state$.value.get('challenge').get('sponserSize') || 0
-//       const { groupId, challenger } = action.payload as any
-
-//       let sponsers: Array<Sponser> = []
-//       for (let i = 0; i < sponserSize; i++) {
-//         const sponser = await contract.methods
-//           .getSponsor(groupId, challenger, i)
-//           .call()
-//         sponsers.push(sponser)
-//       }
-//       return setChallengeSponsers({ sponsers })
-//     })
-//   )
 
 export default [getChallengeEpic]

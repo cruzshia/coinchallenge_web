@@ -17,9 +17,15 @@ import { breakPoint } from '@Src/contants/common'
 
 // import { FormattedMessage } from 'react-intl'
 // import CountUp from 'react-countup'
-import Web3 from 'web3'
-import { getChallenge } from '@Epics/challengeEpic/action'
-import { ChallengeType } from '@Src/typing/globalTypes'
+import Contract from 'web3/eth/contract'
+import { getChallenge, setChallengeSponsers } from '@Epics/challengeEpic/action'
+import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
+
+import {
+  getAllEvents,
+  getChellengeSponsors,
+  sponsorChallenge
+} from '@Src/contracts/contractService'
 
 const ChallengeContainer = styled('div')({
   display: 'flex',
@@ -61,9 +67,11 @@ const Grid = styled('div')({
 })
 
 interface ChallengeProp extends RouteComponentProps, ChallengeType {
-  contract: Web3 | null
+  contract: Contract | null
+  sponsers: Sponsor[]
   error: boolean
   fetchChallenge: (data: RouteParams) => void
+  setChallengeSponsersAction: (sponsors: Sponsor[]) => void
 }
 export interface RouteParams {
   address: string
@@ -86,13 +94,16 @@ const mapDispathToProps = (dispatch: Dispatch) => ({
         groupId: data.groupId,
         challenger: data.address
       })
-    )
+    ),
+  setChallengeSponsersAction: (sponsors: Sponsor[]) =>
+    dispatch(setChallengeSponsers({ sponsors }))
 })
 
 class Challenge extends React.Component<ChallengeProp> {
   public address: string = ''
   public groupId: string = ''
   public fetched: boolean = false
+  public sponsorFetched: boolean = false
 
   constructor(props: ChallengeProp) {
     super(props)
@@ -101,13 +112,37 @@ class Challenge extends React.Component<ChallengeProp> {
     this.groupId = params.groupId
   }
 
-  private checkAndFetch() {
-    if (this.props.contract && !this.fetched) {
-      this.props.fetchChallenge({
-        address: this.address,
-        groupId: this.groupId
-      })
-      this.fetched = true
+  private async checkAndFetch() {
+    const {
+      contract,
+      fetchChallenge,
+      setChallengeSponsersAction,
+      sponserSize,
+      targetDays
+    } = this.props
+    if (contract) {
+      if (!this.fetched) {
+        fetchChallenge({
+          address: this.address,
+          groupId: this.groupId
+        })
+        this.fetched = true
+      } else if (!this.sponsorFetched && targetDays > 0) {
+        // sponsorChallenge({
+        //   contract,
+        //   groupId: this.groupId,
+        //   address: this.address
+        // })
+        // getAllEvents(this.props.contract)
+        this.sponsorFetched = true
+        const sponsors = await getChellengeSponsors({
+          contract,
+          groupId: this.groupId,
+          address: this.address,
+          sponsorSize: sponserSize
+        })
+        setChallengeSponsersAction(sponsors)
+      }
     }
   }
 
@@ -124,10 +159,11 @@ class Challenge extends React.Component<ChallengeProp> {
       completeDays,
       totalDays,
       targetDays,
-      startDayTimestamp
+      startDayTimestamp,
+      sponsers
     } = this.props
 
-    let percent = Math.floor((completeDays * 100) / targetDays)
+    let percent = targetDays ? Math.floor((completeDays * 100) / targetDays) : 0
     percent = percent > 100 ? 100 : percent
 
     return (
@@ -157,7 +193,7 @@ class Challenge extends React.Component<ChallengeProp> {
                 <CrowdInfo />
               </Grid>
             </StyledInfoCtr>
-            <Sponsers />
+            <Sponsers sponsors={sponsers} />
             <HistoryTimeline />
           </StyledGridList>
           {/* <CountUp end={1000} /> */}

@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import { TouchApp } from '@material-ui/icons'
 import Button from '@material-ui/core/Button'
-import Web3 from 'web3'
+import Contract from 'web3/eth/contract'
 import { ChallengeGroupType } from '@Src/typing/globalTypes'
 import Logo from '@Src/images/logo.png'
 
@@ -43,7 +43,7 @@ function Label({ text }: { text: string }) {
 }
 
 type CreateChallengeGroupProp = {
-  contract: Web3 | null
+  contract: Contract | null
   createResult: ChallengeGroupStateType
   newChallengeGroup: (payload: ChallengeGroupType) => void
 }

@@ -21,3 +21,9 @@ export interface Action {
   type: string
   payload?: { [s: string]: any }
 }
+
+export interface Sponsor {
+  who: string
+  amount: number
+  comment: string
+}

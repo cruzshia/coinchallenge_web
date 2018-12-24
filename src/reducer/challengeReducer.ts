@@ -4,27 +4,21 @@ import {
   SET_CAHLLENGE_SPONSERS,
   SetSponserProp
 } from '@Epics/challengeEpic/action'
-import { ChallengeType } from '@Src/typing/globalTypes'
+import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
 import { Record, RecordOf } from 'immutable'
 
-export type Sponser = {
-  who: string
-  amount: number
-  comment: string
-}
-
 export type ChallengeState = {
-  sponsers: Array<Sponser>
+  sponsers: Array<Sponsor>
 } & ChallengeType
 
 export type ChallengeStateType = RecordOf<ChallengeState>
 
 const mockData = {
-  completeDays: 8,
-  targetDays: 10,
+  completeDays: 0,
+  targetDays: 0,
   totalDays: 20,
   startDayTimestamp: 1545221927571,
-  sponserSize: 1
+  sponserSize: 0
 } as ChallengeType
 
 const stateMaker = Record<ChallengeState>({
@@ -43,7 +37,7 @@ const challengeReducer = (state = initialState, action: Action) => {
 
     case SET_CAHLLENGE_SPONSERS:
       const payload = action.payload as SetSponserProp
-      return state.set('sponsers', payload.sponsers)
+      return state.set('sponsers', payload.sponsors)
     default:
       return state
   }

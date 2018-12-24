@@ -30,10 +30,11 @@ export const newChallengeGroupEpic = (
         map((response: any) => {
           // const challengeObject = {
           //   groupId: payload.id,
-          //   targetDays: payload.minDays + 1,
+          //   targetDays: payload.minDays,
           //   totalDays: payload.maxDays,
           //   startTime: Math.floor(Date.now() / 1000)
           // }
+
           // contract.methods
           //   .createChallenge(...Object.values(challengeObject))
           //   .send({
@@ -47,6 +48,7 @@ export const newChallengeGroupEpic = (
           //   .then((res: any) => {
           //     console.log(222222)
           //     console.log(res)
+          //     console.log('create challenge success!')
           //   })
 
           return setCreateResult({

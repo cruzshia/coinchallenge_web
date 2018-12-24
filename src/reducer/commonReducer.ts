@@ -5,12 +5,12 @@ import {
   CREATE_CHALLENGE_GROUP,
   SET_CREATE_RESULT
 } from '@Epics/challengeGroupEpic/action'
-import Web3 from 'web3'
+import Contract from 'web3/eth/contract'
 import { Record, RecordOf } from 'immutable'
 
 export type CommonState = {
   userAddress: string | null
-  contract: Web3 | null
+  contract: Contract | null
   accounts: Array<string>
   loading: boolean
   showPop: boolean
@@ -34,7 +34,7 @@ const stateMaker = Record<CommonState>({
 })
 
 interface SetContractPayload {
-  contract: Web3 | null
+  contract: Contract | null
   userAddress: string | null
   accounts: Array<string>
   loading: boolean
