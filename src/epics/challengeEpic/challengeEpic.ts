@@ -30,7 +30,7 @@ export const getChallengeEpic = (
             targetDays: Number(response[0]),
             totalDays: Number(response[1]),
             completeDays: Number(response[2]),
-            startDayTimestamp: Number(response[3]) * 1000,
+            startDayTimestamp: Number(response[3]) * 1000 * 86400,
             sponserSize: Number(response[5])
           } as ChallengeType
           return setChallenge(challenge)

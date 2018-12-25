@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
-// import { Provider } from 'react-redux'
 import styled from 'styled-components'
-// import store from '@Src/store'
 import Home from '@Container/Home'
 import CreateChallengeGroup from '@Container/CreateChallengeGroup'
 import Challenge from '@Container/Challenge'

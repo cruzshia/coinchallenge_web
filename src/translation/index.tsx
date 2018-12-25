@@ -8,9 +8,12 @@ import messageZh from './zh_TW.json'
 
 addLocaleData([...localeEn, ...localeZh])
 
-interface MessagesProp {
-  [k: string]: any
+type Message = {
+  en: string
+  zh: string
 }
+
+type MessagesProp = { [k in keyof Message]: any }
 
 const messgaes = {
   en: messageEn,
@@ -20,7 +23,7 @@ const messgaes = {
 export default function(WrappedComponent: React.ComponentClass) {
   return class MutilLang extends React.Component {
     state = {
-      lang: 'zh'
+      lang: 'en'
     }
 
     render() {

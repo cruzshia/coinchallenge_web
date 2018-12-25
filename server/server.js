@@ -8,8 +8,9 @@ import path from 'path'
 // import cookieParser from 'cookie-parser';
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import fs from 'fs'
 import { StaticRouter } from 'react-router'
+import Helmet from 'react-helmet'
+import fs from 'fs'
 import App from '../dist/components/App/index.js'
 import { APP_THEME } from '../dist/contants/themeColor.js'
 import { ServerStyleSheet } from 'styled-components'
@@ -73,9 +74,17 @@ app.get('**', function(req, res) {
   )
   const styleTags = sheet.getStyleTags()
   const css = sheetsRegistry.toString()
+  const helmet = Helmet.renderStatic()
+
+  index = index.replace(/<title>*<\/title>/, helmet.title.toString())
+
   index = index.replace(
     '</head>',
-    `${styleTags}<style id='jss-ssr'>${css}</style></head>`
+    `${styleTags}
+      <style id='jss-ssr'>${css}</style>
+      ${helmet.meta.toString()}
+      ${helmet.link.toString()}
+    </head>`
   )
   res.send(
     index.replace('<div id="root"></div>', `<div id="root">${html}</div>`)

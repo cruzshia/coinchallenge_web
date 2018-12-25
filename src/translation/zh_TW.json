@@ -1,4 +1,19 @@
 {
-  "hello": "哈囉",
-  "providerNotFound": "未偵測到瀏覽器錢包插件"
+  "hello": "hello man",
+  "providerNotFound": "providerNotFound",
+  "challengeGroupId": "挑戰群組ID",
+  "challengeGroupName": "挑戰群組名稱",
+  "challengeGroupCover": "封面照片",
+  "minChallengeDays": "最少挑戰天數",
+  "maxChallengeDays": "最多挑戰天數",
+  "maxDelayDays": "最多延遲紀錄天數",
+  "minChallengeAmount": "最少挑戰硬幣",
+  "docTitleChallenge": "{address}的挑戰",
+  "sponsor": "贊助者",
+  "completeDays": "完成天數",
+  "targetDays": "目標天數",
+  "startChallengeTitle": "發起了一個{name}挑戰",
+  "startChallengeDesc": "挑戰者發起了一個挑戰需要在{totalDays}天內完成共{targetDays}天.",
+  "finishChallengeDesc": "完成了一個{name}挑戰",
+  "successChallengeDesc": "挑戰成功！ 完成率: {rate}"
 }

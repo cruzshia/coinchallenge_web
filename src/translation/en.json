@@ -1,4 +1,19 @@
 {
   "hello": "hello man",
-  "providerNotFound": "providerNotFound"
+  "providerNotFound": "providerNotFound",
+  "challengeGroupId": "challenge group ID",
+  "challengeGroupName": "Challenge Group name",
+  "challengeGroupCover": "Cover image url",
+  "minChallengeDays": "Min Challenge days",
+  "maxChallengeDays": "Max Challenge days",
+  "maxDelayDays": "Max delay days",
+  "minChallengeAmount": "Min Challenge amount",
+  "docTitleChallenge": "{address}'s challenge",
+  "sponsor": "sponsor",
+  "completeDays": "CompleteDays",
+  "targetDays": "TargetDays",
+  "startChallengeTitle": "Start a {name} challenge",
+  "startChallengeDesc": "Challenger start a challenge which need complete {targetDays} days in {totalDays} days.",
+  "finishChallengeDesc": "Finish a {name} challenge",
+  "successChallengeDesc": "Challenge succeed! Complete rate: {rate}"
 }

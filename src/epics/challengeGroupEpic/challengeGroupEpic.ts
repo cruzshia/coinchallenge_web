@@ -28,28 +28,28 @@ export const newChallengeGroupEpic = (
           .send({ from: address })
       ).pipe(
         map((response: any) => {
-          // const challengeObject = {
-          //   groupId: payload.id,
-          //   targetDays: payload.minDays,
-          //   totalDays: payload.maxDays,
-          //   startTime: Math.floor(Date.now() / 1000)
-          // }
+          const challengeObject = {
+            groupId: payload.id,
+            targetDays: payload.minDays,
+            totalDays: payload.maxDays,
+            startTime: Math.floor(Date.now() / 1000)
+          }
 
-          // contract.methods
-          //   .createChallenge(...Object.values(challengeObject))
-          //   .send({
-          //     from: address,
-          //     value: 100000000
-          //   })
-          //   .on('error', function(error: any) {
-          //     console.log(99999)
-          //     console.log(error)
-          //   })
-          //   .then((res: any) => {
-          //     console.log(222222)
-          //     console.log(res)
-          //     console.log('create challenge success!')
-          //   })
+          contract.methods
+            .createChallenge(...Object.values(challengeObject))
+            .send({
+              from: address,
+              value: 100000000
+            })
+            .on('error', function(error: any) {
+              console.log(99999)
+              console.log(error)
+            })
+            .then((res: any) => {
+              console.log(222222)
+              console.log(res)
+              console.log('create challenge success!')
+            })
 
           return setCreateResult({
             response: {

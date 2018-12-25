@@ -8,20 +8,20 @@ import Fab from '@material-ui/core/Fab'
 import NavigationIcon from '@material-ui/icons/Navigation'
 import ChallengeCard from './components/ChallengeCard'
 import ChallengeInfo from './components/ChallengeInfo'
-import CrowdInfo from './components/CrowdInfo'
+
 import Sponsers from './components/Sponsers'
 import { ChallengeStateType } from '@Reducers/challengeReducer'
 import { CommonStateType } from '@Reducers/commonReducer'
-import { APP_THEME_BACKGROUND } from '@Src/contants/themeColor'
 import HistoryTimeline from './components/HistoryTimeline'
 import Notifier from './components/Notifier'
 import { breakPoint } from '@Src/contants/common'
 
-// import { FormattedMessage } from 'react-intl'
 // import CountUp from 'react-countup'
 import Contract from 'web3/eth/contract'
 import { getChallenge, setChallengeSponsers } from '@Epics/challengeEpic/action'
 import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
+
+import { injectIntl, InjectedIntlProps } from 'react-intl'
 
 import {
   sponsorEvents,
@@ -46,28 +46,6 @@ const StyledGridList = styled('div')({
   }
 })
 
-interface InfoCtrProp {
-  bgcolor?: string
-}
-const StyledInfoCtr = styled('div')<InfoCtrProp>`
-  display: flex;
-  background: ${(props: InfoCtrProp) =>
-    props.bgcolor ? props.bgcolor : APP_THEME_BACKGROUND};
-  justify-content: center;
-  align-items: center;
-  @media (max-width: ${breakPoint}) {
-    flex-direction: column;
-  }
-`
-
-const Grid = styled('div')({
-  width: '50%',
-  paddingBottom: '10px',
-  [`@media (max-width: ${breakPoint})`]: {
-    width: '100%'
-  }
-})
-
 const FabCtr = styled('span')({
   position: 'fixed',
   bottom: '20px',
@@ -75,7 +53,10 @@ const FabCtr = styled('span')({
   zIndex: 6
 })
 
-interface ChallengeProp extends RouteComponentProps, ChallengeType {
+interface ChallengeProp
+  extends RouteComponentProps,
+    ChallengeType,
+    InjectedIntlProps {
   contract: Contract | null
   sponsers: Sponsor[]
   error: boolean
@@ -177,44 +158,43 @@ class Challenge extends React.Component<ChallengeProp> {
       totalDays,
       targetDays,
       startDayTimestamp,
-      sponsers
+      sponsers,
+      intl
     } = this.props
 
     let percent = targetDays ? Math.floor((completeDays * 100) / targetDays) : 0
     percent = percent > 100 ? 100 : percent
-
     return (
       <React.Fragment>
         <ChallengeContainer>
           <Helmet>
-            <title>{this.address}'s coin challenge</title>
+            <title>
+              {intl.formatMessage(
+                { id: 'docTitleChallenge' },
+                { address: this.address }
+              )}
+            </title>
             <link rel='canonical' href='http://mysite.com/example' />
           </Helmet>
           <FabCtr>
             <Fab variant='extended' color='primary' aria-label='Delete'>
               <NavigationIcon onClick={this.onSponsor} />
-              Sponsor
+              {intl.formatMessage({ id: 'sponsor' })}
             </Fab>
           </FabCtr>
+
           <StyledGridList>
             <ChallengeCard
               address={this.address}
               groupId={this.groupId}
               startDayTimestamp={startDayTimestamp}
             />
-            <StyledInfoCtr>
-              <Grid>
-                <ChallengeInfo
-                  completeDays={completeDays}
-                  totalDays={totalDays}
-                  targetDays={targetDays}
-                  percent={percent}
-                />
-              </Grid>
-              <Grid>
-                <CrowdInfo />
-              </Grid>
-            </StyledInfoCtr>
+            <ChallengeInfo
+              completeDays={completeDays}
+              targetDays={targetDays}
+              totalDays={totalDays}
+              percent={percent}
+            />
             <Sponsers sponsors={sponsers} />
             <HistoryTimeline />
           </StyledGridList>
@@ -229,4 +209,4 @@ class Challenge extends React.Component<ChallengeProp> {
 export default connect(
   mapStateToProps,
   mapDispathToProps
-)(Challenge)
+)(injectIntl(Challenge))

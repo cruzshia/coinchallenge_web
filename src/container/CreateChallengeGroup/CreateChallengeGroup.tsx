@@ -12,6 +12,7 @@ import { Dispatch } from 'redux'
 import { newChallengeGroup } from '@Epics/challengeGroupEpic/action'
 import { CommonStateType } from '@Reducers/commonReducer'
 import { ChallengeGroupStateType } from '@Reducers/challengeGroupReducer'
+import { injectIntl, InjectedIntlProps } from 'react-intl'
 
 const Form = styled('form')({
   display: 'flex',
@@ -68,7 +69,7 @@ const mapDispatchToProps = (dispath: Dispatch) => ({
 })
 
 class CreateChallengeGroup extends React.Component<
-  CreateChallengeGroupProp,
+  CreateChallengeGroupProp & InjectedIntlProps,
   StateProp
 > {
   static LabelProp = {
@@ -133,11 +134,15 @@ class CreateChallengeGroup extends React.Component<
 
   public render() {
     const { challengeGroup, error } = this.state
+    const { intl } = this.props
+
     return (
       <Form noValidate autoComplete='off'>
         <Icon src={Logo} />
         <TextField
-          label={<Label text='Challenge Group id' />}
+          label={
+            <Label text={intl.formatMessage({ id: 'challengeGroupId' })} />
+          }
           margin='normal'
           variant='outlined'
           placeholder='e.g: com.coin.challenge'
@@ -149,7 +154,9 @@ class CreateChallengeGroup extends React.Component<
           required
         />
         <TextField
-          label={<Label text='Challenge Group name' />}
+          label={
+            <Label text={intl.formatMessage({ id: 'challengeGroupName' })} />
+          }
           margin='normal'
           variant='outlined'
           value={challengeGroup.name}
@@ -160,7 +167,9 @@ class CreateChallengeGroup extends React.Component<
           required
         />
         <TextField
-          label={<Label text='Cover image url' />}
+          label={
+            <Label text={intl.formatMessage({ id: 'challengeGroupCover' })} />
+          }
           margin='normal'
           variant='outlined'
           value={challengeGroup.url}
@@ -171,7 +180,9 @@ class CreateChallengeGroup extends React.Component<
           required
         />
         <TextField
-          label={<Label text='Min days' />}
+          label={
+            <Label text={intl.formatMessage({ id: 'minChallengeDays' })} />
+          }
           type='number'
           margin='normal'
           variant='outlined'
@@ -185,7 +196,9 @@ class CreateChallengeGroup extends React.Component<
         />
 
         <TextField
-          label={<Label text='Max days' />}
+          label={
+            <Label text={intl.formatMessage({ id: 'maxChallengeDays' })} />
+          }
           type='number'
           margin='normal'
           variant='outlined'
@@ -199,7 +212,7 @@ class CreateChallengeGroup extends React.Component<
         />
 
         <TextField
-          label={<Label text='Max delay days' />}
+          label={<Label text={intl.formatMessage({ id: 'maxDelayDays' })} />}
           type='number'
           margin='normal'
           value={challengeGroup.maxDelayDays}
@@ -213,7 +226,9 @@ class CreateChallengeGroup extends React.Component<
         />
 
         <TextField
-          label={<Label text='Min Challenge Coin' />}
+          label={
+            <Label text={intl.formatMessage({ id: 'minChallengeAmount' })} />
+          }
           type='number'
           margin='normal'
           value={challengeGroup.minAmount}
@@ -237,4 +252,4 @@ class CreateChallengeGroup extends React.Component<
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreateChallengeGroup)
+)(injectIntl(CreateChallengeGroup))
