@@ -1,6 +1,6 @@
 {
-  "hello": "hello man",
-  "providerNotFound": "providerNotFound",
+  "ok": "確認",
+  "providerNotFound": "未偵測到錢包插件，請先安裝擴充套件(metamask)",
   "challengeGroupId": "挑戰群組ID",
   "challengeGroupName": "挑戰群組名稱",
   "challengeGroupCover": "封面照片",

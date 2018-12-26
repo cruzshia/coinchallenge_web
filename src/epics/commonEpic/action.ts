@@ -19,6 +19,7 @@ export const setContract = (payload: {
 
 export interface SetPopProps {
   popMessage?: string
+  messageKey?: string
   showPop: boolean
 }
 
@@ -26,6 +27,7 @@ export const setPopup = (payload: SetPopProps) => ({
   type: SET_POPUP,
   payload: {
     popMessage: payload.popMessage || '',
+    messageKey: payload.messageKey || null,
     showPop: payload.showPop
   }
 })

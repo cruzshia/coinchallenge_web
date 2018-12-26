@@ -15,6 +15,7 @@ export type CommonState = {
   loading: boolean
   showPop: boolean
   popMessage: string
+  messageKey: string | null
   error: {
     code: number
     text: string
@@ -30,6 +31,7 @@ const stateMaker = Record<CommonState>({
   loading: true,
   showPop: false,
   popMessage: '',
+  messageKey: null,
   error: null
 })
 
@@ -67,7 +69,8 @@ const commonReducer = (state = initialState, action: Action) => {
       const payload = action.payload as SetPopProps
       return state.merge({
         showPop: payload.showPop,
-        popMessage: payload.popMessage
+        popMessage: payload.popMessage,
+        messageKey: payload.messageKey
       })
 
     case GET_CAHLLENGE:

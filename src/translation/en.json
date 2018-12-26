@@ -1,6 +1,6 @@
 {
-  "hello": "hello man",
-  "providerNotFound": "providerNotFound",
+  "ok": "ok",
+  "providerNotFound": "no provider was found, please install related extensions(metamask)",
   "challengeGroupId": "challenge group ID",
   "challengeGroupName": "Challenge Group name",
   "challengeGroupCover": "Cover image url",
