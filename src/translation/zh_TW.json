@@ -1,6 +1,8 @@
 {
   "ok": "確認",
   "providerNotFound": "未偵測到錢包插件，請先安裝擴充套件(metamask)",
+  "browserNotSupport": "你的瀏覽器不支援錢包插件，請改使用chrome/firefox或者opera瀏覽器",
+  "donateSuccess": "贊助硬幣發送成功！",
   "challengeGroupId": "挑戰群組ID",
   "challengeGroupName": "挑戰群組名稱",
   "challengeGroupCover": "封面照片",

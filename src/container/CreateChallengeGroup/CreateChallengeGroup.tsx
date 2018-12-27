@@ -10,6 +10,7 @@ import Logo from '@Src/images/logo.png'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { newChallengeGroup } from '@Epics/challengeGroupEpic/action'
+import { checkWallet } from '@Epics/commonEpic/action'
 import { CommonStateType } from '@Reducers/commonReducer'
 import { ChallengeGroupStateType } from '@Reducers/challengeGroupReducer'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
@@ -47,6 +48,7 @@ type CreateChallengeGroupProp = {
   contract: Contract | null
   createResult: ChallengeGroupStateType
   newChallengeGroup: (payload: ChallengeGroupType) => void
+  checkWallet: () => void
 }
 
 type ErrorProp = { [s in keyof ChallengeGroupType]?: boolean }
@@ -64,6 +66,7 @@ const mapStateToProps = (state: Map<string, object>) => {
 }
 
 const mapDispatchToProps = (dispath: Dispatch) => ({
+  checkWallet: () => dispath(checkWallet()),
   newChallengeGroup: (payload: ChallengeGroupType) =>
     dispath(newChallengeGroup(payload))
 })
@@ -129,6 +132,7 @@ class CreateChallengeGroup extends React.Component<
   }
 
   private onSubmit = () => {
+    this.props.checkWallet()
     this.props.newChallengeGroup(this.state.challengeGroup)
   }
 

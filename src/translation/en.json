@@ -1,6 +1,8 @@
 {
   "ok": "ok",
   "providerNotFound": "no provider was found, please install related extensions(metamask)",
+  "browserNotSupport": "you browser didn't support wallet, please use chrome/firefox/opera instead",
+  "donateSuccess": "donate to challenger success!",
   "challengeGroupId": "challenge group ID",
   "challengeGroupName": "Challenge Group name",
   "challengeGroupCover": "Cover image url",

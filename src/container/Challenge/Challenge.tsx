@@ -16,8 +16,8 @@ import HistoryTimeline from './components/HistoryTimeline'
 import Notifier from './components/Notifier'
 import { breakPoint } from '@Src/contants/common'
 
-// import CountUp from 'react-countup'
 import Contract from 'web3/eth/contract'
+import { checkWallet } from '@Epics/commonEpic/action'
 import { getChallenge, setChallengeSponsers } from '@Epics/challengeEpic/action'
 import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
 
@@ -57,11 +57,13 @@ interface ChallengeProp
   extends RouteComponentProps,
     ChallengeType,
     InjectedIntlProps {
+  txContract: Contract | null
   contract: Contract | null
   sponsers: Sponsor[]
   error: boolean
   fetchChallenge: (data: RouteParams) => void
   setChallengeSponsersAction: (sponsors: Sponsor[]) => void
+  checkWallet: () => void
 }
 export interface RouteParams {
   address: string
@@ -72,6 +74,7 @@ const mapStateToProps = (state: Map<string, object>) => {
   const challengeState = state.get('challenge') as ChallengeStateType
   const commonState = state.get('common') as CommonStateType
   return {
+    txContract: commonState.get('txContract'),
     contract: commonState.get('contract'),
     ...challengeState.toJS()
   }
@@ -86,7 +89,8 @@ const mapDispathToProps = (dispatch: Dispatch) => ({
       })
     ),
   setChallengeSponsersAction: (sponsors: Sponsor[]) =>
-    dispatch(setChallengeSponsers({ sponsors }))
+    dispatch(setChallengeSponsers({ sponsors })),
+  checkWallet: () => dispatch(checkWallet())
 })
 
 class Challenge extends React.Component<ChallengeProp> {
@@ -135,9 +139,10 @@ class Challenge extends React.Component<ChallengeProp> {
   }
 
   private onSponsor = async () => {
-    if (this.props.contract) {
+    this.props.checkWallet()
+    if (this.props.txContract) {
       await sponsorChallenge({
-        contract: this.props.contract,
+        contract: this.props.txContract,
         groupId: this.groupId,
         address: this.address
       })
@@ -198,7 +203,6 @@ class Challenge extends React.Component<ChallengeProp> {
             <Sponsers sponsors={sponsers} />
             <HistoryTimeline />
           </StyledGridList>
-          {/* <CountUp end={1000} /> */}
         </ChallengeContainer>
         <Notifier />
       </React.Fragment>

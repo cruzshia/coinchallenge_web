@@ -1,9 +1,11 @@
 import { Action } from '@Src/typing/globalTypes'
 import { CREATE_CHALLENGE_GROUP, setCreateResult } from './action'
 import { ofType, ActionsObservable, StateObservable } from 'redux-observable'
-import { map, switchMap, catchError } from 'rxjs/operators'
+import { map, switchMap, catchError, filter } from 'rxjs/operators'
 import { from, of } from 'rxjs'
 import { ChallengeGroupType } from '@Src/typing/globalTypes'
+
+import { setPopup } from '../commonEpic/action'
 
 export const newChallengeGroupEpic = (
   action$: ActionsObservable<Action>,
@@ -11,11 +13,12 @@ export const newChallengeGroupEpic = (
 ) =>
   action$.pipe(
     ofType(CREATE_CHALLENGE_GROUP),
+    filter(() => state$.value.get('common').get('txContract') !== null),
     switchMap((action: Action) => {
       const commonReducer = state$.value.get('common')
       const payload = action.payload as ChallengeGroupType
       const [contract, address] = [
-        commonReducer.get('contract'),
+        commonReducer.get('txContract'),
         commonReducer.get('userAddress')
       ]
 
@@ -28,28 +31,28 @@ export const newChallengeGroupEpic = (
           .send({ from: address })
       ).pipe(
         map((response: any) => {
-          const challengeObject = {
-            groupId: payload.id,
-            targetDays: payload.minDays,
-            totalDays: payload.maxDays,
-            startTime: Math.floor(Date.now() / 1000)
-          }
+          // const challengeObject = {
+          //   groupId: payload.id,
+          //   targetDays: payload.minDays,
+          //   totalDays: payload.maxDays,
+          //   startTime: Math.floor(Date.now() / 1000)
+          // }
 
-          contract.methods
-            .createChallenge(...Object.values(challengeObject))
-            .send({
-              from: address,
-              value: 100000000
-            })
-            .on('error', function(error: any) {
-              console.log(99999)
-              console.log(error)
-            })
-            .then((res: any) => {
-              console.log(222222)
-              console.log(res)
-              console.log('create challenge success!')
-            })
+          // contract.methods
+          //   .createChallenge(...Object.values(challengeObject))
+          //   .send({
+          //     from: address,
+          //     value: 100000000
+          //   })
+          //   .on('error', function(error: any) {
+          //     console.log(99999)
+          //     console.log(error)
+          //   })
+          //   .then((res: any) => {
+          //     console.log(222222)
+          //     console.log(res)
+          //     console.log('create challenge success!')
+          //   })
 
           return setCreateResult({
             response: {
@@ -64,12 +67,10 @@ export const newChallengeGroupEpic = (
     catchError((err: any) => {
       // invalid address
       // connection not open
-      console.log(11111)
-      console.log(err)
       return of(
-        setCreateResult({
-          response: {},
-          error: true
+        setPopup({
+          showPop: true,
+          popMessage: err
         })
       )
     })

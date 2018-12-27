@@ -1,15 +1,22 @@
 import { Action } from '@Src/typing/globalTypes'
-import { SET_CONTRACT, SET_POPUP, SetPopProps } from '@Epics/commonEpic/action'
+import {
+  SET_CONTRACT,
+  SET_POPUP,
+  CHECK_WALLET,
+  SetPopProps
+} from '@Epics/commonEpic/action'
 import { GET_CAHLLENGE, SET_CAHLLENGE } from '@Epics/challengeEpic/action'
 import {
   CREATE_CHALLENGE_GROUP,
   SET_CREATE_RESULT
 } from '@Epics/challengeGroupEpic/action'
 import Contract from 'web3/eth/contract'
+import { getMetmaskUrl } from '@Src/utils'
 import { Record, RecordOf } from 'immutable'
 
 export type CommonState = {
   userAddress: string | null
+  txContract: Contract | null
   contract: Contract | null
   accounts: Array<string>
   loading: boolean
@@ -27,6 +34,7 @@ export type CommonStateType = RecordOf<CommonState>
 const stateMaker = Record<CommonState>({
   userAddress: null,
   accounts: [],
+  txContract: null,
   contract: null,
   loading: true,
   showPop: false,
@@ -36,6 +44,7 @@ const stateMaker = Record<CommonState>({
 })
 
 interface SetContractPayload {
+  txContract: Contract | null
   contract: Contract | null
   userAddress: string | null
   accounts: Array<string>
@@ -52,12 +61,14 @@ const commonReducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case SET_CONTRACT:
       const {
+        txContract,
         contract,
         userAddress,
         accounts = [],
         error
       } = action.payload as SetContractPayload
       return state.merge({
+        txContract,
         contract,
         userAddress,
         accounts,
@@ -79,6 +90,20 @@ const commonReducer = (state = initialState, action: Action) => {
     case SET_CAHLLENGE:
     case SET_CREATE_RESULT:
       return state.set('loading', false)
+    case CHECK_WALLET:
+      if (state.get('txContract') === null) {
+        const url = getMetmaskUrl()
+        if (url) {
+          window.open(url)
+        } else {
+          state = state.merge({
+            showPop: true,
+            messageKey: 'browserNotSupport'
+          })
+        }
+      }
+
+      return state
     default:
       return state
   }

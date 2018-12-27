@@ -10,25 +10,20 @@ export interface SetSponserProp {
   sponsors: Array<Sponsor>
 }
 
-interface SponserProp {
+export interface SponserProp {
   groupId: string
   who: string
   comment: string
+  amount: number
 }
 
 export const GET_CAHLLENGE = 'GET_CAHLLENGE'
 export const SET_CAHLLENGE = 'SET_CAHLLENGE'
 export const SET_CAHLLENGE_SPONSERS = 'SET_CAHLLENGE_SPONSERS'
 export const SPONSER_CHALLENGE = 'SPONSER_CHALLENGE'
-export const SET_SPONSER_RESULT = 'SET_SPONSER_RESULT'
 
 export const sponserChallenge = (payload: SponserProp) => ({
   type: SPONSER_CHALLENGE,
-  payload
-})
-
-export const setSponserResult = (payload: any) => ({
-  type: SET_SPONSER_RESULT,
   payload
 })
 

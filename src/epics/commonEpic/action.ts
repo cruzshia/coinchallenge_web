@@ -1,14 +1,16 @@
-import Web3 from 'web3'
+import Contract from 'web3/eth/contract'
 
-export const INIT_CONTRACT = 'INIT_CONTRACT'
-export const SET_CONTRACT = 'SET_CONTRACT'
+export const INIT_CONTRACT = '@COMMON/INIT_CONTRACT'
+export const SET_CONTRACT = '@COMMON/SET_CONTRACT'
 
-export const SET_POPUP = 'SET_POPUP'
+export const SET_POPUP = '@COMMON/SET_POPUP'
+export const CHECK_WALLET = '@COMMON/CHECK_WALLET'
 
 export const initContract = () => ({ type: INIT_CONTRACT })
 
 export const setContract = (payload: {
-  contract: Web3 | null
+  txContract: Contract | null
+  contract: Contract | null
   userAddress: string | null
   accounts?: Array<string>
   error: object | null
@@ -31,3 +33,5 @@ export const setPopup = (payload: SetPopProps) => ({
     showPop: payload.showPop
   }
 })
+
+export const checkWallet = () => ({ type: CHECK_WALLET })
