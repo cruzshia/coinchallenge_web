@@ -4,11 +4,9 @@ import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
-import Fab from '@material-ui/core/Fab'
-import NavigationIcon from '@material-ui/icons/Navigation'
 import ChallengeCard from './components/ChallengeCard'
 import ChallengeInfo from './components/ChallengeInfo'
-
+import SponsorButton from './components/SponsorButton'
 import Sponsers from './components/Sponsers'
 import { ChallengeStateType } from '@Reducers/challengeReducer'
 import { CommonStateType } from '@Reducers/commonReducer'
@@ -18,16 +16,16 @@ import { breakPoint } from '@Src/contants/common'
 
 import Contract from 'web3/eth/contract'
 import { checkWallet } from '@Epics/commonEpic/action'
-import { getChallenge, setChallengeSponsers } from '@Epics/challengeEpic/action'
+import {
+  getChallenge,
+  sponserChallenge,
+  SponserProp
+} from '@Epics/challengeEpic/action'
 import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
 
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 
-import {
-  sponsorEvents,
-  getChellengeSponsors,
-  sponsorChallenge
-} from '@Src/contracts/contractService'
+import { sponsorEvents, getPastSponsor } from '@Src/contracts/contractService'
 
 const ChallengeContainer = styled('div')({
   display: 'flex',
@@ -46,24 +44,22 @@ const StyledGridList = styled('div')({
   }
 })
 
-const FabCtr = styled('span')({
-  position: 'fixed',
-  bottom: '20px',
-  right: '20px',
-  zIndex: 6
-})
-
 interface ChallengeProp
   extends RouteComponentProps,
     ChallengeType,
     InjectedIntlProps {
   txContract: Contract | null
   contract: Contract | null
-  sponsers: Sponsor[]
+  account: string | null
   error: boolean
   fetchChallenge: (data: RouteParams) => void
+  sponserChallenge: (payload: SponserProp) => void
   setChallengeSponsersAction: (sponsors: Sponsor[]) => void
   checkWallet: () => void
+}
+
+interface ChallengeState {
+  sponsors: Sponsor[]
 }
 export interface RouteParams {
   address: string
@@ -76,6 +72,7 @@ const mapStateToProps = (state: Map<string, object>) => {
   return {
     txContract: commonState.get('txContract'),
     contract: commonState.get('contract'),
+    account: commonState.get('userAddress'),
     ...challengeState.toJS()
   }
 }
@@ -88,12 +85,12 @@ const mapDispathToProps = (dispatch: Dispatch) => ({
         challenger: data.address
       })
     ),
-  setChallengeSponsersAction: (sponsors: Sponsor[]) =>
-    dispatch(setChallengeSponsers({ sponsors })),
+  sponserChallenge: (payload: SponserProp) =>
+    dispatch(sponserChallenge(payload)),
   checkWallet: () => dispatch(checkWallet())
 })
 
-class Challenge extends React.Component<ChallengeProp> {
+class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   public address: string = ''
   public groupId: string = ''
   public fetched: boolean = false
@@ -104,16 +101,20 @@ class Challenge extends React.Component<ChallengeProp> {
     const params = this.props.match.params as RouteParams
     this.address = params.address
     this.groupId = params.groupId
+    this.state = {
+      sponsors: []
+    }
+  }
+
+  private onNewSponsor = (sponsor: Sponsor) => {
+    const sponsors = this.state.sponsors
+    this.setState({
+      sponsors: [sponsor].concat(sponsors)
+    })
   }
 
   private async checkAndFetch() {
-    const {
-      contract,
-      fetchChallenge,
-      setChallengeSponsersAction,
-      sponserSize,
-      targetDays
-    } = this.props
+    const { contract, fetchChallenge, sponserSize, targetDays } = this.props
     if (contract) {
       if (!this.fetched) {
         fetchChallenge({
@@ -122,29 +123,36 @@ class Challenge extends React.Component<ChallengeProp> {
         })
         this.fetched = true
       } else if (!this.sponsorFetched && targetDays > 0) {
+        const sponsorData = await getPastSponsor(contract, sponserSize)
         sponsorEvents({
           contract,
-          challenger: this.address
+          challenger: this.address,
+          fromBlock: sponsorData.blockNumber,
+          callback: this.onNewSponsor
         })
         this.sponsorFetched = true
-        const sponsors = await getChellengeSponsors({
-          contract,
-          groupId: this.groupId,
-          address: this.address,
-          sponsorSize: sponserSize
+        this.setState({
+          sponsors: sponsorData.data
         })
-        setChallengeSponsersAction(sponsors)
       }
     }
   }
 
-  private onSponsor = async () => {
+  private onSponsor = async ({
+    amount,
+    comment
+  }: {
+    amount: number
+    comment: string
+  }) => {
     this.props.checkWallet()
-    if (this.props.txContract) {
-      await sponsorChallenge({
-        contract: this.props.txContract,
+    const { txContract, account } = this.props
+    if (txContract && account) {
+      this.props.sponserChallenge({
         groupId: this.groupId,
-        address: this.address
+        who: this.address,
+        amount,
+        comment
       })
     }
   }
@@ -163,7 +171,6 @@ class Challenge extends React.Component<ChallengeProp> {
       totalDays,
       targetDays,
       startDayTimestamp,
-      sponsers,
       intl
     } = this.props
 
@@ -181,13 +188,7 @@ class Challenge extends React.Component<ChallengeProp> {
             </title>
             <link rel='canonical' href='http://mysite.com/example' />
           </Helmet>
-          <FabCtr>
-            <Fab variant='extended' color='primary' aria-label='Delete'>
-              <NavigationIcon onClick={this.onSponsor} />
-              {intl.formatMessage({ id: 'sponsor' })}
-            </Fab>
-          </FabCtr>
-
+          <SponsorButton onSponsor={this.onSponsor} intl={intl} />
           <StyledGridList>
             <ChallengeCard
               address={this.address}
@@ -200,7 +201,7 @@ class Challenge extends React.Component<ChallengeProp> {
               totalDays={totalDays}
               percent={percent}
             />
-            <Sponsers sponsors={sponsers} />
+            <Sponsers sponsors={this.state.sponsors} />
             <HistoryTimeline />
           </StyledGridList>
         </ChallengeContainer>

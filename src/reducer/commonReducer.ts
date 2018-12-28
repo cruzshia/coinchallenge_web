@@ -93,6 +93,13 @@ const commonReducer = (state = initialState, action: Action) => {
     case CHECK_WALLET:
       if (state.get('txContract') === null) {
         const url = getMetmaskUrl()
+        if (state.get('accounts').length === 0) {
+          return state.merge({
+            showPop: true,
+            messageKey: 'accountNotFound'
+          })
+        }
+
         if (url) {
           window.open(url)
         } else {

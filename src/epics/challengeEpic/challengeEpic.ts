@@ -7,9 +7,10 @@ import {
 import { Action, ChallengeType } from '@Src/typing/globalTypes'
 
 import { ofType, ActionsObservable, StateObservable } from 'redux-observable'
-import { map, switchMap, catchError } from 'rxjs/operators'
+import { map, mergeMap, switchMap, catchError, takeUntil } from 'rxjs/operators'
 import { from, of } from 'rxjs'
 import { setPopup } from '../commonEpic/action'
+import web3 from 'web3'
 
 export const getChallengeEpic = (
   action$: ActionsObservable<Action>,
@@ -33,11 +34,11 @@ export const getChallengeEpic = (
             sponserSize: Number(response[5])
           } as ChallengeType
           return setChallenge(challenge)
+        }),
+        catchError((err: any) => {
+          return of(setPopup({ showPop: true, popMessage: err }))
         })
       )
-    }),
-    catchError((err: any) => {
-      return of(setPopup({ showPop: true, popMessage: err }))
     })
   )
 
@@ -47,7 +48,7 @@ export const sponserChallengeEpic = (
 ) =>
   action$.pipe(
     ofType(SPONSER_CHALLENGE),
-    switchMap((action: Action) => {
+    mergeMap((action: Action) => {
       const commonReducer = state$.value.get('common')
       const payload = action.payload as SponserProp
       const { groupId, who, comment, amount } = payload
@@ -59,15 +60,15 @@ export const sponserChallengeEpic = (
       return from(
         contract.methods.sponsorChallenge(groupId, who, comment).send({
           from: address,
-          value: amount
+          value: web3.utils.toWei(String(amount), 'ether')
         })
       ).pipe(
-        map(() => setPopup({ showPop: true, messageKey: 'donateSuccess' }))
+        map(() => setPopup({ showPop: true, messageKey: 'donateSuccess' })),
+        catchError((err: Error) => {
+          return of(setPopup({ showPop: true, popMessage: err.message }))
+        })
       )
-    }),
-    catchError((err: any) => {
-      return of(setPopup({ showPop: true, popMessage: err }))
     })
   )
 
-export default [getChallengeEpic]
+export default [getChallengeEpic, sponserChallengeEpic]

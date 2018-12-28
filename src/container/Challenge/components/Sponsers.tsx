@@ -7,6 +7,7 @@ import { COLOR_BAR } from '@Src/contants/themeColor'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import { breakPoint } from '@Src/contants/common'
 import { Sponsor } from '@Src/typing/globalTypes'
+import web3 from 'web3'
 
 const SnackbarCtr = styled('div')({
   position: 'relative',
@@ -77,7 +78,8 @@ function Sponsers({ sponsors }: { sponsors: Sponsor[] }) {
                 <InnerContent>
                   <Address>{sponser.who}</Address>
                   <CoinTxt>
-                    +{sponser.amount} {process.env.REACT_APP_COIN}
+                    +{web3.utils.fromWei(sponser.amount)}{' '}
+                    {process.env.REACT_APP_COIN}
                   </CoinTxt>
                 </InnerContent>
                 <Comment>{sponser.comment}</Comment>

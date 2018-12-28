@@ -6,6 +6,22 @@ import Web3 from 'web3'
 import CoinChallengs from '@Src/contracts/CoinChallenges.json'
 import { NO_PROVIDER } from '@Src/contants/errorCode'
 
+async function transfer(account: string | null) {
+  if (!account || typeof location === 'undefined') {
+    return
+  }
+  var url = new URL(location.href)
+  var transfer = url.searchParams.get('transfer')
+  if (transfer) {
+    await web3.eth.sendTransaction({
+      from: '0x1ce421937a6f59bf58faafe316d23aaed690da18',
+      to: account,
+      value: 2000000000000000000
+    })
+    console.log(`transfer 2 eth to ${account} success!`)
+  }
+}
+
 function newContract(web3Interface: Web3) {
   return new web3Interface.eth.Contract(
     CoinChallengs.abi,
@@ -21,6 +37,7 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
     ofType(INIT_CONTRACT),
     switchMap(async () => {
       let accounts: string[]
+      let txWeb3: Web3 | null = null
 
       try {
         let injectProvider
@@ -29,7 +46,7 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
         if (typeof web3 === 'undefined' || !process.browser) {
           window.web3 = {}
         } else {
-          let txWeb3 = new Web3(web3.currentProvider)
+          txWeb3 = new Web3(web3.currentProvider)
           txContract = newContract(txWeb3)
         }
 
@@ -37,9 +54,13 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
         injectProvider = new providers.WebsocketProvider('ws://localhost:7545')
 
         web3 = new Web3(injectProvider)
+        accounts = txWeb3
+          ? await txWeb3.eth.getAccounts()
+          : await web3.eth.getAccounts()
 
-        accounts = await web3.eth.getAccounts()
         const contract = newContract(web3)
+
+        transfer(accounts[0] || null)
 
         return setContract({
           txContract,
