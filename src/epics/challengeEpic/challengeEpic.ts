@@ -8,7 +8,14 @@ import {
 import { Action, ChallengeType } from '@Src/typing/globalTypes'
 
 import { ofType, ActionsObservable, StateObservable } from 'redux-observable'
-import { map, switchMap, catchError, take, repeat } from 'rxjs/operators'
+import {
+  map,
+  switchMap,
+  catchError,
+  take,
+  repeat,
+  mergeMap
+} from 'rxjs/operators'
 import { from, of } from 'rxjs'
 import { setPopup } from '../commonEpic/action'
 import web3 from 'web3'
@@ -80,12 +87,12 @@ export const sponsorChallengeEpic = (
           }
         )
       ).pipe(
-        map(() => {
-          return of(
+        mergeMap(() =>
+          of(
             setPopup({ showPop: true, messageKey: 'donateSuccess' }),
             setConfirmSponsor({ isCofirmingSponsor: false, txhash: '' })
           )
-        }),
+        ),
         catchError((err: Error) => {
           return of(
             setPopup({ showPop: true, popMessage: err.message }),

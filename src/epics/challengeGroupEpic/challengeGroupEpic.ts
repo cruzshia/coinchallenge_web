@@ -4,6 +4,7 @@ import { ofType, ActionsObservable, StateObservable } from 'redux-observable'
 import {
   map,
   switchMap,
+  mergeMap,
   catchError,
   filter,
   take,
@@ -56,7 +57,7 @@ export const newChallengeGroupEpic = (
             )
           })
       ).pipe(
-        map((response: any) => {
+        mergeMap((response: any) => {
           // const challengeObject = {
           //   groupId: payload.id,
           //   targetDays: payload.minDays,
