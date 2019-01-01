@@ -5,7 +5,7 @@ import {
 } from 'react-vertical-timeline-component'
 import 'react-vertical-timeline-component/style.min.css'
 
-import { APP_THEME } from '@Src/contants/themeColor'
+import { APP_THEME, APP_LIGHT_BG } from '@Src/contants/themeColor'
 import styled from 'styled-components'
 
 import Beenhere from '@material-ui/icons/Beenhere'
@@ -15,6 +15,7 @@ import MoodBad from '@material-ui/icons/MoodBad'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 
 const TimelineCtr = styled('div')({
+  background: APP_LIGHT_BG,
   '.vertical-timeline::before': {
     background: '#aab9c2'
   }

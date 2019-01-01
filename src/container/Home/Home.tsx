@@ -42,6 +42,9 @@ interface Props {
 
 class Home extends React.Component<Props & InjectedIntlProps> {
   public async componentDidMount() {
+    if (process.browser && window.etherem) {
+      await window.etherem.enable()
+    }
     this.props.initContract()
     if (process.browser) {
       require('particles.js')
