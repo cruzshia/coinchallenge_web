@@ -7,15 +7,18 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import styled from 'styled-components'
-import Fab from '@material-ui/core/Fab'
-import NavigationIcon from '@material-ui/icons/Navigation'
 import { InjectedIntl } from 'react-intl'
+import { APP_LIGHT_BG } from '@Src/contants/themeColor'
 
 const FabCtr = styled('span')({
-  position: 'fixed',
-  bottom: '20px',
-  right: '20px',
-  zIndex: 6
+  display: 'block',
+  textAlign: 'center',
+  padding: 10,
+  background: APP_LIGHT_BG,
+  zIndex: 6,
+  '.sponsor-btn': {
+    padding: '0 30px'
+  }
 })
 
 interface SponsorButtonState {
@@ -80,10 +83,9 @@ class SponsorButton extends React.PureComponent<
     return (
       <React.Fragment>
         <FabCtr onClick={this.handleOpen}>
-          <Fab variant='extended' color='primary' aria-label='Delete'>
-            <NavigationIcon />
+          <Button className='sponsor-btn' variant='contained' color='primary'>
             {intl.formatMessage({ id: 'sponsor' })}
-          </Fab>
+          </Button>
         </FabCtr>
         <Dialog
           open={this.state.open}

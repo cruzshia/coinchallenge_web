@@ -2,21 +2,16 @@ import React from 'react'
 import { CheckCircle, Directions } from '@material-ui/icons'
 import styled from 'styled-components'
 import ProgressChart from './ProgressChart'
-import { Wave } from 'react-animated-text'
-import DonateImg from '@Src/images/donation-white.svg'
-import Podium from '@Src/images/podium.svg'
-import css from '../Challenge.module.css'
-import { APP_THEME_BACKGROUND, APP_FONT_COLOR } from '@Src/contants/themeColor'
+import { APP_LIGHT_BG, APP_FONT_COLOR_DARK } from '@Src/contants/themeColor'
 import { breakPoint } from '@Src/contants/common'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
-
-const PodiumImg = styled('img')({
-  width: 150
-})
+import { GradientFont } from '@Components/Styled/Common'
+import Tooltip from '@material-ui/core/Tooltip'
+import { withStyles, WithStyles } from '@material-ui/core/styles'
 
 const StyledFont = styled('div')({
   fontSize: '20px',
-  color: APP_FONT_COLOR,
+  color: APP_FONT_COLOR_DARK,
   textAlign: 'center',
   margin: '10px 0'
 })
@@ -35,19 +30,17 @@ const CrowdCtr = styled('div')({
   justifyContent: 'center'
 })
 
-const StyledText = styled('span')({
-  color: '#fff',
-  fontSize: '60px',
-  textAlign: 'center'
+const InfoBlk = styled('div')({
+  textAlign: 'center',
+  background: APP_LIGHT_BG
 })
-
 interface InfoCtrProp {
   bgcolor?: string
 }
 const StyledInfoCtr = styled('div')<InfoCtrProp>`
   display: flex;
   background: ${(props: InfoCtrProp) =>
-    props.bgcolor ? props.bgcolor : APP_THEME_BACKGROUND};
+    props.bgcolor ? props.bgcolor : APP_LIGHT_BG};
   justify-content: center;
   align-items: center;
   @media (max-width: ${breakPoint}) {
@@ -56,58 +49,97 @@ const StyledInfoCtr = styled('div')<InfoCtrProp>`
 `
 const Grid = styled('div')({
   width: '50%',
-  paddingBottom: '10px',
+  padding: '10px 0',
   [`@media (max-width: ${breakPoint})`]: {
     width: '100%'
   }
 })
-interface ChallengeInfoProp extends InjectedIntlProps {
+
+const InfoTxt = styled(GradientFont('div'))({
+  padding: 5,
+  fontSize: 30
+})
+
+const styles = (_theme: any) => ({
+  lightTooltip: {
+    fontSize: 20
+  }
+})
+
+const Address = styled('div')({
+  background: '#fff',
+  color: 'rgba(0, 0, 0, 0.4)',
+  padding: '10px 0'
+})
+
+const Amount = styled('div')({
+  fontSize: 40,
+  padding: '10px 0'
+})
+interface ChallengeInfoProp extends InjectedIntlProps, WithStyles {
+  address: string
   completeDays: number
   targetDays: number
   totalDays: number
-  percent: number
+  amount: number
 }
 
+const { REACT_APP_COIN } = process.env
+
 function ChallengeInfo({
+  address,
   completeDays,
   targetDays,
   totalDays,
-  percent,
-  intl
+  amount,
+  intl,
+  classes
 }: ChallengeInfoProp) {
   return (
-    <StyledInfoCtr>
-      <Grid>
-        <StyledFont>
-          <StyledIcon Icons={CheckCircle} />
-          {intl.formatMessage({ id: 'completeDays' })}: {completeDays}
-        </StyledFont>
-        <StyledFont>
-          <StyledIcon Icons={Directions} />
-          {intl.formatMessage({ id: 'targetDays' })}: {targetDays}
-        </StyledFont>
-        {percent === 100 ? (
-          <PodiumImg src={Podium} className={css.jumpAnimation} />
-        ) : (
-          <ProgressChart
-            style={{ margin: '0 auto' }}
-            width={160}
-            height={160}
-            value={percent}
-          />
-        )}
-      </Grid>
-      <Grid>
-        <CrowdCtr>
-          <img src={DonateImg} width='50%' />
-          <StyledText>
-            +
-            <Wave text='5000' speed={2} />
-          </StyledText>
-        </CrowdCtr>
-      </Grid>
-    </StyledInfoCtr>
+    <InfoBlk>
+      <Address>{address}</Address>
+      <Amount>
+        {amount} {REACT_APP_COIN}
+      </Amount>
+      <StyledInfoCtr>
+        <Grid>
+          <StyledFont>
+            <StyledIcon Icons={CheckCircle} />
+            {intl.formatMessage({ id: 'completeDays' })}: {completeDays}
+          </StyledFont>
+          <StyledFont>
+            <StyledIcon Icons={Directions} />
+            {intl.formatMessage({ id: 'totalDays' })}: {totalDays}
+          </StyledFont>
+        </Grid>
+        <Grid>
+          <CrowdCtr>
+            <ProgressChart
+              style={{ margin: '0 auto' }}
+              width={100}
+              height={100}
+              value={(completeDays / totalDays) * 100}
+            />
+          </CrowdCtr>
+        </Grid>
+      </StyledInfoCtr>
+
+      <InfoTxt>
+        Complete rate grater than {((targetDays / totalDays) * 100).toFixed(2)}%
+        can get{' '}
+        <Tooltip
+          title={`${amount} from bet , 0 from sponsor`}
+          placement='top'
+          classes={{ tooltip: classes.lightTooltip }}
+        >
+          <span style={{ fontSize: '30px' }}>
+            {amount}
+            {REACT_APP_COIN}
+          </span>
+        </Tooltip>
+      </InfoTxt>
+    </InfoBlk>
   )
 }
 
-export default injectIntl(ChallengeInfo)
+export default withStyles(styles)(injectIntl(ChallengeInfo))

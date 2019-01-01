@@ -6,9 +6,22 @@ import CreateChallengeGroup from '@Container/CreateChallengeGroup'
 import Challenge from '@Container/Challenge'
 
 import TranslateHoc from '@Src/translation'
-import { APP_FONT_COLOR } from '@Src/contants/themeColor'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { withTheme } from '@material-ui/core/styles'
+import { APP_FONT_COLOR, APP_THEME } from '@Src/contants/themeColor'
 import 'reset-css'
 import './app.css'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: APP_THEME
+    }
+  },
+  typography: {
+    useNextVariants: true
+  }
+})
 
 const Body = styled('div')({
   fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
@@ -28,18 +41,23 @@ class App extends Component {
   }
   public render() {
     return (
-      <Body>
-        <MainContainer>
-          <Home />
-          <Switch>
-            <Route path='/' exact component={CreateChallengeGroup} />
-            <Route path='/challenge/:groupId/:address' component={Challenge} />
-            <Route component={() => <Redirect to='/' />} />
-          </Switch>
-        </MainContainer>
-      </Body>
+      <MuiThemeProvider theme={theme}>
+        <Body>
+          <MainContainer>
+            <Home />
+            <Switch>
+              <Route path='/' exact component={CreateChallengeGroup} />
+              <Route
+                path='/challenge/:groupId/:address'
+                component={Challenge}
+              />
+              <Route component={() => <Redirect to='/' />} />
+            </Switch>
+          </MainContainer>
+        </Body>
+      </MuiThemeProvider>
     )
   }
 }
 
-export default TranslateHoc(App)
+export default withTheme()(TranslateHoc(App))

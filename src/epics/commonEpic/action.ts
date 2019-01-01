@@ -6,6 +6,8 @@ export const SET_CONTRACT = '@COMMON/SET_CONTRACT'
 export const SET_POPUP = '@COMMON/SET_POPUP'
 export const CHECK_WALLET = '@COMMON/CHECK_WALLET'
 
+export const SET_CONFIRM = '@COMMON/SET_CONFIRM'
+
 export const initContract = () => ({ type: INIT_CONTRACT })
 
 export const setContract = (payload: {
@@ -35,3 +37,13 @@ export const setPopup = (payload: SetPopProps) => ({
 })
 
 export const checkWallet = () => ({ type: CHECK_WALLET })
+
+export interface SetConfirmProp {
+  isConfirming: boolean
+  txHash?: string
+}
+
+export const setConfirm = (payload: SetConfirmProp) => ({
+  type: SET_CONFIRM,
+  payload
+})

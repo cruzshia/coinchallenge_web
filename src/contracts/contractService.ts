@@ -7,6 +7,20 @@ const STATUS = {
   Aborted: 2
 }
 
+interface GetGroupProp {
+  contract: Contract
+  groupId: string
+}
+
+export const getChallengeGroup = async (props: GetGroupProp) => {
+  const { contract, groupId } = props
+  const res = await contract.methods.getChallengeGroup(groupId).call()
+  return {
+    name: res._name,
+    url: res._url
+  }
+}
+
 interface GetChallengeEvevntProp {
   contract: Contract
   challenger: string

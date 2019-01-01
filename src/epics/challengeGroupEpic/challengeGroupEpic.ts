@@ -3,9 +3,8 @@ import { CREATE_CHALLENGE_GROUP, setCreateResult } from './action'
 import { ofType, ActionsObservable, StateObservable } from 'redux-observable'
 import { map, switchMap, catchError, filter } from 'rxjs/operators'
 import { from, of } from 'rxjs'
-import { ChallengeGroupType } from '@Src/typing/globalTypes'
 
-import { setPopup } from '../commonEpic/action'
+import { setPopup, setConfirm } from '../commonEpic/action'
 
 export const newChallengeGroupEpic = (
   action$: ActionsObservable<Action>,
@@ -16,16 +15,27 @@ export const newChallengeGroupEpic = (
     filter(() => state$.value.get('common').get('txContract') !== null),
     switchMap((action: Action) => {
       const commonReducer = state$.value.get('common')
-      const payload = action.payload as ChallengeGroupType
+      const payload = { ...action.payload } as any
       const [contract, address] = [
         commonReducer.get('txContract'),
         commonReducer.get('userAddress')
       ]
 
+      const dispatch = payload.dispatch
+      delete payload.dispatch
+
+      payload.minAmount = web3.utils.toWei(payload.minAmount, 'ether')
       return from(
         contract.methods
           .createChallengeGroup(...Object.values(payload), address)
-          .send({ from: address })
+          .send({ from: address }, (err: any, hash: string) => {
+            dispatch(
+              setConfirm({
+                isConfirming: true,
+                txHash: hash
+              })
+            )
+          })
       ).pipe(
         map((response: any) => {
           const challengeObject = {
@@ -39,7 +49,7 @@ export const newChallengeGroupEpic = (
             .createChallenge(...Object.values(challengeObject))
             .send({
               from: address,
-              value: 100000000
+              value: web3.utils.toWei('0.01', 'ether')
             })
             .on('error', function(error: any) {
               console.log(error)
@@ -65,6 +75,10 @@ export const newChallengeGroupEpic = (
             setPopup({
               showPop: true,
               popMessage: err.message
+            }),
+            setCreateResult({
+              response: {},
+              error: true
             })
           )
         })

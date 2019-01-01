@@ -1,6 +1,6 @@
 import React from 'react'
 import AppBar from '@material-ui/core/AppBar'
-import { APP_THEME_BACKGROUND, APP_FONT_COLOR } from '@Src/contants/themeColor'
+import { APP_THEME, APP_FONT_COLOR } from '@Src/contants/themeColor'
 import { withStyles } from '@material-ui/core/styles'
 
 const StyledAppBar = withStyles({
@@ -8,7 +8,7 @@ const StyledAppBar = withStyles({
     position: 'fixed',
     left: 0,
     top: 0,
-    background: APP_THEME_BACKGROUND,
+    background: APP_THEME,
     textAlign: 'center',
     lineHeight: '50px',
     color: APP_FONT_COLOR

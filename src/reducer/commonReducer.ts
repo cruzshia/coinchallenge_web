@@ -3,6 +3,7 @@ import {
   SET_CONTRACT,
   SET_POPUP,
   CHECK_WALLET,
+  SET_CONFIRM,
   SetPopProps
 } from '@Epics/commonEpic/action'
 import { GET_CAHLLENGE, SET_CAHLLENGE } from '@Epics/challengeEpic/action'
@@ -23,6 +24,8 @@ export type CommonState = {
   showPop: boolean
   popMessage: string
   messageKey: string | null
+  isConfirming: boolean
+  txHash?: string
   error: {
     code: number
     text: string
@@ -40,6 +43,8 @@ const stateMaker = Record<CommonState>({
   showPop: false,
   popMessage: '',
   messageKey: null,
+  isConfirming: false,
+  txHash: '',
   error: null
 })
 
@@ -89,7 +94,10 @@ const commonReducer = (state = initialState, action: Action) => {
       return state.set('loading', true)
     case SET_CAHLLENGE:
     case SET_CREATE_RESULT:
-      return state.set('loading', false)
+      return state.merge({
+        loading: false,
+        isConfirming: false
+      })
     case CHECK_WALLET:
       if (state.get('txContract') === null) {
         const url = getMetmaskUrl()
@@ -111,6 +119,12 @@ const commonReducer = (state = initialState, action: Action) => {
       }
 
       return state
+    case SET_CONFIRM:
+      const { isConfirming, txHash } = action.payload as any
+      return state.merge({
+        isConfirming,
+        txHash
+      })
     default:
       return state
   }

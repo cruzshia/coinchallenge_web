@@ -23,13 +23,20 @@ async function transfer(account: string | null) {
 }
 
 function newContract(web3Interface: Web3) {
-  return new web3Interface.eth.Contract(
-    CoinChallengs.abi,
-    '0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c',
-    {
-      gas: 4600000
-    }
-  )
+  let newContract = null
+  try {
+    newContract = new web3Interface.eth.Contract(
+      CoinChallengs.abi,
+      // '0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c',
+      '0xb461bac31fb00204baacf820efa19373e4b580d2',
+      {
+        gas: 4600000
+      }
+    )
+  } catch (err) {
+    console.log(err)
+  }
+  return newContract
 }
 
 export const initContractEpic = (action$: ActionsObservable<Action>) =>
@@ -38,6 +45,8 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
     switchMap(async () => {
       let accounts: string[]
       let txWeb3: Web3 | null = null
+
+      // web3.version.getNetwork
 
       try {
         let injectProvider
@@ -51,7 +60,10 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
         }
 
         const providers = new Web3().providers
-        injectProvider = new providers.WebsocketProvider('ws://localhost:7545')
+        // injectProvider = new providers.WebsocketProvider('ws://localhost:7545')
+        injectProvider = new providers.WebsocketProvider(
+          'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
+        )
 
         web3 = new Web3(injectProvider)
         accounts = txWeb3

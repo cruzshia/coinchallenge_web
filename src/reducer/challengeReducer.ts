@@ -18,7 +18,8 @@ const mockData = {
   targetDays: 0,
   totalDays: 20,
   startDayTimestamp: 1545221927571,
-  sponserSize: 0
+  sponserSize: 0,
+  amount: 0
 } as ChallengeType
 
 const stateMaker = Record<ChallengeState>({

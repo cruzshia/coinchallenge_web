@@ -70,7 +70,7 @@ class Home extends React.Component<Props & InjectedIntlProps> {
           {/* <DialogTitle id='alert-dialog-slide-title'>
             {"Use Google's location service?"}
           </DialogTitle> */}
-          <DialogContent>
+          <DialogContent style={{ wordBreak: 'break-all' }}>
             <DialogContentText id='alert-dialog-slide-description'>
               {messageKey ? intl.formatMessage({ id: messageKey }) : popMessage}
             </DialogContentText>

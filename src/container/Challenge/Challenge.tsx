@@ -25,7 +25,11 @@ import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
 
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 
-import { sponsorEvents, getPastSponsor } from '@Src/contracts/contractService'
+import {
+  sponsorEvents,
+  getPastSponsor,
+  getChallengeGroup
+} from '@Src/contracts/contractService'
 
 const ChallengeContainer = styled('div')({
   display: 'flex',
@@ -60,6 +64,9 @@ interface ChallengeProp
 
 interface ChallengeState {
   sponsors: Sponsor[]
+  url: string
+  name: string
+  loading: boolean
 }
 export interface RouteParams {
   address: string
@@ -102,7 +109,10 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     this.address = params.address
     this.groupId = params.groupId
     this.state = {
-      sponsors: []
+      sponsors: [],
+      url: '/static/media/pic.291e97a0.png',
+      name: '',
+      loading: true
     }
   }
 
@@ -122,6 +132,15 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
           groupId: this.groupId
         })
         this.fetched = true
+        const { url, name } = await getChallengeGroup({
+          contract,
+          groupId: this.groupId
+        })
+        this.setState({
+          name,
+          url,
+          loading: false
+        })
       } else if (!this.sponsorFetched && targetDays > 0) {
         const sponsorData = await getPastSponsor(contract, sponserSize)
         sponsorEvents({
@@ -166,16 +185,8 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   }
 
   public render() {
-    const {
-      completeDays,
-      totalDays,
-      targetDays,
-      startDayTimestamp,
-      intl
-    } = this.props
+    const { completeDays, totalDays, targetDays, amount, intl } = this.props
 
-    let percent = targetDays ? Math.floor((completeDays * 100) / targetDays) : 0
-    percent = percent > 100 ? 100 : percent
     return (
       <React.Fragment>
         <ChallengeContainer>
@@ -188,19 +199,21 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
             </title>
             <link rel='canonical' href='http://mysite.com/example' />
           </Helmet>
-          <SponsorButton onSponsor={this.onSponsor} intl={intl} />
           <StyledGridList>
             <ChallengeCard
-              address={this.address}
               groupId={this.groupId}
-              startDayTimestamp={startDayTimestamp}
+              name={this.state.name}
+              url={this.state.url}
+              loading={this.state.loading}
             />
             <ChallengeInfo
+              address={this.address}
               completeDays={completeDays}
               targetDays={targetDays}
               totalDays={totalDays}
-              percent={percent}
+              amount={amount}
             />
+            <SponsorButton onSponsor={this.onSponsor} intl={intl} />
             <Sponsers sponsors={this.state.sponsors} />
             <HistoryTimeline />
           </StyledGridList>

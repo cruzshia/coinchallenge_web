@@ -31,7 +31,8 @@ export const getChallengeEpic = (
             totalDays: Number(response[1]),
             completeDays: Number(response[2]),
             startDayTimestamp: Number(response[3]) * 1000 * 86400,
-            sponserSize: Number(response[5])
+            sponserSize: Number(response[5]),
+            amount: Number(web3.utils.fromWei(response._amount))
           } as ChallengeType
           return setChallenge(challenge)
         }),

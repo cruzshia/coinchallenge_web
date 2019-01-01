@@ -1,8 +1,8 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
-import { TouchApp } from '@material-ui/icons'
 import Button from '@material-ui/core/Button'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import Contract from 'web3/eth/contract'
 import { ChallengeGroupType } from '@Src/typing/globalTypes'
 import Logo from '@Src/images/logo.png'
@@ -15,11 +15,29 @@ import { CommonStateType } from '@Reducers/commonReducer'
 import { ChallengeGroupStateType } from '@Reducers/challengeGroupReducer'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 
+import { APP_THEME } from '@Src/contants/themeColor'
+
 const Form = styled('form')({
   display: 'flex',
   flexWrap: 'wrap',
   flexDirection: 'column',
-  alignItems: 'center'
+  alignItems: 'center',
+  '.textField': {
+    background: '#fff',
+    zIndex: 1,
+    '&:focus label': {
+      color: `${APP_THEME} !important`
+    }
+  },
+  '.button': {
+    backgroundColor: APP_THEME,
+    color: '#fff',
+    padding: '0 40px',
+    '&:hover': {
+      backgroundColor: APP_THEME,
+      opacity: 0.9
+    }
+  }
 })
 
 const Styles = {
@@ -33,11 +51,20 @@ const Styles = {
 
 const Icon = styled('img')({
   margin: '20px 0',
-  maxWidth: '200px'
+  maxWidth: '200px',
+  zIndex: 1
 })
 
 const LabelTxt = styled('span')({
   fontSize: '20px'
+})
+
+const WaitingBlk = styled('div')({
+  zIndex: 1,
+  '.progress': {
+    width: '100%',
+    margin: '15px 0'
+  }
 })
 
 function Label({ text }: { text: string }) {
@@ -46,6 +73,8 @@ function Label({ text }: { text: string }) {
 
 type CreateChallengeGroupProp = {
   contract: Contract | null
+  isConfirming: boolean
+  txHash?: string
   createResult: ChallengeGroupStateType
   newChallengeGroup: (payload: ChallengeGroupType) => void
   checkWallet: () => void
@@ -61,14 +90,22 @@ const mapStateToProps = (state: Map<string, object>) => {
   const commonReducer = state.get('common') as CommonStateType
   return {
     contract: commonReducer.get('contract'),
+    isConfirming: commonReducer.get('isConfirming'),
+    txHash: commonReducer.get('txHash'),
     createResult: state.get('challengeGroup') as ChallengeGroupStateType
   }
 }
 
-const mapDispatchToProps = (dispath: Dispatch) => ({
-  checkWallet: () => dispath(checkWallet()),
-  newChallengeGroup: (payload: ChallengeGroupType) =>
-    dispath(newChallengeGroup(payload))
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  checkWallet: () => dispatch(checkWallet()),
+  newChallengeGroup: (payload: ChallengeGroupType) => {
+    dispatch(
+      newChallengeGroup({
+        ...payload,
+        dispatch
+      })
+    )
+  }
 })
 
 class CreateChallengeGroup extends React.Component<
@@ -138,7 +175,7 @@ class CreateChallengeGroup extends React.Component<
 
   public render() {
     const { challengeGroup, error } = this.state
-    const { intl } = this.props
+    const { intl, isConfirming, txHash } = this.props
 
     return (
       <Form noValidate autoComplete='off'>
@@ -147,6 +184,7 @@ class CreateChallengeGroup extends React.Component<
           label={
             <Label text={intl.formatMessage({ id: 'challengeGroupId' })} />
           }
+          className='textField'
           margin='normal'
           variant='outlined'
           placeholder='e.g: com.coin.challenge'
@@ -161,6 +199,7 @@ class CreateChallengeGroup extends React.Component<
           label={
             <Label text={intl.formatMessage({ id: 'challengeGroupName' })} />
           }
+          className='textField'
           margin='normal'
           variant='outlined'
           value={challengeGroup.name}
@@ -174,6 +213,7 @@ class CreateChallengeGroup extends React.Component<
           label={
             <Label text={intl.formatMessage({ id: 'challengeGroupCover' })} />
           }
+          className='textField'
           margin='normal'
           variant='outlined'
           value={challengeGroup.url}
@@ -187,6 +227,7 @@ class CreateChallengeGroup extends React.Component<
           label={
             <Label text={intl.formatMessage({ id: 'minChallengeDays' })} />
           }
+          className='textField'
           type='number'
           margin='normal'
           variant='outlined'
@@ -203,6 +244,7 @@ class CreateChallengeGroup extends React.Component<
           label={
             <Label text={intl.formatMessage({ id: 'maxChallengeDays' })} />
           }
+          className='textField'
           type='number'
           margin='normal'
           variant='outlined'
@@ -217,6 +259,7 @@ class CreateChallengeGroup extends React.Component<
 
         <TextField
           label={<Label text={intl.formatMessage({ id: 'maxDelayDays' })} />}
+          className='textField'
           type='number'
           margin='normal'
           value={challengeGroup.maxDelayDays}
@@ -233,6 +276,7 @@ class CreateChallengeGroup extends React.Component<
           label={
             <Label text={intl.formatMessage({ id: 'minChallengeAmount' })} />
           }
+          className='textField'
           type='number'
           margin='normal'
           value={challengeGroup.minAmount}
@@ -244,9 +288,19 @@ class CreateChallengeGroup extends React.Component<
           required
         />
         <br />
-        <Button variant='contained' color='default' onClick={this.onSubmit}>
+        {isConfirming ? (
+          <WaitingBlk>
+            <a
+              href={`https://ropsten.etherscan.io/tx/${txHash}`}
+              target='_blank'
+            >
+              Transaction is waiting for confirmation
+            </a>
+            <LinearProgress color='secondary' className='progress' />
+          </WaitingBlk>
+        ) : null}
+        <Button variant='contained' className='button' onClick={this.onSubmit}>
           Create
-          <TouchApp />
         </Button>
       </Form>
     )
