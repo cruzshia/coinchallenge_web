@@ -15,7 +15,7 @@ import Notifier from './components/Notifier'
 import { breakPoint } from '@Src/contants/common'
 
 import Contract from 'web3/eth/contract'
-import { checkWallet } from '@Epics/commonEpic/action'
+import { checkWallet, setPopup, SetPopProps } from '@Epics/commonEpic/action'
 import {
   getChallenge,
   sponserChallenge,
@@ -24,6 +24,7 @@ import {
 import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
 
 import { injectIntl, InjectedIntlProps } from 'react-intl'
+import LinearProgress from '@material-ui/core/LinearProgress'
 
 import {
   sponsorEvents,
@@ -56,17 +57,20 @@ interface ChallengeProp
   contract: Contract | null
   account: string | null
   error: boolean
+  isCofirmingSponsor: boolean
+  txhash: string
   fetchChallenge: (data: RouteParams) => void
   sponserChallenge: (payload: SponserProp) => void
   setChallengeSponsersAction: (sponsors: Sponsor[]) => void
   checkWallet: () => void
+  setPopup: (payload: SetPopProps) => void
 }
 
 interface ChallengeState {
   sponsors: Sponsor[]
   url: string
   name: string
-  loading: boolean
+  invalidAddress: boolean
 }
 export interface RouteParams {
   address: string
@@ -93,8 +97,14 @@ const mapDispathToProps = (dispatch: Dispatch) => ({
       })
     ),
   sponserChallenge: (payload: SponserProp) =>
-    dispatch(sponserChallenge(payload)),
-  checkWallet: () => dispatch(checkWallet())
+    dispatch(
+      sponserChallenge({
+        ...payload,
+        dispatch
+      })
+    ),
+  checkWallet: () => dispatch(checkWallet()),
+  setPopup: (payload: SetPopProps) => dispatch(setPopup(payload))
 })
 
 class Challenge extends React.Component<ChallengeProp, ChallengeState> {
@@ -110,9 +120,9 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     this.groupId = params.groupId
     this.state = {
       sponsors: [],
-      url: '/static/media/pic.291e97a0.png',
+      url: '',
       name: '',
-      loading: true
+      invalidAddress: false
     }
   }
 
@@ -124,7 +134,26 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   }
 
   private async checkAndFetch() {
-    const { contract, fetchChallenge, sponserSize, targetDays } = this.props
+    const {
+      contract,
+      fetchChallenge,
+      sponserSize,
+      targetDays,
+      setPopup
+    } = this.props
+    const isValid = await web3.utils.isAddress(this.address)
+    if (!isValid && !this.fetched) {
+      setPopup({
+        showPop: true,
+        messageKey: 'invalidAddress'
+      })
+      this.setState({
+        invalidAddress: true
+      })
+      this.fetched = true
+      return
+    }
+
     if (contract) {
       if (!this.fetched) {
         fetchChallenge({
@@ -138,8 +167,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
         })
         this.setState({
           name,
-          url,
-          loading: false
+          url
         })
       } else if (!this.sponsorFetched && targetDays > 0) {
         const sponsorData = await getPastSponsor(contract, sponserSize)
@@ -185,7 +213,15 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   }
 
   public render() {
-    const { completeDays, totalDays, targetDays, amount, intl } = this.props
+    const {
+      completeDays,
+      totalDays,
+      targetDays,
+      amount,
+      intl,
+      isCofirmingSponsor,
+      txhash
+    } = this.props
 
     return (
       <React.Fragment>
@@ -204,7 +240,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
               groupId={this.groupId}
               name={this.state.name}
               url={this.state.url}
-              loading={this.state.loading}
+              invalidAddress={this.state.invalidAddress}
             />
             <ChallengeInfo
               address={this.address}
@@ -212,8 +248,10 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
               targetDays={targetDays}
               totalDays={totalDays}
               amount={amount}
+              invalidAddress={this.state.invalidAddress}
             />
             <SponsorButton onSponsor={this.onSponsor} intl={intl} />
+            {isCofirmingSponsor ? <LinearProgress /> : null}
             <Sponsers sponsors={this.state.sponsors} />
             <HistoryTimeline />
           </StyledGridList>

@@ -24,5 +24,11 @@
     "startChallengeTitle": "Start a {name} challenge",
     "startChallengeDesc": "Challenger start a challenge which need complete {targetDays} days in {totalDays} days.",
     "finishChallengeDesc": "Finish a {name} challenge",
-    "successChallengeDesc": "Challenge succeed! Complete rate: {rate}"
+    "successChallengeDesc": "Challenge succeed! Complete rate: {rate}",
+    "createGroupError": "Create group failed. Duplicated group id.",
+    "invalidAddress": "invalid address",
+    "connectNotOpen": "Didn't connect to contract, please refresh page or try again later.",
+    "userDenied": "user denied transaction",
+    "createSuccess": "create challenge group success!",
+    "challengeNotFound": "Challenge not found or has finished."
 }

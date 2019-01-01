@@ -145,7 +145,7 @@ export const sponsorEvents = async ({
       fromBlock: fromBlock ? fromBlock + 1 : fromBlock
     })
     .on('data', function(event) {
-      console.log(event)
+      console.log('sponsor', event)
       if (callback) {
         const { amount, comment, who } = event.returnValues
         callback({

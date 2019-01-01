@@ -3,7 +3,10 @@ import { SET_CREATE_RESULT } from '@Epics/challengeGroupEpic/action'
 import { Record, RecordOf } from 'immutable'
 
 export type ChallengeGroupState = {
-  response: object
+  response: {
+    status?: number
+    gasUsed?: number
+  }
   error: boolean
 }
 

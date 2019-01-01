@@ -24,5 +24,11 @@
     "startChallengeTitle": "發起了一個{name}挑戰",
     "startChallengeDesc": "挑戰者發起了一個挑戰需要在{totalDays}天內完成共{targetDays}天.",
     "finishChallengeDesc": "完成了一個{name}挑戰",
-    "successChallengeDesc": "挑戰成功！ 完成率: {rate}"
+    "successChallengeDesc": "挑戰成功！ 完成率: {rate}",
+    "createGroupError": "創建挑戰群組失敗。重複的群組ID",
+    "invalidAddress": "不合法的地址",
+    "connectNotOpen": "未連接智能合約。請重新整理頁面",
+    "userDenied": "使用者拒絕交易",
+    "createSuccess": "挑戰群組創建成功！",
+    "challengeNotFound": "挑戰不存在或已結束"
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 // import { FormattedMessage } from 'react-intl'
 import { breakPoint } from '@Src/contants/common'
-import LoadingImg from '@Src/images/loading.gif'
+import LogoImg from '@Src/images/logo.png'
 
 const StyledTtitleCtr = styled('div')({
   position: 'relative',
@@ -19,20 +19,30 @@ const StyledTitle = styled('span')({
   lineHeight: '30px',
   width: '100%'
 })
+
+const Logo = styled('img')({
+  display: 'block',
+  width: '50%',
+  margin: '0 auto'
+})
 interface ChallengeCardProp {
   groupId: string
   name: string
   url: string
-  loading: boolean
+  invalidAddress: boolean
 }
 
 const ChallengeCard = React.memo(
-  ({ groupId, name, url, loading }: ChallengeCardProp) => (
+  ({ groupId, name, url, invalidAddress }: ChallengeCardProp) => (
     <React.Fragment>
       {/* <StyledFont>Challenger: {address}</StyledFont> */}
       <StyledTtitleCtr>
-        <StyledTitle>{loading ? groupId : name}</StyledTitle>
-        <img src={loading ? LoadingImg : url} width='100%' />
+        <StyledTitle>{invalidAddress ? '' : name}</StyledTitle>
+        {invalidAddress ? (
+          <Logo src={LogoImg} />
+        ) : (
+          <img src={url} width='100%' />
+        )}
       </StyledTtitleCtr>
     </React.Fragment>
   )

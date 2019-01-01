@@ -1,5 +1,6 @@
 import { ChallengeType } from '@Src/typing/globalTypes'
 import { Sponsor } from '@Src/typing/globalTypes'
+import { Dispatch } from 'redux'
 
 interface GetChallengeProp {
   groupId: string
@@ -15,12 +16,19 @@ export interface SponserProp {
   who: string
   comment: string
   amount: number
+  dispatch?: Dispatch
 }
 
-export const GET_CAHLLENGE = 'GET_CAHLLENGE'
-export const SET_CAHLLENGE = 'SET_CAHLLENGE'
-export const SET_CAHLLENGE_SPONSERS = 'SET_CAHLLENGE_SPONSERS'
-export const SPONSER_CHALLENGE = 'SPONSER_CHALLENGE'
+export interface SetConfirmSponsor {
+  isCofirmingSponsor: boolean
+  txhash: string
+}
+
+export const GET_CAHLLENGE = '@CAHLLENGE/GET_CAHLLENGE'
+export const SET_CAHLLENGE = '@CAHLLENGE/SET_CAHLLENGE'
+export const SET_CAHLLENGE_SPONSERS = '@CAHLLENGE/SET_CAHLLENGE_SPONSERS'
+export const SPONSER_CHALLENGE = '@CAHLLENGE/SPONSER_CHALLENGE'
+export const SET_COFIRM_SPONSOR = '@CAHLLENGE/SET_COFIRM_SPONSOR'
 
 export const sponserChallenge = (payload: SponserProp) => ({
   type: SPONSER_CHALLENGE,
@@ -39,5 +47,10 @@ export const setChallenge = (payload: ChallengeType) => ({
 
 export const setChallengeSponsers = (payload: SetSponserProp) => ({
   type: SET_CAHLLENGE_SPONSERS,
+  payload
+})
+
+export const setConfirmSponsor = (payload: SetConfirmSponsor) => ({
+  type: SET_COFIRM_SPONSOR,
   payload
 })

@@ -9,7 +9,11 @@ import Logo from '@Src/images/logo.png'
 
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { newChallengeGroup } from '@Epics/challengeGroupEpic/action'
+import {
+  newChallengeGroup,
+  setCreateResult,
+  SetResultProp
+} from '@Epics/challengeGroupEpic/action'
 import { checkWallet } from '@Epics/commonEpic/action'
 import { CommonStateType } from '@Reducers/commonReducer'
 import { ChallengeGroupStateType } from '@Reducers/challengeGroupReducer'
@@ -71,6 +75,16 @@ function Label({ text }: { text: string }) {
   return <LabelTxt>{text}</LabelTxt>
 }
 
+const defaultGroupState = {
+  id: '',
+  name: '',
+  url: '',
+  minDays: '',
+  maxDays: '',
+  maxDelayDays: '',
+  minAmount: ''
+}
+
 type CreateChallengeGroupProp = {
   contract: Contract | null
   isConfirming: boolean
@@ -78,6 +92,7 @@ type CreateChallengeGroupProp = {
   createResult: ChallengeGroupStateType
   newChallengeGroup: (payload: ChallengeGroupType) => void
   checkWallet: () => void
+  setCreateResult: (payload: SetResultProp) => void
 }
 
 type ErrorProp = { [s in keyof ChallengeGroupType]?: boolean }
@@ -98,6 +113,8 @@ const mapStateToProps = (state: Map<string, object>) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   checkWallet: () => dispatch(checkWallet()),
+  setCreateResult: (payload: SetResultProp) =>
+    dispatch(setCreateResult(payload)),
   newChallengeGroup: (payload: ChallengeGroupType) => {
     dispatch(
       newChallengeGroup({
@@ -117,15 +134,7 @@ class CreateChallengeGroup extends React.Component<
   }
 
   public state = {
-    challengeGroup: {
-      id: '',
-      name: '',
-      url: '',
-      minDays: '',
-      maxDays: '',
-      maxDelayDays: '',
-      minAmount: ''
-    } as ChallengeGroupType,
+    challengeGroup: { ...defaultGroupState } as ChallengeGroupType,
     error: {} as ErrorProp
   }
 
@@ -171,6 +180,17 @@ class CreateChallengeGroup extends React.Component<
   private onSubmit = () => {
     this.props.checkWallet()
     this.props.newChallengeGroup(this.state.challengeGroup)
+  }
+
+  public componentDidUpdate() {
+    const response = this.props.createResult.get('response')
+    if (response.status) {
+      this.props.setCreateResult({
+        response: {},
+        error: false
+      })
+      this.setState({ challengeGroup: defaultGroupState })
+    }
   }
 
   public render() {

@@ -6,7 +6,7 @@ export const newChallengeGroup = (payload: object) => ({
   payload
 })
 
-interface SetResultProp {
+export interface SetResultProp {
   response: {
     status?: boolean
     gasUsed?: number

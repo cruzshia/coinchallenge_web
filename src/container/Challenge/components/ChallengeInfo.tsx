@@ -82,6 +82,7 @@ interface ChallengeInfoProp extends InjectedIntlProps, WithStyles {
   targetDays: number
   totalDays: number
   amount: number
+  invalidAddress: boolean
 }
 
 const { REACT_APP_COIN } = process.env
@@ -93,11 +94,12 @@ function ChallengeInfo({
   totalDays,
   amount,
   intl,
-  classes
+  classes,
+  invalidAddress
 }: ChallengeInfoProp) {
   return (
     <InfoBlk>
-      <Address>{address}</Address>
+      <Address>{invalidAddress ? '--' : address}</Address>
       <Amount>
         {amount} {REACT_APP_COIN}
       </Amount>
@@ -118,14 +120,15 @@ function ChallengeInfo({
               style={{ margin: '0 auto' }}
               width={100}
               height={100}
-              value={(completeDays / totalDays) * 100}
+              value={totalDays ? (completeDays / totalDays) * 100 : 0}
             />
           </CrowdCtr>
         </Grid>
       </StyledInfoCtr>
 
       <InfoTxt>
-        Complete rate grater than {((targetDays / totalDays) * 100).toFixed(2)}%
+        Complete rate grater than{' '}
+        {totalDays ? ((targetDays / totalDays) * 100).toFixed(2) + '%' : '--'}
         can get{' '}
         <Tooltip
           title={`${amount} from bet , 0 from sponsor`}

@@ -2,6 +2,8 @@ import { Action } from '@Src/typing/globalTypes'
 import {
   SET_CAHLLENGE,
   SET_CAHLLENGE_SPONSERS,
+  SET_COFIRM_SPONSOR,
+  SetConfirmSponsor,
   SetSponserProp
 } from '@Epics/challengeEpic/action'
 import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
@@ -9,6 +11,8 @@ import { Record, RecordOf } from 'immutable'
 
 export type ChallengeState = {
   sponsers: Array<Sponsor>
+  isCofirmingSponsor: boolean
+  txhash: string
 } & ChallengeType
 
 export type ChallengeStateType = RecordOf<ChallengeState>
@@ -24,7 +28,9 @@ const mockData = {
 
 const stateMaker = Record<ChallengeState>({
   ...mockData,
-  sponsers: []
+  sponsers: [],
+  isCofirmingSponsor: false,
+  txhash: ''
 })
 
 export const initialState = stateMaker()
@@ -39,6 +45,13 @@ const challengeReducer = (state = initialState, action: Action) => {
     case SET_CAHLLENGE_SPONSERS:
       const payload = action.payload as SetSponserProp
       return state.set('sponsers', payload.sponsors)
+
+    case SET_COFIRM_SPONSOR:
+      const { isCofirmingSponsor, txhash } = action.payload as SetConfirmSponsor
+      return state.merge({
+        isCofirmingSponsor,
+        txhash
+      })
     default:
       return state
   }
