@@ -20,7 +20,7 @@ export type ChallengeStateType = RecordOf<ChallengeState>
 const mockData = {
   completeDays: 0,
   targetDays: 0,
-  totalDays: 20,
+  totalDays: 0,
   startDayTimestamp: 1545221927571,
   sponserSize: 0,
   amount: 0

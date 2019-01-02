@@ -220,7 +220,8 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       amount,
       intl,
       isCofirmingSponsor,
-      txhash
+      txhash,
+      contract
     } = this.props
 
     return (
@@ -253,10 +254,10 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
             <SponsorButton onSponsor={this.onSponsor} intl={intl} />
             {isCofirmingSponsor ? <Transaction txHash={txhash} /> : null}
             <Sponsers sponsors={this.state.sponsors} />
-            <HistoryTimeline />
+            <HistoryTimeline contract={contract} challenger={this.address} />
           </StyledGridList>
         </ChallengeContainer>
-        <Notifier />
+        <Notifier contract={contract} />
       </React.Fragment>
     )
   }

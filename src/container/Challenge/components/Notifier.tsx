@@ -5,7 +5,8 @@ import CloseIcon from '@material-ui/icons/Close'
 import styled from 'styled-components'
 import Contract from 'web3/eth/contract'
 import { newChallengesEvents } from '@Src/contracts/contractService'
-
+import { ChallengeType } from '@Src/typing/globalTypes'
+import { withStyles, WithStyles } from '@material-ui/core/styles'
 interface MessageProp {
   key: number
   message: ReactNode
@@ -16,12 +17,28 @@ interface NotifierState {
   messageInfo: MessageProp | {}
 }
 
+interface ChallengeEvent extends ChallengeType {
+  proposer: string
+}
+
 const StyledTxt = styled('span')({
   color: '#e10050'
 })
 
-class Notifier extends React.Component<{}, NotifierState> {
+const style = {
+  message: {
+    maxWidth: '85%'
+  }
+}
+
+const { REACT_APP_COIN } = process.env
+
+class Notifier extends React.Component<
+  { contract: Contract | null } & WithStyles,
+  NotifierState
+> {
   private queue: Array<MessageProp> = []
+  private registered: boolean = false
 
   public state = {
     open: false,
@@ -48,23 +65,35 @@ class Notifier extends React.Component<{}, NotifierState> {
     this.processQueue()
   }
 
-  public componentDidMount() {
-    setInterval(() => {
-      this.queue.push({
-        key: Math.random(),
-        message: (
-          <span>
-            {Math.random()} has created a {<StyledTxt>walk</StyledTxt>}{' '}
-            challenge
-          </span>
-        )
+  private insertEvent = (props: ChallengeEvent) => {
+    const { proposer, amount } = props
+    this.queue.push({
+      key: Math.random(),
+      message: (
+        <span>
+          {proposer} has created a challenge with{' '}
+          <StyledTxt>{amount}</StyledTxt>
+          {REACT_APP_COIN}
+        </span>
+      )
+    })
+    this.processQueue()
+  }
+
+  public componentDidUpdate() {
+    const { contract } = this.props
+    if (contract && !this.registered) {
+      this.registered = true
+      newChallengesEvents({
+        contract,
+        callback: this.insertEvent
       })
-      this.processQueue()
-    }, 3000)
+    }
   }
 
   public render() {
     const { messageInfo } = this.state
+    const { classes } = this.props
 
     return (
       <Snackbar
@@ -78,7 +107,8 @@ class Notifier extends React.Component<{}, NotifierState> {
         onClose={this.handleClose}
         onExited={this.handleExited}
         ContentProps={{
-          'aria-describedby': 'message-id'
+          'aria-describedby': 'message-id',
+          classes
         }}
         message={messageInfo.message}
         action={[
@@ -96,4 +126,4 @@ class Notifier extends React.Component<{}, NotifierState> {
   }
 }
 
-export default Notifier
+export default withStyles(style)(Notifier)

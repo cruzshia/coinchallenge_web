@@ -57,6 +57,7 @@ export const newChallengeGroupEpic = (
           })
       ).pipe(
         mergeMap((response: any) => {
+          window.contract = contract
           const challengeObject = {
             groupId: payload.id,
             targetDays: payload.minDays,
