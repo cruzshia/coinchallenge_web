@@ -1,54 +1,25 @@
 import React from 'react'
 import {
-  VerticalTimeline,
-  VerticalTimelineElement
-} from 'react-vertical-timeline-component'
-import 'react-vertical-timeline-component/style.min.css'
-
-import { APP_THEME, APP_LIGHT_BG } from '@Src/contants/themeColor'
+  APP_THEME,
+  APP_LIGHT_BG,
+  APP_FONT_COLOR_DARK
+} from '@Src/contants/themeColor'
 import styled from 'styled-components'
 
-import Beenhere from '@material-ui/icons/Beenhere'
-import Terrain from '@material-ui/icons/Terrain'
-import MoodBad from '@material-ui/icons/MoodBad'
-
 import { injectIntl, InjectedIntlProps } from 'react-intl'
+import { PieChart } from 'react-d3-components'
 import Contract from 'web3/eth/contract'
 import { getPastChallenges } from '@Src/contracts/contractService'
 import { ChallengeType } from '@Src/typing/globalTypes'
+
 const TimelineCtr = styled('div')({
   background: APP_LIGHT_BG,
-  '.vertical-timeline::before': {
-    background: '#aab9c2'
+  display: 'flex',
+  justifyContent: 'center',
+  text: {
+    color: APP_FONT_COLOR_DARK
   }
 })
-
-const IconStyle = {
-  start: {
-    background: APP_THEME,
-    color: '#fff',
-    shadow: APP_THEME,
-    icon: <Terrain />
-  },
-  success: {
-    background: '#fecd00',
-    color: '#fff',
-    shadow: '#fecd00',
-    icon: <Beenhere />
-  },
-  failed: {
-    background: '#34495d',
-    color: '#fff',
-    shadow: '#34495d',
-    icon: <MoodBad />
-  }
-}
-
-const StyledVerticalTimelineElement = styled(VerticalTimelineElement)`
-  .vertical-timeline-element-content {
-    box-shadow: 0 3px 0 ${(props: any) => props.iconStyle.shadow}
-  }
-}`
 
 interface TimelineProp extends InjectedIntlProps {
   contract: Contract | null
@@ -57,6 +28,19 @@ interface TimelineProp extends InjectedIntlProps {
 
 interface TimelineState {
   challenges: ChallengeType[]
+}
+
+const data = {
+  values: [{ x: 'success', y: 20 }, { x: 'failed', y: 4 }, { x: 'abort', y: 3 }]
+}
+
+function color(label: string) {
+  if (label.indexOf('success') >= 0) {
+    return '#ff7473'
+  } else if (label.indexOf('failed') >= 0) {
+    return '#47b8e0'
+  }
+  return '#ffc952'
 }
 
 class HistoryTimeline extends React.PureComponent<TimelineProp, TimelineState> {
@@ -78,57 +62,19 @@ class HistoryTimeline extends React.PureComponent<TimelineProp, TimelineState> {
     const { intl } = this.props
     return (
       <TimelineCtr>
-        <VerticalTimeline>
-          <StyledVerticalTimelineElement
-            iconStyle={IconStyle.success}
-            icon={IconStyle.success.icon}
-          >
-            <h3 className='vertical-timeline-element-title'>
-              {intl.formatMessage(
-                { id: 'finishChallengeDesc' },
-                { name: 'walk' }
-              )}
-            </h3>
-            <h4 className='vertical-timeline-element-subtitle'>2018/12/10</h4>
-            <p>
-              {intl.formatMessage(
-                { id: 'successChallengeDesc' },
-                { rate: '120%' }
-              )}
-            </p>
-          </StyledVerticalTimelineElement>
-          <StyledVerticalTimelineElement
-            iconStyle={IconStyle.start}
-            icon={IconStyle.start.icon}
-          >
-            <h3 className='vertical-timeline-element-title'>
-              {intl.formatMessage(
-                { id: 'startChallengeTitle' },
-                { name: 'walk' }
-              )}
-            </h3>
-            <h4 className='vertical-timeline-element-subtitle'>2018/12/08</h4>
-            <p>
-              {intl.formatMessage(
-                { id: 'startChallengeDesc' },
-                { targetDays: '10', totalDays: '15' }
-              )}
-              <br />
-              0.345 {process.env.REACT_APP_COIN}
-            </p>
-          </StyledVerticalTimelineElement>
-
-          {/* <StyledVerticalTimelineElement
-            iconStyle={IconStyle.failed}
-            icon={IconStyle.failed.icon}
-          >
-            <h3 className='vertical-timeline-element-title'>
-              Content Marketing for Web, Mobile and Social Media
-            </h3>
-            <h4 className='vertical-timeline-element-subtitle'>Online Course</h4>
-            <p>Strategy, Social Media</p>
-          </StyledVerticalTimelineElement> */}
-        </VerticalTimeline>
+        <PieChart
+          data={data}
+          colorScale={(label: string) => color(label)}
+          x={(data: any) => `${data.x}:${data.y}`}
+          width={600}
+          height={400}
+          margin={{ top: 10, bottom: 10, left: 100, right: 100 }}
+          fill='red'
+          string
+          tooltipHtml={(x: string) => (
+            <span style={{ color: '#34314c' }}>{x}</span>
+          )}
+        />
       </TimelineCtr>
     )
   }
