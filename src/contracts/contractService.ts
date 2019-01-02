@@ -21,28 +21,49 @@ export const getChallengeGroup = async (props: GetGroupProp) => {
   }
 }
 
-interface GetChallengeEvevntProp {
-  contract: Contract
-  challenger: string
-}
-
 interface GetChallengeProp {
   contract: Contract
   groupId: string
   challenger: string
 }
 
-export const getAllChallenges = async ({
+interface GetChallengeEvevntProp {
+  contract: Contract
+  filter?: {
+    challenger?: string
+  }
+  callback?: Function
+}
+
+export const newChallengesEvents = async ({
   contract,
-  challenger
+  filter,
+  callback
 }: GetChallengeEvevntProp) => {
   await contract.events.NewChallenge(
     {
-      filter: { proposer: challenger },
+      filter,
       fromBlock: 0
     },
     function(_error: any, event: any) {
       console.log('event,', event)
+      const {
+        proposer,
+        groupId,
+        targetDays,
+        totalDays,
+        startDayTimestamp,
+        amount
+      } = event.returnValues
+      callback &&
+        callback({
+          proposer,
+          groupId,
+          targetDays,
+          totalDays,
+          startDayTimestamp,
+          amount
+        })
     }
   )
 }

@@ -24,7 +24,7 @@ import {
 import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
 
 import { injectIntl, InjectedIntlProps } from 'react-intl'
-import LinearProgress from '@material-ui/core/LinearProgress'
+import Transaction from '@Components/Transaction'
 
 import {
   sponsorEvents,
@@ -170,6 +170,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
           url
         })
       } else if (!this.sponsorFetched && targetDays > 0) {
+        this.sponsorFetched = true
         const sponsorData = await getPastSponsor(contract, sponserSize)
         sponsorEvents({
           contract,
@@ -177,7 +178,6 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
           fromBlock: sponsorData.blockNumber,
           callback: this.onNewSponsor
         })
-        this.sponsorFetched = true
         this.setState({
           sponsors: sponsorData.data
         })
@@ -251,7 +251,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
               invalidAddress={this.state.invalidAddress}
             />
             <SponsorButton onSponsor={this.onSponsor} intl={intl} />
-            {isCofirmingSponsor ? <LinearProgress /> : null}
+            {isCofirmingSponsor ? <Transaction txHash={txhash} /> : null}
             <Sponsers sponsors={this.state.sponsors} />
             <HistoryTimeline />
           </StyledGridList>

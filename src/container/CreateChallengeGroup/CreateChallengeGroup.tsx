@@ -2,7 +2,6 @@ import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
-import LinearProgress from '@material-ui/core/LinearProgress'
 import Contract from 'web3/eth/contract'
 import { ChallengeGroupType } from '@Src/typing/globalTypes'
 import Logo from '@Src/images/logo.png'
@@ -19,6 +18,7 @@ import { CommonStateType } from '@Reducers/commonReducer'
 import { ChallengeGroupStateType } from '@Reducers/challengeGroupReducer'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 
+import Transaction from '@Components/Transaction'
 import { APP_THEME } from '@Src/contants/themeColor'
 
 const Form = styled('form')({
@@ -310,13 +310,7 @@ class CreateChallengeGroup extends React.Component<
         <br />
         {isConfirming ? (
           <WaitingBlk>
-            <a
-              href={`https://ropsten.etherscan.io/tx/${txHash}`}
-              target='_blank'
-            >
-              Transaction is waiting for confirmation
-            </a>
-            <LinearProgress color='secondary' className='progress' />
+            <Transaction txHash={txHash} classNames='progress' />
           </WaitingBlk>
         ) : null}
         <Button variant='contained' className='button' onClick={this.onSubmit}>

@@ -128,7 +128,7 @@ function ChallengeInfo({
 
       <InfoTxt>
         Complete rate grater than{' '}
-        {totalDays ? ((targetDays / totalDays) * 100).toFixed(2) + '%' : '--'}
+        {totalDays ? ((targetDays / totalDays) * 100).toFixed(2) + '% ' : '-- '}
         can get{' '}
         <Tooltip
           title={`${amount} from bet , 0 from sponsor`}

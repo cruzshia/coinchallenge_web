@@ -7,7 +7,11 @@ import CoinChallengs from '@Src/contracts/CoinChallenges.json'
 import { NO_PROVIDER } from '@Src/contants/errorCode'
 
 async function transfer(account: string | null) {
-  if (!account || typeof location === 'undefined') {
+  if (
+    !account ||
+    typeof location === 'undefined' ||
+    location.href.indexOf('localhost') == -1
+  ) {
     return
   }
   var url = new URL(location.href)
@@ -46,8 +50,6 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
       let accounts: string[]
       let txWeb3: Web3 | null = null
 
-      // web3.version.getNetwork
-
       try {
         let injectProvider
         let txContract = null
@@ -57,6 +59,7 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
         } else {
           txWeb3 = new Web3(web3.currentProvider)
           txContract = newContract(txWeb3)
+          window.contract = txContract
         }
 
         const providers = new Web3().providers

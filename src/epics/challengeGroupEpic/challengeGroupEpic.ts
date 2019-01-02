@@ -2,7 +2,6 @@ import { Action } from '@Src/typing/globalTypes'
 import { CREATE_CHALLENGE_GROUP, setCreateResult } from './action'
 import { ofType, ActionsObservable, StateObservable } from 'redux-observable'
 import {
-  map,
   switchMap,
   mergeMap,
   catchError,
@@ -58,27 +57,25 @@ export const newChallengeGroupEpic = (
           })
       ).pipe(
         mergeMap((response: any) => {
-          // const challengeObject = {
-          //   groupId: payload.id,
-          //   targetDays: payload.minDays,
-          //   totalDays: payload.maxDays,
-          //   startTime: Math.floor(Date.now() / 1000)
-          // }
+          const challengeObject = {
+            groupId: payload.id,
+            targetDays: payload.minDays,
+            totalDays: payload.maxDays,
+            startTime: Math.floor(Date.now() / 1000)
+          }
 
-          // contract.methods
-          //   .createChallenge(...Object.values(challengeObject))
-          //   .send({
-          //     from: address,
-          //     value: web3.utils.toWei('0.01', 'ether')
-          //   })
-          //   .on('error', function(error: any) {
-          //     console.log(error)
-          //   })
-          //   .then((res: any) => {
-          //     console.log(222222)
-          //     console.log(res)
-          //     console.log('create challenge success!')
-          //   })
+          contract.methods
+            .createChallenge(...Object.values(challengeObject))
+            .send({
+              from: address,
+              value: web3.utils.toWei('0.01', 'ether')
+            })
+            .on('error', function(error: any) {
+              console.log(error)
+            })
+            .then((res: any) => {
+              console.log('create challenge success!')
+            })
 
           return of(
             setCreateResult({
