@@ -1,4 +1,5 @@
 import { detect } from 'detect-browser'
+import { Decimal } from 'decimal.js'
 const browser = detect()
 
 export const getMetmaskUrl = () => {
@@ -12,4 +13,11 @@ export const getMetmaskUrl = () => {
     default:
       return null
   }
+}
+
+export const formatPercent = (a: number, b: number) => {
+  if (b === 0) {
+    return '0.0'
+  }
+  return new Decimal((a * 100) / b).toPrecision(2)
 }

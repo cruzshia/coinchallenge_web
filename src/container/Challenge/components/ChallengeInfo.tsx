@@ -1,32 +1,37 @@
 import React from 'react'
-import { CheckCircle, Directions } from '@material-ui/icons'
 import styled from 'styled-components'
-import ProgressChart from './ProgressChart'
-import { APP_LIGHT_BG, APP_FONT_COLOR_DARK } from '@Src/contants/themeColor'
+import {
+  APP_LIGHT_BG,
+  APP_FONT_COLOR_DARK,
+  APP_THEME
+} from '@Src/contants/themeColor'
 import { breakPoint } from '@Src/contants/common'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
-import { GradientFont } from '@Components/Styled/Common'
 import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles, WithStyles } from '@material-ui/core/styles'
+import { formatPercent } from '@Src/utils'
 
-const StyledFont = styled('div')({
-  fontSize: '20px',
-  color: APP_FONT_COLOR_DARK,
-  textAlign: 'center',
-  margin: '10px 0'
+const StyledFont = styled('span')({
+  fontSize: '40px',
+  color: APP_THEME,
+  textAlign: 'center'
 })
 
-function StyledIcon({ Icons }: { Icons: React.ComponentType }) {
-  const NewStyledIcon = styled(Icons)({
-    verticalAlign: 'middle',
-    margin: '0 5px 4px 0'
-  })
-  return <NewStyledIcon />
-}
+const StyledUnitFont = styled('span')({
+  color: APP_FONT_COLOR_DARK,
+  opacity: 0.6
+})
+
+const StyledContent = styled('div')({
+  fontSize: 24,
+  color: APP_FONT_COLOR_DARK,
+  opacity: 0.6,
+  margin: '10px'
+})
 
 const CrowdCtr = styled('div')({
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'baseline',
   justifyContent: 'center'
 })
 
@@ -55,7 +60,8 @@ const Grid = styled('div')({
   }
 })
 
-const InfoTxt = styled(GradientFont('div'))({
+const InfoTxt = styled('div')({
+  color: APP_THEME,
   padding: 5,
   fontSize: 30
 })
@@ -93,8 +99,8 @@ function ChallengeInfo({
   targetDays,
   totalDays,
   amount,
-  intl,
   classes,
+  intl,
   invalidAddress
 }: ChallengeInfoProp) {
   return (
@@ -106,30 +112,24 @@ function ChallengeInfo({
       <StyledInfoCtr>
         <Grid>
           <StyledFont>
-            <StyledIcon Icons={CheckCircle} />
-            {intl.formatMessage({ id: 'completeDays' })}: {completeDays}
+            {completeDays}/{totalDays}
           </StyledFont>
-          <StyledFont>
-            <StyledIcon Icons={Directions} />
-            {intl.formatMessage({ id: 'totalDays' })}: {totalDays}
-          </StyledFont>
+          <StyledUnitFont> Days</StyledUnitFont>
         </Grid>
         <Grid>
           <CrowdCtr>
-            <ProgressChart
-              style={{ margin: '0 auto' }}
-              width={100}
-              height={100}
-              value={totalDays ? (completeDays / totalDays) * 100 : 0}
-            />
+            <StyledUnitFont>Achieve </StyledUnitFont>
+            <StyledFont>
+              &nbsp;{formatPercent(completeDays, totalDays)}%
+            </StyledFont>
           </CrowdCtr>
         </Grid>
       </StyledInfoCtr>
-
+      <StyledContent>
+        {intl.formatMessage({ id: 'sponsorContent' })}
+      </StyledContent>
       <InfoTxt>
-        Complete rate grater than{' '}
-        {totalDays ? ((targetDays / totalDays) * 100).toFixed(2) + '% ' : '-- '}
-        can get{' '}
+        Achieve rate grater than {formatPercent(targetDays, totalDays)}% can get{' '}
         <Tooltip
           title={`${amount} from bet , 0 from sponsor`}
           placement='top'
