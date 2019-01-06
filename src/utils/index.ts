@@ -21,3 +21,14 @@ export const formatPercent = (a: number, b: number) => {
   }
   return new Decimal((a * 100) / b).toPrecision(2)
 }
+
+export const isUrlValid = (url: string) => {
+  return url.match(
+    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+  )
+}
+
+export const formatNumber = (val: number) => {
+  val = val || 0
+  return new Decimal(val).toPrecision(5)
+}

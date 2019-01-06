@@ -10,7 +10,8 @@ import { injectIntl, InjectedIntlProps } from 'react-intl'
 import { PieChart } from 'react-d3-components'
 import Contract from 'web3/eth/contract'
 import { getPastChallenges } from '@Src/contracts/contractService'
-import { ChallengeType } from '@Src/typing/globalTypes'
+
+const STATUS = ['Succeeded', 'Failed', 'Aborted']
 
 const TimelineCtr = styled('div')({
   background: APP_LIGHT_BG,
@@ -26,12 +27,14 @@ interface TimelineProp extends InjectedIntlProps {
   challenger: string
 }
 
-interface TimelineState {
-  challenges: ChallengeType[]
+interface StatusData {
+  x: string
+  y: number
 }
-
-const data = {
-  values: [{ x: 'success', y: 20 }, { x: 'failed', y: 4 }, { x: 'abort', y: 3 }]
+interface TimelineState {
+  challengesStatus: {
+    values: StatusData[]
+  }
 }
 
 function color(label: string) {
@@ -46,24 +49,43 @@ function color(label: string) {
 class HistoryTimeline extends React.PureComponent<TimelineProp, TimelineState> {
   private fetched: boolean = false
   public state = {
-    challenges: []
+    challengesStatus: {
+      values: []
+    }
   }
-  public componentDidUpdate() {
+  public async componentDidUpdate() {
     const { contract, challenger } = this.props
     if (contract && !this.fetched) {
       this.fetched = true
-      getPastChallenges({
+      let values = []
+      const pastStatus: Number[] = await getPastChallenges({
         contract,
         challenger
+      })
+      for (let i = 0; i < pastStatus.length; i++) {
+        if (pastStatus[i]) {
+          values.push({
+            x: STATUS[i],
+            y: pastStatus[i]
+          } as StatusData)
+        }
+      }
+      this.setState({
+        challengesStatus: {
+          values
+        }
       })
     }
   }
   public render() {
-    const { intl } = this.props
+    const { challengesStatus } = this.state
+    if (!challengesStatus.values.length) {
+      return null
+    }
     return (
       <TimelineCtr>
         <PieChart
-          data={data}
+          data={this.state.challengesStatus}
           colorScale={(label: string) => color(label)}
           x={(data: any) => `${data.x}:${data.y}`}
           width={600}

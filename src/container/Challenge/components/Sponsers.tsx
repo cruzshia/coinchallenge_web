@@ -55,15 +55,6 @@ const Comment = styled('span')({
   fontSize: '16px'
 })
 
-let fakeSponsors: any = []
-for (let i = 0; i < 5; i++) {
-  fakeSponsors.push({
-    comment: sentences[Math.floor(Math.random() * 9)],
-    who: '0xCB4b9C9292410007D6FB7a7C061666B298f06ee2',
-    amount: new Decimal(Math.random() * 13).toPrecision(8)
-  })
-}
-
 function Sponsers({ sponsors }: { sponsors: Sponsor[] }) {
   return (
     <SponserCtr>

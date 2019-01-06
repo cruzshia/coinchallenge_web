@@ -13,13 +13,14 @@ import {
   setCreateResult,
   SetResultProp
 } from '@Epics/challengeGroupEpic/action'
-import { checkWallet } from '@Epics/commonEpic/action'
+import { checkWallet, setPopup, SetPopProps } from '@Epics/commonEpic/action'
 import { CommonStateType } from '@Reducers/commonReducer'
 import { ChallengeGroupStateType } from '@Reducers/challengeGroupReducer'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 
 import Transaction from '@Components/Transaction'
 import { APP_THEME } from '@Src/contants/themeColor'
+import { isUrlValid } from '@Src/utils'
 
 const Form = styled('form')({
   display: 'flex',
@@ -75,6 +76,10 @@ function Label({ text }: { text: string }) {
   return <LabelTxt>{text}</LabelTxt>
 }
 
+function isInvalid(val: number) {
+  return !(Number(val) >= 0 && Number(val) <= 90)
+}
+
 const defaultGroupState = {
   id: '',
   name: '',
@@ -93,6 +98,7 @@ type CreateChallengeGroupProp = {
   newChallengeGroup: (payload: ChallengeGroupType) => void
   checkWallet: () => void
   setCreateResult: (payload: SetResultProp) => void
+  setPopup: (payload: SetPopProps) => void
 }
 
 type ErrorProp = { [s in keyof ChallengeGroupType]?: boolean }
@@ -113,6 +119,7 @@ const mapStateToProps = (state: Map<string, object>) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   checkWallet: () => dispatch(checkWallet()),
+  setPopup: (payload: SetPopProps) => dispatch(setPopup(payload)),
   setCreateResult: (payload: SetResultProp) =>
     dispatch(setCreateResult(payload)),
   newChallengeGroup: (payload: ChallengeGroupType) => {
@@ -124,7 +131,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     )
   }
 })
-
 class CreateChallengeGroup extends React.Component<
   CreateChallengeGroupProp & InjectedIntlProps,
   StateProp
@@ -138,17 +144,31 @@ class CreateChallengeGroup extends React.Component<
     error: {} as ErrorProp
   }
 
+  private onTextChange = (key: keyof ChallengeGroupType) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let val = e.currentTarget.value as string
+    const { challengeGroup, error } = this.state
+    challengeGroup[key] = val
+    error[key] = val.length <= 0
+    this.setState({
+      challengeGroup: { ...challengeGroup },
+      error: { ...error }
+    })
+  }
+
   private onDayChange = (key: keyof ChallengeGroupType) => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     let val = e.currentTarget.value as string
     const { challengeGroup, error } = this.state
     challengeGroup[key] = val
-    const numVal = Number(val)
-    error[key] = !(numVal >= 12 && numVal <= 90)
-    if (key === 'maxDays') {
-      error[key] = !error[key] && numVal < Number(challengeGroup.minDays)
-    }
+    const minDays = Number(challengeGroup.minDays)
+    const maxDays = Number(challengeGroup.maxDays)
+    error['minDays'] =
+      isInvalid(minDays) || minDays >= Number(challengeGroup.maxDays)
+    error['maxDays'] =
+      isInvalid(maxDays) || maxDays <= Number(challengeGroup.minDays)
     this.setState({
       challengeGroup: { ...challengeGroup },
       error: { ...error }
@@ -166,18 +186,42 @@ class CreateChallengeGroup extends React.Component<
     })
   }
 
-  private onChange = (field: keyof ChallengeGroupType) => (
+  private onAmountChange = (field: keyof ChallengeGroupType) => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     let val = e.currentTarget.value as string
-    const { challengeGroup } = this.state
+    const { challengeGroup, error } = this.state
     challengeGroup[field] = val
+    error[field] = Number(val) <= 0
     this.setState({
-      challengeGroup
+      challengeGroup,
+      error
+    })
+  }
+
+  private onUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.currentTarget.value as string
+    const { challengeGroup, error } = this.state
+    challengeGroup['url'] = val
+    error['url'] = !isUrlValid(val)
+    this.setState({
+      challengeGroup: { ...challengeGroup },
+      error: { ...error }
     })
   }
 
   private onSubmit = () => {
+    let hasError = Object.keys(this.state.error).length === 0
+    for (let field in this.state.error) {
+      hasError = hasError || this.state.error[field]
+    }
+    if (hasError) {
+      this.props.setPopup({
+        showPop: true,
+        messageKey: 'createDataError'
+      })
+      return
+    }
     this.props.checkWallet()
     this.props.newChallengeGroup(this.state.challengeGroup)
   }
@@ -209,7 +253,7 @@ class CreateChallengeGroup extends React.Component<
           variant='outlined'
           placeholder='e.g: com.coin.challenge'
           value={challengeGroup.id}
-          onChange={this.onChange('id')}
+          onChange={this.onTextChange('id')}
           error={error.id}
           InputLabelProps={CreateChallengeGroup.LabelProp}
           style={Styles}
@@ -223,7 +267,7 @@ class CreateChallengeGroup extends React.Component<
           margin='normal'
           variant='outlined'
           value={challengeGroup.name}
-          onChange={this.onChange('name')}
+          onChange={this.onTextChange('name')}
           error={error.name}
           InputLabelProps={CreateChallengeGroup.LabelProp}
           style={Styles}
@@ -237,7 +281,7 @@ class CreateChallengeGroup extends React.Component<
           margin='normal'
           variant='outlined'
           value={challengeGroup.url}
-          onChange={this.onChange('url')}
+          onChange={this.onUrlChange}
           error={error.url}
           InputLabelProps={CreateChallengeGroup.LabelProp}
           style={Styles}
@@ -300,7 +344,7 @@ class CreateChallengeGroup extends React.Component<
           type='number'
           margin='normal'
           value={challengeGroup.minAmount}
-          onChange={this.onChange('minAmount')}
+          onChange={this.onAmountChange('minAmount')}
           error={error.minAmount}
           variant='outlined'
           InputLabelProps={CreateChallengeGroup.LabelProp}

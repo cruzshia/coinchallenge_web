@@ -9,7 +9,7 @@ import { breakPoint } from '@Src/contants/common'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles, WithStyles } from '@material-ui/core/styles'
-import { formatPercent } from '@Src/utils'
+import { formatPercent, formatNumber } from '@Src/utils'
 
 const StyledFont = styled('span')({
   fontSize: '40px',
@@ -89,6 +89,7 @@ interface ChallengeInfoProp extends InjectedIntlProps, WithStyles {
   totalDays: number
   amount: number
   invalidAddress: boolean
+  sponsorAmount: number
 }
 
 const { REACT_APP_COIN } = process.env
@@ -101,7 +102,8 @@ function ChallengeInfo({
   amount,
   classes,
   intl,
-  invalidAddress
+  invalidAddress,
+  sponsorAmount
 }: ChallengeInfoProp) {
   return (
     <InfoBlk>
@@ -131,12 +133,16 @@ function ChallengeInfo({
       <InfoTxt>
         Achieve rate grater than {formatPercent(targetDays, totalDays)}% can get{' '}
         <Tooltip
-          title={`${amount} from bet , 0 from sponsor`}
+          title={`${formatNumber(
+            amount
+          )} ${REACT_APP_COIN} from bet , ${formatNumber(
+            sponsorAmount
+          )} ${REACT_APP_COIN} from sponsor`}
           placement='top'
           classes={{ tooltip: classes.lightTooltip }}
         >
           <span style={{ fontSize: '30px' }}>
-            {amount}
+            {formatNumber(amount + sponsorAmount)}
             {REACT_APP_COIN}
           </span>
         </Tooltip>

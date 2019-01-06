@@ -2,12 +2,6 @@ import Contract from 'web3/eth/contract'
 import { Sponsor, ChallengeType } from '@Src/typing/globalTypes'
 //process.env.REACT_APP_CONTRACT_ADDRESS
 
-const STATUS = {
-  Succeeded: 0,
-  Failed: 1,
-  Aborted: 2
-}
-
 interface GetGroupProp {
   contract: Contract
   groupId: string
@@ -71,21 +65,15 @@ export const getPastChallenges = async ({
   contract,
   challenger
 }: GetChallengeProp) => {
-  let statusData = []
+  let statusData = new Array(3).fill(0)
   const finishChallenges =
     (await getAllPastEvents(contract, 'FinishChallenge', {
       fromBlock: 0,
       filter: { who: challenger }
     })) || []
   for (let i = 0; i < finishChallenges.length; i++) {
-    const { amount, completeDays, totalDays, status } = finishChallenges[
-      i
-    ].returnValues
-    statusData.push({
-      status,
-      amount,
-      percent: ((completeDays / totalDays) * 100).toFixed(2)
-    })
+    const { status } = finishChallenges[i].returnValues
+    statusData[status]++
   }
   return statusData
 }

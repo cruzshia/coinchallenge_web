@@ -38,7 +38,7 @@ const ChallengeCard = React.memo(
       {/* <StyledFont>Challenger: {address}</StyledFont> */}
       <StyledTtitleCtr>
         <StyledTitle>{invalidAddress ? '' : name}</StyledTitle>
-        {invalidAddress ? (
+        {invalidAddress || url === '' ? (
           <Logo src={LogoImg} />
         ) : (
           <img src={url} width='100%' />

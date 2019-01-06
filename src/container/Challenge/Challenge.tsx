@@ -68,6 +68,7 @@ interface ChallengeProp
 
 interface ChallengeState {
   sponsors: Sponsor[]
+  sponsorAmount: number
   url: string
   name: string
   invalidAddress: boolean
@@ -120,6 +121,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     this.groupId = params.groupId
     this.state = {
       sponsors: [],
+      sponsorAmount: 0,
       url: '',
       name: '',
       invalidAddress: false
@@ -129,7 +131,8 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   private onNewSponsor = (sponsor: Sponsor) => {
     const sponsors = this.state.sponsors
     this.setState({
-      sponsors: [sponsor].concat(sponsors)
+      sponsors: [sponsor].concat(sponsors),
+      sponsorAmount: this.state.sponsorAmount + Number(sponsor.amount)
     })
   }
 
@@ -179,7 +182,12 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
           callback: this.onNewSponsor
         })
         this.setState({
-          sponsors: sponsorData.data
+          sponsors: sponsorData.data,
+          sponsorAmount: sponsorData.data.reduce(
+            (accumulator, sponsor) =>
+              accumulator + Number(web3.utils.fromWei(sponsor.amount)),
+            0
+          )
         })
       }
     }
@@ -249,9 +257,12 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
               targetDays={targetDays}
               totalDays={totalDays}
               amount={amount}
+              sponsorAmount={this.state.sponsorAmount}
               invalidAddress={this.state.invalidAddress}
             />
-            <SponsorButton onSponsor={this.onSponsor} intl={intl} />
+            {totalDays ? (
+              <SponsorButton onSponsor={this.onSponsor} intl={intl} />
+            ) : null}
             {isCofirmingSponsor ? <Transaction txHash={txhash} /> : null}
             <Sponsers sponsors={this.state.sponsors} />
             <HistoryTimeline contract={contract} challenger={this.address} />
