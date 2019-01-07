@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch, Redirect, Link, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import Home from '@Container/Home'
 import CreateChallengeGroup from '@Container/CreateChallengeGroup'
@@ -36,6 +36,12 @@ const MainContainer = styled('div')({
   paddingTop: 60
 })
 
+const Landing = () => (
+  <div style={{ zIndex: 10, background: 'red' }}>
+    <Link to='/create'>CoinChallenges</Link>
+  </div>
+)
+
 class App extends Component {
   public componentDidMount() {
     const jssStyles = document.getElementById('jss-ssr')
@@ -48,7 +54,8 @@ class App extends Component {
           <MainContainer>
             <Home />
             <Switch>
-              <Route path='/' exact component={CreateChallengeGroup} />
+              <Route path='/' exact component={Landing} />
+              <Route path='/create' exact component={CreateChallengeGroup} />
               <Route
                 path='/challenge/:groupId/:address'
                 component={Challenge}
@@ -62,4 +69,4 @@ class App extends Component {
   }
 }
 
-export default withTheme()(TranslateHoc(App))
+export default withTheme()(withRouter(TranslateHoc(App)))

@@ -28,7 +28,8 @@
       "@Epics/*": ["src/epics/*"],
       "@Components/*": ["src/components/*"],
       "@Container/*": ["src/container/*"],
-      "@Reducers/*": ["src/reducer/*"]
+      "@Reducers/*": ["src/reducer/*"],
+      "@Utils/*": ["src/utils/*"]
     }
   },
   "include": ["src"]

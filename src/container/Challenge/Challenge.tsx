@@ -25,6 +25,7 @@ import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
 
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import Transaction from '@Components/Transaction'
+import web3 from 'web3'
 
 import {
   sponsorEvents,

@@ -3,8 +3,8 @@ import { INIT_CONTRACT, setContract, setPopup } from './action'
 import { ofType, ActionsObservable } from 'redux-observable'
 import { switchMap } from 'rxjs/operators'
 import Web3 from 'web3'
-import CoinChallengs from '@Src/contracts/CoinChallenges.json'
 import { NO_PROVIDER } from '@Src/contants/errorCode'
+import { newContract, detectNetwork } from '@Utils/contractUtils'
 
 async function transfer(account: string | null) {
   if (
@@ -26,23 +26,6 @@ async function transfer(account: string | null) {
   }
 }
 
-function newContract(web3Interface: Web3) {
-  let newContract = null
-  try {
-    newContract = new web3Interface.eth.Contract(
-      CoinChallengs.abi,
-      // '0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c',
-      '0xb461bac31fb00204baacf820efa19373e4b580d2',
-      {
-        gas: 4600000
-      }
-    )
-  } catch (err) {
-    console.log(err)
-  }
-  return newContract
-}
-
 export const initContractEpic = (action$: ActionsObservable<Action>) =>
   action$.pipe(
     ofType(INIT_CONTRACT),
@@ -61,12 +44,10 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
           txContract = newContract(txWeb3)
           window.contract = txContract
         }
+        const network = await detectNetwork(txWeb3)
 
         const providers = new Web3().providers
-        // injectProvider = new providers.WebsocketProvider('ws://localhost:7545')
-        injectProvider = new providers.WebsocketProvider(
-          'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
-        )
+        injectProvider = new providers.WebsocketProvider(network)
 
         web3 = new Web3(injectProvider)
         accounts = txWeb3
@@ -74,7 +55,6 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
           : await web3.eth.getAccounts()
 
         const contract = newContract(web3)
-
         transfer(accounts[0] || null)
 
         return setContract({

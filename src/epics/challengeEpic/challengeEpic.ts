@@ -12,6 +12,7 @@ import {
   map,
   switchMap,
   catchError,
+  filter,
   take,
   repeat,
   mergeMap
@@ -60,6 +61,7 @@ export const sponsorChallengeEpic = (
 ) =>
   action$.pipe(
     ofType(SPONSER_CHALLENGE),
+    filter(() => state$.value.get('common').get('txContract') !== null),
     take(1),
     switchMap((action: Action) => {
       const commonReducer = state$.value.get('common')

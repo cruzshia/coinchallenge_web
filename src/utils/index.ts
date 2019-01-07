@@ -1,5 +1,6 @@
 import { detect } from 'detect-browser'
 import { Decimal } from 'decimal.js'
+import { matchPath, match } from 'react-router-dom'
 const browser = detect()
 
 export const getMetmaskUrl = () => {
@@ -31,4 +32,13 @@ export const isUrlValid = (url: string) => {
 export const formatNumber = (val: number) => {
   val = val || 0
   return new Decimal(val).toPrecision(5)
+}
+
+export const parseLangPath = (
+  pathname: string
+): match<{ lng: string }> | null => {
+  return matchPath(pathname, {
+    path: '/:lng/:restPath',
+    strict: false
+  })
 }

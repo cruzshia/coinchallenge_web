@@ -153,7 +153,8 @@ module.exports = {
       '@Epics': `${paths.appSrc}/epics/`,
       '@Components': `${paths.appSrc}/components/`,
       '@Container': `${paths.appSrc}/container/`,
-      '@Reducers': `${paths.appSrc}/reducer/`
+      '@Reducers': `${paths.appSrc}/reducer/`,
+      '@Utils': `${paths.appSrc}/utils/`
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding

@@ -16,6 +16,7 @@ import { getMetmaskUrl } from '@Src/utils'
 import { Record, RecordOf } from 'immutable'
 
 export type CommonState = {
+  lang: string
   userAddress: string | null
   txContract: Contract | null
   contract: Contract | null
@@ -35,6 +36,7 @@ export type CommonState = {
 export type CommonStateType = RecordOf<CommonState>
 
 const stateMaker = Record<CommonState>({
+  lang: 'en',
   userAddress: null,
   accounts: [],
   txContract: null,
