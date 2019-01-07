@@ -37,7 +37,7 @@ const MainContainer = styled('div')({
 })
 
 const Landing = () => (
-  <div style={{ zIndex: 10, background: 'red' }}>
+  <div>
     <Link to='/create'>CoinChallenges</Link>
   </div>
 )
