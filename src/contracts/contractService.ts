@@ -1,5 +1,6 @@
 import Contract from 'web3/eth/contract'
-import { Sponsor, ChallengeType } from '@Src/typing/globalTypes'
+import { Sponsor } from '@Src/typing/globalTypes'
+import { parseChallenge } from '@Utils/contractUtils'
 //process.env.REACT_APP_CONTRACT_ADDRESS
 
 interface GetGroupProp {
@@ -171,6 +172,22 @@ export const sponsorEvents = async ({
         })
       }
     })
+}
+
+interface GetChallengeServerProp {
+  contract: Contract
+  groupId: string
+  challenger: string
+}
+export const getChallenge = async ({
+  contract,
+  groupId,
+  challenger
+}: GetChallengeServerProp) => {
+  const response = await contract.methods
+    .getChallenge(groupId, challenger)
+    .call()
+  return parseChallenge(response)
 }
 
 // interface GetSponsorProp {

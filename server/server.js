@@ -1,4 +1,3 @@
-// Express requirements
 import bodyParser from 'body-parser'
 import compression from 'compression'
 import express from 'express'
@@ -23,6 +22,16 @@ import {
   createGenerateClassName
 } from '@material-ui/core/styles'
 import store from '../dist/store'
+import Web3 from 'web3'
+import {
+  setChallenge,
+  setChallengeGroup
+} from '../dist/epics/challengeEpic/action'
+import { newContract } from '../dist/utils/contractUtils'
+import {
+  getChallenge,
+  getChallengeGroup
+} from '../dist/contracts/contractService'
 
 let filePath = path.resolve(__dirname, '../build', 'index.html')
 let index = fs.readFileSync(filePath, 'utf8')
@@ -40,7 +49,55 @@ app.use(morgan('dev'))
 
 app.use(express.static(path.resolve(__dirname, '../build')))
 
+app.get('/:lng/challenge/:groupId/:address', async (req, res) => {
+  const { groupId, address } = req.params
+  const providers = new Web3().providers
+  const web3 = new Web3(
+    new providers.WebsocketProvider(
+      'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
+    )
+  )
+  const contract = newContract(
+    web3,
+    '0xb461bac31fb00204baacf820efa19373e4b580d2'
+  )
+  const challengeRes = await getChallenge({
+    contract,
+    groupId,
+    challenger: address
+  })
+
+  const { name, url } = await getChallengeGroup({
+    contract,
+    groupId,
+    challenger: address
+  })
+
+  store.dispatch(setChallenge(challengeRes))
+  store.dispatch(setChallengeGroup({ groupImage: url, groupName: name }))
+
+  const html = getRenderedHtml(req.url)
+  const preloadedState = store.getState().toJS()
+
+  res.send(
+    html.replace(
+      '<body>',
+      `<body>
+        <script>
+          window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
+            /</g,
+            '\\u003c'
+          )}
+        </script>`
+    )
+  )
+})
+
 app.get('**', function(req, res) {
+  res.send(getRenderedHtml(req.url))
+})
+
+const getRenderedHtml = url => {
   const sheet = new ServerStyleSheet()
 
   const sheetsRegistry = new SheetsRegistry()
@@ -59,7 +116,7 @@ app.get('**', function(req, res) {
   const html = renderToString(
     sheet.collectStyles(
       <Provider store={store}>
-        <StaticRouter context={{}} location={req.url}>
+        <StaticRouter context={{}} location={url}>
           <JssProvider
             registry={sheetsRegistry}
             generateClassName={generateClassName}
@@ -86,10 +143,9 @@ app.get('**', function(req, res) {
       ${helmet.link.toString()}
     </head>`
   )
-  res.send(
-    index.replace('<div id="root"></div>', `<div id="root">${html}</div>`)
-  )
-})
+
+  return index.replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+}
 
 // We tell React Loadable to load all required assets and start listening - ROCK AND ROLL!
 // Loadable.preloadAll().then(() => {

@@ -1,17 +1,18 @@
 import Web3 from 'web3'
 import CoinChallengs from '@Src/contracts/CoinChallenges.json'
+import { ChallengeType } from '@Src/typing/globalTypes'
 import { TimeInterval } from 'rxjs/internal/operators/timeInterval'
 
 let networkAddress = 'ws://localhost:7545'
 let contractAddress = '0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c'
 let hasChecker = false
 
-export const newContract = (web3Interface: Web3) => {
+export const newContract = (web3Interface: Web3, address?: string) => {
   let newContract = null
   try {
     newContract = new web3Interface.eth.Contract(
       CoinChallengs.abi,
-      contractAddress,
+      address || contractAddress,
       {
         gas: 4600000
       }
@@ -20,6 +21,19 @@ export const newContract = (web3Interface: Web3) => {
     console.log(err)
   }
   return newContract
+}
+
+export const parseChallenge = (response: any): ChallengeType => {
+  const challenge = {
+    targetDays: Number(response._targetDays),
+    totalDays: Number(response._totalDays),
+    completeDays: Number(response._completeDays),
+    startDayTimestamp: Number(response._startDayTimestamp) * 1000 * 86400,
+    sponserSize: Number(response._sponsorSize),
+    amount: Number(Web3.utils.fromWei(response._amount))
+  }
+
+  return challenge
 }
 
 export const detectNetwork = async (web3: Web3 | null) => {

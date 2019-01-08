@@ -2,10 +2,11 @@ import {
   GET_CAHLLENGE,
   SPONSER_CHALLENGE,
   SponserProp,
+  setChallengeGroup,
   setChallenge,
   setConfirmSponsor
 } from './action'
-import { Action, ChallengeType } from '@Src/typing/globalTypes'
+import { Action } from '@Src/typing/globalTypes'
 
 import { ofType, ActionsObservable, StateObservable } from 'redux-observable'
 import {
@@ -19,7 +20,33 @@ import {
 } from 'rxjs/operators'
 import { from, of } from 'rxjs'
 import { setPopup } from '../commonEpic/action'
+import { parseChallenge } from '@Utils/contractUtils'
 import web3 from 'web3'
+
+export const getChallengeGroupEpic = (
+  action$: ActionsObservable<Action>,
+  state$: StateObservable<any>
+) =>
+  action$.pipe(
+    ofType(GET_CAHLLENGE),
+    switchMap((action: Action) => {
+      const commonReducer = state$.value.get('common')
+      const [contract] = [commonReducer.get('contract')]
+      const { groupId } = action.payload as any
+
+      return from(contract.methods.getChallengeGroup(groupId).call()).pipe(
+        map((response: any) => {
+          return setChallengeGroup({
+            groupName: response._name,
+            groupImage: response._url
+          })
+        }),
+        catchError((err: any) => {
+          return of(setPopup({ showPop: true, popMessage: err }))
+        })
+      )
+    })
+  )
 
 export const getChallengeEpic = (
   action$: ActionsObservable<Action>,
@@ -31,19 +58,12 @@ export const getChallengeEpic = (
       const commonReducer = state$.value.get('common')
       const [contract] = [commonReducer.get('contract')]
       const { groupId, challenger } = action.payload as any
+
       return from(
         contract.methods.getChallenge(groupId, challenger).call()
       ).pipe(
         map((response: any) => {
-          const challenge = {
-            targetDays: Number(response._targetDays),
-            totalDays: Number(response._totalDays),
-            completeDays: Number(response._completeDays),
-            startDayTimestamp:
-              Number(response._startDayTimestamp) * 1000 * 86400,
-            sponserSize: Number(response._sponsorSize),
-            amount: Number(web3.utils.fromWei(response._amount))
-          } as ChallengeType
+          const challenge = parseChallenge(response)
           return challenge.totalDays
             ? setChallenge(challenge)
             : setPopup({ showPop: true, popMessage: 'challenge not found' })
@@ -106,4 +126,4 @@ export const sponsorChallengeEpic = (
     repeat()
   )
 
-export default [getChallengeEpic, sponsorChallengeEpic]
+export default [getChallengeGroupEpic, getChallengeEpic, sponsorChallengeEpic]

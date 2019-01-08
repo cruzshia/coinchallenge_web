@@ -60,6 +60,8 @@ interface ChallengeProp
   error: boolean
   isCofirmingSponsor: boolean
   txhash: string
+  groupName: string
+  groupImage: string
   fetchChallenge: (data: RouteParams) => void
   sponserChallenge: (payload: SponserProp) => void
   setChallengeSponsersAction: (sponsors: Sponsor[]) => void
@@ -70,8 +72,6 @@ interface ChallengeProp
 interface ChallengeState {
   sponsors: Sponsor[]
   sponsorAmount: number
-  url: string
-  name: string
   invalidAddress: boolean
 }
 export interface RouteParams {
@@ -123,8 +123,6 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     this.state = {
       sponsors: [],
       sponsorAmount: 0,
-      url: '',
-      name: '',
       invalidAddress: false
     }
   }
@@ -165,14 +163,6 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
           groupId: this.groupId
         })
         this.fetched = true
-        const { url, name } = await getChallengeGroup({
-          contract,
-          groupId: this.groupId
-        })
-        this.setState({
-          name,
-          url
-        })
       } else if (!this.sponsorFetched && targetDays > 0) {
         this.sponsorFetched = true
         const sponsorData = await getPastSponsor(contract, sponserSize)
@@ -230,7 +220,9 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       intl,
       isCofirmingSponsor,
       txhash,
-      contract
+      contract,
+      groupName,
+      groupImage
     } = this.props
 
     return (
@@ -248,8 +240,8 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
           <StyledGridList>
             <ChallengeCard
               groupId={this.groupId}
-              name={this.state.name}
-              url={this.state.url}
+              name={groupName}
+              url={groupImage}
               invalidAddress={this.state.invalidAddress}
             />
             <ChallengeInfo

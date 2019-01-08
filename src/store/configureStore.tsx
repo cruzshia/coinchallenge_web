@@ -5,18 +5,14 @@ import rootReducer from '../reducer'
 import { createEpicMiddleware } from 'redux-observable'
 import rootEpic from '../epics'
 
-const epicMiddleware = createEpicMiddleware();
+const epicMiddleware = createEpicMiddleware()
 let middlewares: Array<any> = [epicMiddleware]
 
 if (process.env.NODE_ENV === 'development') {
   middlewares.push(createLogger({ stateTransformer: state => state.toJS() }))
 }
 
-const store = createStore(
-  rootReducer,
-  applyMiddleware(...middlewares)
-)
-
+let store = createStore(rootReducer, applyMiddleware(...middlewares))
 epicMiddleware.run(rootEpic)
 
 export default store
