@@ -9,6 +9,7 @@ import TranslateHoc from '@Src/translation'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { withTheme } from '@material-ui/core/styles'
 import { APP_FONT_COLOR, APP_THEME } from '@Src/contants/themeColor'
+import { supportLang } from '@Src/contants/common'
 import 'reset-css'
 import './app.css'
 
@@ -42,6 +43,8 @@ const Landing = () => (
   </div>
 )
 
+const supportRegex = supportLang.join('|')
+
 class App extends Component {
   public componentDidMount() {
     const jssStyles = document.getElementById('jss-ssr')
@@ -54,10 +57,18 @@ class App extends Component {
           <MainContainer>
             <Home />
             <Switch>
-              <Route path='/' exact component={Landing} />
-              <Route path='/create' exact component={CreateChallengeGroup} />
               <Route
-                path='/challenge/:groupId/:address'
+                path={`/:lng(${supportRegex})?`}
+                exact
+                component={Landing}
+              />
+              <Route
+                path={`/:lng(${supportRegex})/create`}
+                exact
+                component={CreateChallengeGroup}
+              />
+              <Route
+                path={`/:lng(${supportRegex})/challenge/:groupId/:address`}
                 component={Challenge}
               />
               <Route component={() => <Redirect to='/' />} />

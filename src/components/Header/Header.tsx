@@ -1,5 +1,5 @@
 import React, { ComponentType, PureComponent } from 'react'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
+import { withRouter, RouteComponentProps, Router } from 'react-router-dom'
 import AppBar, { AppBarProps } from '@material-ui/core/AppBar'
 import { APP_THEME, APP_FONT_COLOR } from '@Src/contants/themeColor'
 import styled from 'styled-components'
@@ -8,6 +8,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Fade from '@material-ui/core/Fade'
 import Language from '@material-ui/icons/Language'
 import { SvgIconProps } from '@material-ui/core/SvgIcon'
+import { supportLang } from '@Src/contants/common'
+import { matchPathFunc } from '@Utils/index'
 
 const StyledAppBar = styled(AppBar)({
   position: 'fixed',
@@ -33,6 +35,20 @@ interface BarState {
   anchorEl: null | EventTarget
 }
 
+const LangMenu = [
+  {
+    value: supportLang[0],
+    title: 'English'
+  },
+  {
+    value: supportLang[1],
+    title: '繁體中文'
+  },
+  {
+    value: supportLang[2],
+    title: '简体中文'
+  }
+]
 class ButtonAppBar extends PureComponent<BarProp, BarState> {
   public state = {
     anchorEl: null
@@ -46,6 +62,18 @@ class ButtonAppBar extends PureComponent<BarProp, BarState> {
 
   private handleClose = () => {
     this.setState({ anchorEl: null })
+  }
+
+  private onSelectLang = (lang: string) => () => {
+    const {
+      location: { pathname },
+      history
+    } = this.props
+
+    const matches = matchPathFunc(pathname)
+    const restUrl = matches.params ? matches.params[0] : ''
+    history.push(`/${lang}/${restUrl}`)
+    this.handleClose()
   }
 
   public render() {
@@ -65,9 +93,14 @@ class ButtonAppBar extends PureComponent<BarProp, BarState> {
             onClose={this.handleClose}
             TransitionComponent={Fade}
           >
-            <MenuItem onClick={this.handleClose}>繁體中文</MenuItem>
-            <MenuItem onClick={this.handleClose}>簡體中文</MenuItem>
-            <MenuItem onClick={this.handleClose}>English</MenuItem>
+            {LangMenu.map(item => (
+              <MenuItem
+                key={item.value}
+                onClick={this.onSelectLang(item.value)}
+              >
+                {item.title}
+              </MenuItem>
+            ))}
           </Menu>
         </div>
       </StyledAppBar>

@@ -1,6 +1,8 @@
 import { detect } from 'detect-browser'
 import { Decimal } from 'decimal.js'
-import { matchPath, match } from 'react-router-dom'
+import { matchPath } from 'react-router-dom'
+import { supportLang } from '@Src/contants/common'
+
 const browser = detect()
 
 export const getMetmaskUrl = () => {
@@ -34,11 +36,36 @@ export const formatNumber = (val: number) => {
   return new Decimal(val).toPrecision(5)
 }
 
-export const parseLangPath = (
-  pathname: string
-): match<{ lng: string }> | null => {
-  return matchPath(pathname, {
-    path: '/:lng/:restPath',
+interface MatchParam {
+  params: {
+    lng: string
+  }
+}
+
+export const matchPathFunc = (pathname: string) =>
+  matchPath(pathname, {
+    path: '/:lng/**/',
     strict: false
-  })
+  }) as MatchParam
+
+export const parseLangPath = (pathname: string): string => {
+  const match = matchPathFunc(pathname)
+
+  let { lng } = match ? match.params : { lng: '' }
+
+  if (!lng || lng === '') {
+    lng = require('browser-locale')()
+    lng = lng.indexOf('en') > -1 ? 'en' : lng
+    let splitLng = lng ? lng.split(/-|_/) : ['en']
+    lng =
+      splitLng.length > 1
+        ? `${splitLng[0]}-${splitLng[1].toUpperCase()}`
+        : splitLng[0]
+  }
+
+  if (!match || supportLang.indexOf(lng) < 0) {
+    return 'en'
+  }
+
+  return lng
 }
