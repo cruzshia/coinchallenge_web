@@ -36,14 +36,15 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
       try {
         let injectProvider
         let txContract = null
+        let network = await detectNetwork(null)
 
         if (typeof web3 === 'undefined' || !process.browser) {
           window.web3 = {}
         } else {
           txWeb3 = new Web3(window.ethereum || web3.currentProvider)
+          network = await detectNetwork(txWeb3)
           txContract = newContract(txWeb3)
         }
-        const network = await detectNetwork(txWeb3)
 
         const providers = new Web3().providers
         injectProvider = new providers.WebsocketProvider(network)

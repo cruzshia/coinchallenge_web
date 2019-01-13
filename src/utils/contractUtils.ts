@@ -1,11 +1,9 @@
 import Web3 from 'web3'
 import CoinChallengs from '@Src/contracts/CoinChallenges.json'
 import { ChallengeType } from '@Src/typing/globalTypes'
-import { TimeInterval } from 'rxjs/internal/operators/timeInterval'
 
 let networkAddress = 'ws://localhost:7545'
 let contractAddress = '0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c'
-let hasChecker = false
 
 export const newContract = (web3Interface: Web3, address?: string) => {
   let newContract = null
@@ -14,7 +12,7 @@ export const newContract = (web3Interface: Web3, address?: string) => {
       CoinChallengs.abi,
       address || contractAddress,
       {
-        gas: 4600000
+        gas: 6000000
       }
     )
   } catch (err) {
@@ -53,7 +51,7 @@ export const detectNetwork = async (web3: Web3 | null) => {
     case 3: //ropsten
       networkAddress =
         'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
-      contractAddress = '0xb461bac31fb00204baacf820efa19373e4b580d2'
+      contractAddress = '0x353acf73C7c2e7E07D666cC1c615fcbdAc62f7D8'
       break
     default:
       networkAddress = 'ws://localhost:7545'

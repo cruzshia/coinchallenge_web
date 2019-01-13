@@ -27,11 +27,7 @@ import { injectIntl, InjectedIntlProps } from 'react-intl'
 import Transaction from '@Components/Transaction'
 import web3 from 'web3'
 
-import {
-  sponsorEvents,
-  getPastSponsor,
-  getChallengeGroup
-} from '@Src/contracts/contractService'
+import { sponsorEvents, getPastSponsor } from '@Src/contracts/contractService'
 
 const ChallengeContainer = styled('div')({
   display: 'flex',

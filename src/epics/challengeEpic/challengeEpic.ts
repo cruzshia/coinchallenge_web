@@ -42,7 +42,7 @@ export const getChallengeGroupEpic = (
           })
         }),
         catchError((err: any) => {
-          return of(setPopup({ showPop: true, popMessage: err }))
+          return of(setPopup({ showPop: true, popMessage: err.message }))
         })
       )
     })
