@@ -221,17 +221,26 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       groupImage
     } = this.props
 
+    const title = intl.formatMessage(
+      { id: 'docTitleChallenge' },
+      { address: this.address }
+    )
+
+    const shareDesc = intl.formatMessage(
+      {
+        id: 'shareDesc'
+      },
+      { group: groupName, totalDays }
+    )
+
     return (
       <React.Fragment>
         <ChallengeContainer>
           <Helmet>
-            <title>
-              {intl.formatMessage(
-                { id: 'docTitleChallenge' },
-                { address: this.address }
-              )}
-            </title>
-            <link rel='canonical' href='http://mysite.com/example' />
+            <title>{title}</title>
+            <meta property='og:title' content={title} />
+            <meta property='og:description' content={shareDesc} />
+            <meta property='og:image' content={groupImage} />
           </Helmet>
           <StyledGridList>
             <ChallengeCard

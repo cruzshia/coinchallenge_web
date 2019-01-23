@@ -309,13 +309,26 @@ function (_React$Component) {
           contract = _this$props3.contract,
           groupName = _this$props3.groupName,
           groupImage = _this$props3.groupImage;
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(ChallengeContainer, null, _react.default.createElement(_reactHelmet.Helmet, null, _react.default.createElement("title", null, intl.formatMessage({
+      var title = intl.formatMessage({
         id: 'docTitleChallenge'
       }, {
         address: this.address
-      })), _react.default.createElement("link", {
-        rel: "canonical",
-        href: "http://mysite.com/example"
+      });
+      var shareDesc = intl.formatMessage({
+        id: 'shareDesc'
+      }, {
+        group: groupName,
+        totalDays: totalDays
+      });
+      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(ChallengeContainer, null, _react.default.createElement(_reactHelmet.Helmet, null, _react.default.createElement("title", null, title), _react.default.createElement("meta", {
+        property: "og:title",
+        content: title
+      }), _react.default.createElement("meta", {
+        property: "og:description",
+        content: shareDesc
+      }), _react.default.createElement("meta", {
+        property: "og:image",
+        content: groupImage
       })), _react.default.createElement(StyledGridList, null, _react.default.createElement(_ChallengeCard.default, {
         groupId: this.groupId,
         name: groupName,

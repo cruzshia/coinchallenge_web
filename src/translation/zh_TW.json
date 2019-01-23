@@ -32,5 +32,6 @@
     "createSuccess": "挑戰群組創建成功！",
     "challengeNotFound": "挑戰不存在或已結束",
     "sponsorContent": "贊助挑戰者，激勵他完成目標！若完成挑戰，對方將獲得你的贊助;若失敗贊助金額將100%完全歸還。",
-    "createDataError": "創建挑戰資料有誤或未完成"
+    "createDataError": "創建挑戰資料有誤或未完成",
+    "shareDesc": "挑戰者發起了一場在{group}群組的{totalDays}天的硬幣挑戰！快來贊助挑戰者，激勵他完成目標！"
 }
