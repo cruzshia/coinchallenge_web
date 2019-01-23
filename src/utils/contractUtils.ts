@@ -3,7 +3,7 @@ import CoinChallengs from '@Src/contracts/CoinChallenges.json'
 import { ChallengeType } from '@Src/typing/globalTypes'
 
 let networkAddress = 'ws://localhost:7545'
-let contractAddress = '0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c'
+let contractAddress = '0x353acf73C7c2e7E07D666cC1c615fcbdAc62f7D8'
 
 export const newContract = (web3Interface: Web3, address?: string) => {
   let newContract = null

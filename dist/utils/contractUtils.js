@@ -18,7 +18,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var networkAddress = 'ws://localhost:7545';
-var contractAddress = '0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c';
+var contractAddress = '0x353acf73C7c2e7E07D666cC1c615fcbdAc62f7D8';
 
 var newContract = function newContract(web3Interface, address) {
   var newContract = null;
