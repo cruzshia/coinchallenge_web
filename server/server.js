@@ -133,11 +133,6 @@ const getRenderedHtml = url => {
   const css = sheetsRegistry.toString()
   const helmet = Helmet.renderStatic()
 
-  console.log(11111)
-  console.log(11111)
-  console.log(helmet.meta.toString())
-  // console.log(helmet.title.toString())
-
   index = index.replace(/<title>.*<\/title>/, helmet.title.toString())
 
   index = index.replace(
