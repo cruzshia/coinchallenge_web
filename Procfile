@@ -1,1 +1,1 @@
-web: cross-env NODE_ENV=production REACT_APP_COIN=ETH node ./server/index.js
+web: ./node_modules/.bin/babel -d ./dist ./src --copy-files --extensions '.ts','.tsx','.js' && cross-env NODE_ENV=production REACT_APP_COIN=ETH node ./server/index.js
