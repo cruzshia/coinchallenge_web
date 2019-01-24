@@ -14,7 +14,7 @@
     "maxDelayDays": "最多延迟纪录天数",
     "minChallengeAmount": "最少挑战硬币",
     "docTitleChallenge": "{address}的挑战",
-    "sponsor": "赞助者",
+    "sponsor": "赞助挑战者",
     "sponsorDesc": "跟挑战者说句话吧！",
     "amount": "数量",
     "comment": "想说的话",
@@ -33,5 +33,5 @@
     "challengeNotFound": "挑战不存在或已结束",
     "sponsorContent": "赞助挑战者，激励他完成目标！若完成挑战，对方将获得你的赞助;若失败赞助金额将100%完全归还。",
     "createDataError": "创建挑战资料有误或未完成",
-    "shareDesc": "挑战者发起了一场在{group}群组的{totalDays}天的硬币挑战！快来赞助挑战者，激励他完成目标！"
+    "shareDesc": "我刚刚在 walking challenge 发起 {totalDays} 天挑战，挑战金额为 {amount}，赞助且激励我来达成目标！"
 }

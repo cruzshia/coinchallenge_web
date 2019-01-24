@@ -105,6 +105,7 @@ const mapDispathToProps = (dispatch: Dispatch) => ({
   setPopup: (payload: SetPopProps) => dispatch(setPopup(payload))
 })
 
+const { REACT_APP_COIN = 'ETH' } = process.env
 class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   public address: string = ''
   public groupId: string = ''
@@ -230,7 +231,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       {
         id: 'shareDesc'
       },
-      { group: groupName, totalDays }
+      { amount: `${amount} ${REACT_APP_COIN}`, totalDays }
     )
 
     return (
@@ -241,6 +242,11 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
             <meta property='og:title' content={title} />
             <meta property='og:description' content={shareDesc} />
             <meta property='og:image' content={groupImage} />
+            <meta property='og:site_name' content='CoinChallengs' />
+            <meta name='twitter:card' content='summary_large_image' />
+            <meta name='twitter:site' content='CoinChallengs' />
+            <meta name='twitter:creator' content='CoinChallengs' />
+            <meta name='twitter:image:alt' content={shareDesc} />
           </Helmet>
           <StyledGridList>
             <ChallengeCard

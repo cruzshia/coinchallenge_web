@@ -33,5 +33,5 @@
     "challengeNotFound": "Challenge not found or has finished.",
     "sponsorContent": "Sponsor challenger to encourage them hitting target! They will get you sponsor when complete challenge. You will get 100% sponsor coin back when they fail.",
     "createDataError": "create group data not completed or has error",
-    "shareDesc": "Challenger start a {totalDays} days coin challenge in {group} group! Come to sponsor challenger, encouraging hime to hit the target!"
+    "shareDesc": "I just start a {totalDays} days walking challenge with {amount}，挑战金额为 {amount}, sponsor and encourage me to hit the target!"
 }
