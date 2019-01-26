@@ -1,4 +1,5 @@
 import React from 'react'
+import { RouteComponentProps } from 'react-router'
 import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
@@ -21,6 +22,7 @@ import { injectIntl, InjectedIntlProps } from 'react-intl'
 import Transaction from '@Components/Transaction'
 import { APP_THEME } from '@Src/contants/themeColor'
 import { isUrlValid } from '@Src/utils'
+import { changeRoute } from '@Utils/index'
 
 const Form = styled('form')({
   display: 'flex',
@@ -132,7 +134,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   }
 })
 class CreateChallengeGroup extends React.Component<
-  CreateChallengeGroupProp & InjectedIntlProps,
+  CreateChallengeGroupProp & InjectedIntlProps & RouteComponentProps,
   StateProp
 > {
   static LabelProp = {
@@ -235,6 +237,11 @@ class CreateChallengeGroup extends React.Component<
       })
       this.setState({ challengeGroup: defaultGroupState })
     }
+  }
+
+  public componentDidMount() {
+    const { history, location } = this.props
+    changeRoute({ history, location, match: {} })
   }
 
   public render() {

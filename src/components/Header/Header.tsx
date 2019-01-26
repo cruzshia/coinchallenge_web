@@ -70,9 +70,7 @@ class ButtonAppBar extends PureComponent<BarProp, BarState> {
       history
     } = this.props
 
-    const matches = matchPathFunc(pathname)
-    const restUrl = matches.params ? matches.params[0] : ''
-    history.push(`/${lang}/${restUrl}`)
+    history.replace(`${pathname}?l=${lang}`)
     this.handleClose()
   }
 

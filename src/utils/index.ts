@@ -2,6 +2,8 @@ import { detect } from 'detect-browser'
 import { Decimal } from 'decimal.js'
 import { matchPath } from 'react-router-dom'
 import { supportLang } from '@Src/contants/common'
+import Cookies from 'js-cookie'
+import { RouteComponentProps } from 'react-router'
 
 const browser = detect()
 
@@ -48,13 +50,21 @@ export const matchPathFunc = (pathname: string) =>
     strict: false
   }) as MatchParam
 
-export const parseLangPath = (pathname: string): string => {
-  const match = matchPathFunc(pathname)
+export const parseLangParams = (search: string) => {
+  const urlParams = new URLSearchParams(search)
+  return urlParams.get('l') || ''
+}
 
-  let { lng } = match ? match.params : { lng: '' }
+export const parseLangPath = (search: string): string => {
+  let lng = Cookies.get('_coin_lng_') || ''
+  if (lng === '') {
+    lng = parseLangParams(search)
+  }
 
   if (!lng || lng === '') {
-    lng = require('browser-locale')()
+    if (typeof window !== 'undefined') {
+      lng = require('browser-locale')()
+    }
     lng = lng.indexOf('en') > -1 ? 'en' : lng
     let splitLng = lng ? lng.split(/-|_/) : ['en']
     lng =
@@ -63,9 +73,20 @@ export const parseLangPath = (pathname: string): string => {
         : splitLng[0]
   }
 
-  if (!match || supportLang.indexOf(lng) < 0) {
-    return 'en'
+  if (supportLang.indexOf(lng) < 0) {
+    lng = 'en_US'
   }
 
+  Cookies.set('_coin_lng_', lng)
   return lng
+}
+
+interface ChangeRoute extends RouteComponentProps {
+  match: any
+}
+export const changeRoute = ({ location, history }: ChangeRoute) => {
+  const lng = parseLangParams(location.search)
+  if (lng === '' || lng !== 'en_US') {
+    history.replace(location.pathname + `?l=${parseLangPath(location.search)}`)
+  }
 }

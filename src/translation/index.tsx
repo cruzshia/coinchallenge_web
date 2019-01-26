@@ -9,6 +9,7 @@ import messageZH_CN from './zh_CN.json'
 
 import { RouteComponentProps } from 'react-router-dom'
 import { parseLangPath } from '@Utils/index'
+import Cookies from 'js-cookie'
 
 addLocaleData([...localeEn, ...localeZh])
 
@@ -27,16 +28,24 @@ const messgaes = {
 } as MessagesProp
 
 export default function(WrappedComponent: React.ComponentClass) {
-  return class MutilLang extends React.Component<RouteComponentProps> {
-    public state = {
-      lang: parseLangPath(this.props.location.pathname)
+  return class MutilLang extends React.Component<
+    RouteComponentProps,
+    { lang: string }
+  > {
+    public constructor(props: RouteComponentProps) {
+      super(props)
+      this.state = {
+        lang: parseLangPath(this.props.location.search)
+      }
     }
 
     public componentDidMount() {
       const { history } = this.props
       history.listen(location => {
-        const nextLang = parseLangPath(location.pathname)
-        if (nextLang && nextLang !== this.state.lang) {
+        const urlParams = new URLSearchParams(location.search)
+        const nextLang = urlParams.get('l')
+        if (nextLang && nextLang.length && nextLang !== this.state.lang) {
+          Cookies.set('_coin_lng_', nextLang)
           this.setState({
             lang: nextLang
           })

@@ -25,6 +25,7 @@ import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
 
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import Transaction from '@Components/Transaction'
+import { changeRoute } from '@Utils/index'
 import web3 from 'web3'
 
 import { sponsorEvents, getPastSponsor } from '@Src/contracts/contractService'
@@ -205,6 +206,8 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   }
 
   public componentDidMount() {
+    const { history, location } = this.props
+    changeRoute({ history, location, match: {} })
     this.checkAndFetch()
   }
 

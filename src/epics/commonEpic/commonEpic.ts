@@ -44,6 +44,7 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
           txWeb3 = new Web3(window.ethereum || web3.currentProvider)
           network = await detectNetwork(txWeb3)
           txContract = newContract(txWeb3)
+          window.ethereum.enable()
         }
 
         const providers = new Web3().providers

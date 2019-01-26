@@ -57,27 +57,6 @@ export const newChallengeGroupEpic = (
           })
       ).pipe(
         mergeMap((response: any) => {
-          window.contract = contract
-          const challengeObject = {
-            groupId: payload.id,
-            targetDays: payload.minDays,
-            totalDays: payload.maxDays,
-            startTime: Math.floor(Date.now() / 1000)
-          }
-
-          contract.methods
-            .createChallenge(...Object.values(challengeObject))
-            .send({
-              from: address,
-              value: web3.utils.toWei('0.01', 'ether')
-            })
-            .on('error', function(error: any) {
-              console.log(error)
-            })
-            .then((res: any) => {
-              console.log('create challenge success!')
-            })
-
           return of(
             setCreateResult({
               response: {
