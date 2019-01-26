@@ -56,9 +56,9 @@ export const parseLangParams = (search: string) => {
 }
 
 export const parseLangPath = (search: string): string => {
-  let lng = Cookies.get('_coin_lng_') || ''
+  let lng = parseLangParams(search)
   if (lng === '') {
-    lng = parseLangParams(search)
+    lng = Cookies.get('_coin_lng_') || ''
   }
 
   if (!lng || lng === '') {
