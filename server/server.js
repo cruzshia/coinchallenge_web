@@ -49,7 +49,7 @@ app.use(morgan('dev'))
 
 app.use(express.static(path.resolve(__dirname, '../build')))
 
-app.get('/:lng/challenge/:groupId/:address', async (req, res) => {
+app.get('/challenge/:groupId/:address', async (req, res) => {
   const { groupId, address } = req.params
   const providers = new Web3().providers
   const web3 = new Web3(
