@@ -118,7 +118,6 @@ export const getPastSponsor = async (
   options = options || { fromBlock: 0 }
 
   let response = {
-    blockNumber: 0,
     data: [] as Sponsor[]
   }
   let data: any[] = []
@@ -138,7 +137,6 @@ export const getPastSponsor = async (
 
   sponserSize = sponserSize || sponsers.length
   data = sponsers.slice(sponserSize * -1).reverse()
-  response.blockNumber = sponserSize ? data[0].blockNumber : 0
 
   response.data =
     data.map(sponsor => {
@@ -159,29 +157,32 @@ interface SponsorEventProp {
   callback?: (sponser: Sponsor) => void
 }
 
-let skipFirst = false
 export const sponsorEvents = async ({
   contract,
   challenger,
-  fromBlock = 0,
   callback
 }: SponsorEventProp) => {
-  skipFirst = fromBlock === 0
+  const pastSponseors =
+    (await getAllPastEvents(contract, 'SponsorChallenge', {
+      fromBlock: 0,
+      filter: { challenger }
+    })) || []
+
   contract.events
     .SponsorChallenge({
-      filter: { challenger: challenger },
-      fromBlock: fromBlock ? fromBlock + 1 : fromBlock
+      filter: { challenger },
+      fromBlock: pastSponseors.length
+        ? pastSponseors[pastSponseors.length - 1].blockNumber + 1
+        : 0
     })
     .on('data', function(event) {
       if (callback) {
         const { amount, comment, who } = event.returnValues
-        !skipFirst &&
-          callback({
-            amount,
-            comment,
-            who
-          })
-        skipFirst = false
+        callback({
+          amount,
+          comment,
+          who
+        })
       }
     })
 }

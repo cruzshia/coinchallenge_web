@@ -1,7 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { sentences } from '@Src/contants/mockSenteces'
-import { Decimal } from 'decimal.js'
 
 import { COLOR_BAR } from '@Src/contants/themeColor'
 import SnackbarContent from '@material-ui/core/SnackbarContent'

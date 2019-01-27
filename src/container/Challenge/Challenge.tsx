@@ -172,16 +172,14 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
         sponsorEvents({
           contract,
           challenger: this.address,
-          fromBlock: sponsorData.blockNumber,
           callback: this.onNewSponsor
         })
+
         this.setState({
           sponsors: sponsorData.data,
-          sponsorAmount: sponsorData.data.reduce(
-            (accumulator, sponsor) =>
-              accumulator + Number(web3.utils.fromWei(sponsor.amount)),
-            0
-          )
+          sponsorAmount: sponsorData.data.reduce((accumulator, sponsor) => {
+            return accumulator + Number(web3.utils.fromWei(sponsor.amount))
+          }, 0)
         })
       }
     }
