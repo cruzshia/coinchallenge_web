@@ -10,7 +10,7 @@ import TranslateHoc from '@Src/translation'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { withTheme } from '@material-ui/core/styles'
 import { APP_FONT_COLOR, APP_THEME } from '@Src/contants/themeColor'
-import { supportLang } from '@Src/contants/common'
+import { breakPoint } from '@Src/contants/common'
 import 'reset-css'
 import './app.css'
 
@@ -35,7 +35,10 @@ const Body = styled('div')({
 
 const MainContainer = styled('div')({
   margin: '0 auto 40px',
-  paddingTop: 60
+  paddingTop: 60,
+  [`@media (max-width: ${breakPoint})`]: {
+    paddingTop: 50
+  }
 })
 
 class App extends Component {

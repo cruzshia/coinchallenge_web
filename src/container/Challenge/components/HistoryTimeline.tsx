@@ -32,6 +32,7 @@ interface StatusData {
   y: number
 }
 interface TimelineState {
+  width: number
   challengesStatus: {
     values: StatusData[]
   }
@@ -49,10 +50,18 @@ function color(label: string) {
 class HistoryTimeline extends React.PureComponent<TimelineProp, TimelineState> {
   private fetched: boolean = false
   public state = {
+    width: 600,
     challengesStatus: {
       values: []
     }
   }
+
+  private detectWidth = () => {
+    this.setState({
+      width: screen.width < 520 ? 430 : 600
+    })
+  }
+
   public async componentDidUpdate() {
     const { contract, challenger } = this.props
     if (contract && !this.fetched) {
@@ -65,7 +74,7 @@ class HistoryTimeline extends React.PureComponent<TimelineProp, TimelineState> {
       for (let i = 0; i < pastStatus.length; i++) {
         if (pastStatus[i]) {
           values.push({
-            x: STATUS[i],
+            x: STATUS[i % 3],
             y: pastStatus[i]
           } as StatusData)
         }
@@ -77,6 +86,18 @@ class HistoryTimeline extends React.PureComponent<TimelineProp, TimelineState> {
       })
     }
   }
+
+  public componentDidMount() {
+    if (process.browser) {
+      this.detectWidth()
+      window.onresize = this.detectWidth
+    }
+  }
+
+  public componentWillUnmount() {
+    window.onresize = null
+  }
+
   public render() {
     const { challengesStatus } = this.state
     if (!challengesStatus.values.length) {
@@ -88,9 +109,11 @@ class HistoryTimeline extends React.PureComponent<TimelineProp, TimelineState> {
           data={this.state.challengesStatus}
           colorScale={(label: string) => color(label)}
           x={(data: any) => `${data.x}:${data.y}`}
-          width={600}
+          width={this.state.width}
           height={400}
           margin={{ top: 10, bottom: 10, left: 100, right: 100 }}
+          showOuterLabels={false}
+          showInnerLabels={false}
           fill='red'
           string
           tooltipHtml={(x: string) => (

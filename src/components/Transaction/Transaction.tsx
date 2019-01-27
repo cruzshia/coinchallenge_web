@@ -1,17 +1,18 @@
 import React from 'react'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import { injectIntl, InjectedIntlProps } from 'react-intl'
 
-interface TransactionProp {
+interface TransactionProp extends InjectedIntlProps {
   txHash?: string
   classNames?: string
 }
 
-function Transaction({ txHash, classNames }: TransactionProp) {
+function Transaction({ txHash, classNames, intl }: TransactionProp) {
   return (
     <React.Fragment>
       {txHash ? (
         <a href={`https://ropsten.etherscan.io/tx/${txHash}`} target='_blank'>
-          Transaction is waiting for confirmation
+          {intl.formatMessage({ id: 'waitConfirm' })}
         </a>
       ) : null}
 
@@ -20,4 +21,4 @@ function Transaction({ txHash, classNames }: TransactionProp) {
   )
 }
 
-export default Transaction
+export default injectIntl(Transaction)

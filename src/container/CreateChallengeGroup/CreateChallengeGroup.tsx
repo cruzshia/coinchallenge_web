@@ -24,6 +24,11 @@ import { APP_THEME } from '@Src/contants/themeColor'
 import { isUrlValid } from '@Src/utils'
 import { changeRoute } from '@Utils/index'
 
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+
 const Form = styled('form')({
   display: 'flex',
   flexWrap: 'wrap',
@@ -49,11 +54,8 @@ const Form = styled('form')({
 
 const Styles = {
   marginTop: '30px',
-  minWidth: '400px',
-  '@media only screen and (maxWidth: 480px)': {
-    width: '95%',
-    minWidth: '0'
-  }
+  width: '100%',
+  maxWidth: '400px'
 }
 
 const Icon = styled('img')({
@@ -74,21 +76,34 @@ const WaitingBlk = styled('div')({
   }
 })
 
-function Label({ text }: { text: string }) {
-  return <LabelTxt>{text}</LabelTxt>
+const FormStyle = {
+  maxWidth: '400px',
+  margin: '20px 0 10px',
+  backgroundColor: '#fff'
 }
 
-function isInvalid(val: number) {
-  return !(Number(val) >= 0 && Number(val) <= 90)
+const MenuStyle = {
+  style: {
+    maxHeight: '300px',
+    padding: '0 10px'
+  }
+}
+
+const SelectStyle = {
+  padding: '0 10px 0 15px'
+}
+
+function Label({ text }: { text: string }) {
+  return <LabelTxt>{text}</LabelTxt>
 }
 
 const defaultGroupState = {
   id: '',
   name: '',
   url: '',
-  minDays: '',
-  maxDays: '',
-  maxDelayDays: '',
+  minDays: '12',
+  maxDays: '12',
+  maxDelayDays: '7',
   minAmount: ''
 }
 
@@ -160,28 +175,25 @@ class CreateChallengeGroup extends React.Component<
   }
 
   private onDayChange = (key: keyof ChallengeGroupType) => (
-    e: React.ChangeEvent<HTMLInputElement>
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
   ) => {
-    let val = e.currentTarget.value as string
+    let val = e.target.value as string
     const { challengeGroup, error } = this.state
     challengeGroup[key] = val
-    const minDays = Number(challengeGroup.minDays)
-    const maxDays = Number(challengeGroup.maxDays)
-    error['minDays'] =
-      isInvalid(minDays) || minDays >= Number(challengeGroup.maxDays)
-    error['maxDays'] =
-      isInvalid(maxDays) || maxDays <= Number(challengeGroup.minDays)
+    if (Number(challengeGroup['maxDays']) < Number(challengeGroup['minDays'])) {
+      challengeGroup['maxDays'] = challengeGroup['minDays']
+    }
     this.setState({
-      challengeGroup: { ...challengeGroup },
-      error: { ...error }
+      challengeGroup: { ...challengeGroup }
     })
   }
 
-  private onDelayDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let val = e.currentTarget.value as string
+  private onDelayDayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    let val = e.target.value as string
     const { challengeGroup, error } = this.state
     challengeGroup.maxDelayDays = val
-    error.maxDelayDays = !(Number(val) >= 0 && Number(val) <= 90)
     this.setState({
       challengeGroup: { ...challengeGroup },
       error: { ...error }
@@ -249,7 +261,7 @@ class CreateChallengeGroup extends React.Component<
     const { intl, isConfirming, txHash } = this.props
 
     return (
-      <Form noValidate autoComplete='off'>
+      <Form noValidate autoComplete='off' style={{ padding: '0 10px' }}>
         <Icon src={Logo} />
         <TextField
           label={
@@ -294,54 +306,80 @@ class CreateChallengeGroup extends React.Component<
           style={Styles}
           required
         />
-        <TextField
-          label={
-            <Label text={intl.formatMessage({ id: 'minChallengeDays' })} />
-          }
-          className='textField'
-          type='number'
-          margin='normal'
-          variant='outlined'
-          placeholder='12 - 90'
-          value={challengeGroup.minDays}
-          error={error.minDays}
-          onChange={this.onDayChange('minDays')}
-          InputLabelProps={CreateChallengeGroup.LabelProp}
-          style={Styles}
-          required
-        />
 
-        <TextField
-          label={
-            <Label text={intl.formatMessage({ id: 'maxChallengeDays' })} />
-          }
-          className='textField'
-          type='number'
-          margin='normal'
+        <FormControl
           variant='outlined'
-          value={challengeGroup.maxDays}
-          error={error.maxDays}
-          onChange={this.onDayChange('maxDays')}
-          placeholder='12 - 90'
-          InputLabelProps={CreateChallengeGroup.LabelProp}
-          style={Styles}
+          fullWidth={true}
+          style={FormStyle}
           required
-        />
+        >
+          <InputLabel htmlFor='outlined-age-simple'>
+            {intl.formatMessage({ id: 'minChallengeDays' })}{' '}
+          </InputLabel>
+          <Select
+            MenuProps={MenuStyle}
+            value={challengeGroup.minDays}
+            onChange={this.onDayChange('minDays')}
+            style={SelectStyle}
+          >
+            {new Array(79).fill(0).map((_data: number, index: number) => (
+              <MenuItem key={`option-${index}`} value={index + 12}>
+                {index + 12}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-        <TextField
-          label={<Label text={intl.formatMessage({ id: 'maxDelayDays' })} />}
-          className='textField'
-          type='number'
-          margin='normal'
-          value={challengeGroup.maxDelayDays}
-          onChange={this.onDelayDayChange}
-          error={error.maxDelayDays}
+        <FormControl
           variant='outlined'
-          placeholder='< 90 (day)'
-          InputLabelProps={CreateChallengeGroup.LabelProp}
-          style={Styles}
+          fullWidth={true}
+          style={FormStyle}
           required
-        />
+        >
+          <InputLabel htmlFor='outlined-age-simple'>
+            {intl.formatMessage({ id: 'maxChallengeDays' })}
+          </InputLabel>
+          <Select
+            MenuProps={MenuStyle}
+            value={challengeGroup.maxDays}
+            onChange={this.onDayChange('maxDays')}
+            style={SelectStyle}
+          >
+            {new Array(90 - Number(challengeGroup.minDays) + 1)
+              .fill(0)
+              .map((_data: number, index: number) => (
+                <MenuItem
+                  key={`option-max-${index}`}
+                  value={Number(challengeGroup.minDays) + index}
+                >
+                  {Number(challengeGroup.minDays) + index}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+
+        <FormControl
+          variant='outlined'
+          fullWidth={true}
+          style={FormStyle}
+          required
+        >
+          <InputLabel htmlFor='outlined-age-simple'>
+            {intl.formatMessage({ id: 'maxDelayDays' })}
+          </InputLabel>
+          <Select
+            MenuProps={MenuStyle}
+            value={challengeGroup.maxDelayDays}
+            onChange={this.onDelayDayChange}
+            style={SelectStyle}
+          >
+            {new Array(90).fill(0).map((_data: number, index: number) => (
+              <MenuItem key={`option-delay-${index}`} value={index + 1}>
+                {index + 1}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
         <TextField
           label={

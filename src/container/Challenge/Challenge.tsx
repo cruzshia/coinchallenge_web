@@ -35,6 +35,8 @@ const ChallengeContainer = styled('div')({
   justifyContent: 'center',
   marginTop: '30px',
   [`@media (max-width: ${breakPoint})`]: {
+    width: '100%',
+    overflow: 'hidden',
     marginTop: 0
   }
 })
@@ -44,6 +46,15 @@ const StyledGridList = styled('div')({
   zIndex: 1,
   [`@media (max-width: ${breakPoint})`]: {
     width: '100%'
+  }
+})
+
+const LoadingBlk = styled('div')({
+  maxWidth: '400px',
+  margin: '0 auto',
+  a: {
+    display: 'inline-block',
+    marginBottom: '10px'
   }
 })
 
@@ -129,7 +140,8 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     const sponsors = this.state.sponsors
     this.setState({
       sponsors: [sponsor].concat(sponsors),
-      sponsorAmount: this.state.sponsorAmount + Number(sponsor.amount)
+      sponsorAmount:
+        this.state.sponsorAmount + Number(web3.utils.fromWei(sponsor.amount))
     })
   }
 
@@ -273,7 +285,11 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
             {totalDays ? (
               <SponsorButton onSponsor={this.onSponsor} intl={intl} />
             ) : null}
-            {isCofirmingSponsor ? <Transaction txHash={txhash} /> : null}
+            {isCofirmingSponsor ? (
+              <LoadingBlk>
+                <Transaction txHash={txhash} />
+              </LoadingBlk>
+            ) : null}
             <Sponsers sponsors={this.state.sponsors} />
             <HistoryTimeline contract={contract} challenger={this.address} />
           </StyledGridList>

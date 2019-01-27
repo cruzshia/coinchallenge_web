@@ -26,7 +26,11 @@ const StyledContent = styled('div')({
   fontSize: 24,
   color: APP_FONT_COLOR_DARK,
   opacity: 0.6,
-  margin: '10px'
+  margin: '10px',
+  [`@media (max-width: ${breakPoint})`]: {
+    fontSize: 20,
+    lineHeight: '24px'
+  }
 })
 
 const CrowdCtr = styled('div')({
@@ -37,7 +41,9 @@ const CrowdCtr = styled('div')({
 
 const InfoBlk = styled('div')({
   textAlign: 'center',
-  background: APP_LIGHT_BG
+  background: APP_LIGHT_BG,
+  padding: '0 10px',
+  wordBreak: 'break-all'
 })
 interface InfoCtrProp {
   bgcolor?: string
@@ -63,7 +69,11 @@ const Grid = styled('div')({
 const InfoTxt = styled('div')({
   color: APP_THEME,
   padding: 5,
-  fontSize: 30
+  fontSize: 30,
+  [`@media (max-width: ${breakPoint})`]: {
+    fontSize: 24,
+    lineHeight: '30px'
+  }
 })
 
 const styles = (_theme: any) => ({
