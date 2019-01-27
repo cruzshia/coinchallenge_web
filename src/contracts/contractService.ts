@@ -162,18 +162,9 @@ export const sponsorEvents = async ({
   challenger,
   callback
 }: SponsorEventProp) => {
-  const pastSponseors =
-    (await getAllPastEvents(contract, 'SponsorChallenge', {
-      fromBlock: 0,
-      filter: { challenger }
-    })) || []
-
   contract.events
     .SponsorChallenge({
-      filter: { challenger },
-      fromBlock: pastSponseors.length
-        ? pastSponseors[pastSponseors.length - 1].blockNumber + 1
-        : 0
+      filter: { challenger }
     })
     .on('data', function(event) {
       if (callback) {
