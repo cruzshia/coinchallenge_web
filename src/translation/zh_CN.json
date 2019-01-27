@@ -1,6 +1,7 @@
 {
     "ok": "确认",
     "confirm": "确认",
+    "create": "创建",
     "cancel": "取消",
     "providerNotFound": "未侦测到钱包插件，请先安装扩充套件(metamask)",
     "browserNotSupport": "你的浏览器不支援钱包插件，请改使用chrome/firefox或者opera浏览器",

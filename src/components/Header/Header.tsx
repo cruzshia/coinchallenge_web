@@ -1,5 +1,5 @@
 import React, { ComponentType, PureComponent } from 'react'
-import { withRouter, RouteComponentProps, Router } from 'react-router-dom'
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom'
 import AppBar, { AppBarProps } from '@material-ui/core/AppBar'
 import { APP_THEME, APP_FONT_COLOR } from '@Src/contants/themeColor'
 import styled from 'styled-components'
@@ -9,7 +9,6 @@ import Fade from '@material-ui/core/Fade'
 import Language from '@material-ui/icons/Language'
 import { SvgIconProps } from '@material-ui/core/SvgIcon'
 import { supportLang } from '@Src/contants/common'
-import { matchPathFunc } from '@Utils/index'
 
 const StyledAppBar = styled(AppBar)({
   position: 'fixed',
@@ -18,7 +17,11 @@ const StyledAppBar = styled(AppBar)({
   background: APP_THEME,
   textAlign: 'center',
   lineHeight: '50px',
-  color: APP_FONT_COLOR
+  color: APP_FONT_COLOR,
+  a: {
+    color: APP_FONT_COLOR,
+    textDecoration: 'none'
+  }
 }) as ComponentType<AppBarProps>
 
 const LangIcon = styled(Language)({
@@ -78,9 +81,9 @@ class ButtonAppBar extends PureComponent<BarProp, BarState> {
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
     return (
-      <StyledAppBar>
+      <StyledAppBar id='project-header'>
         <h1>
-          {this.props.title}
+          <Link to='/'>{this.props.title}</Link>
           <LangIcon onClick={this.handeClick} />
         </h1>
         <div style={{ position: 'relative' }}>

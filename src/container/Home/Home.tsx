@@ -14,7 +14,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import Button from '@material-ui/core/Button'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 
-const StyledParticle = styled('div')({
+const StyledParticle = styled('div')<{ [key: string]: any }>({
   position: 'fixed',
   top: 0,
   left: 0,
@@ -41,10 +41,8 @@ interface Props {
 
 class Home extends React.Component<Props & InjectedIntlProps> {
   public async componentDidMount() {
-    if (process.browser && window.etherem) {
-      await window.etherem.enable()
-    }
-    this.props.initContract()
+    const { initContract } = this.props
+    initContract()
     if (process.browser) {
       require('particles.js')
       window.particlesJS.load('particle-body', '/particlesjs-config.json')

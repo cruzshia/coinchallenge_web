@@ -365,7 +365,7 @@ class CreateChallengeGroup extends React.Component<
           </WaitingBlk>
         ) : null}
         <Button variant='contained' className='button' onClick={this.onSubmit}>
-          Create
+          {intl.formatMessage({ id: 'create' })}
         </Button>
       </Form>
     )

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Route, Switch, Redirect, Link, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import Home from '@Container/Home'
+import Landing from '@Components/Landing'
 import CreateChallengeGroup from '@Container/CreateChallengeGroup'
 import Challenge from '@Container/Challenge'
 
@@ -36,14 +37,6 @@ const MainContainer = styled('div')({
   margin: '0 auto 40px',
   paddingTop: 60
 })
-
-const Landing = () => (
-  <div>
-    <Link to='/create'>CoinChallenges</Link>
-  </div>
-)
-
-const supportRegex = supportLang.join('|')
 
 class App extends Component {
   public componentDidMount() {

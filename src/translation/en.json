@@ -1,6 +1,7 @@
 {
     "ok": "ok",
     "confirm": "confirm",
+    "create": "Create",
     "cancel": "cancel",
     "providerNotFound": "no provider was found, please install related extensions(metamask)",
     "browserNotSupport": "you browser didn't support wallet, please use chrome/firefox/opera instead",
