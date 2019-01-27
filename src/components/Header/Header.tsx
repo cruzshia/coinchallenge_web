@@ -68,12 +68,9 @@ class ButtonAppBar extends PureComponent<BarProp, BarState> {
   }
 
   private onSelectLang = (lang: string) => () => {
-    const {
-      location: { pathname },
-      history
-    } = this.props
+    const { history } = this.props
 
-    history.replace(`${pathname}?l=${lang}`)
+    history.replace(`${history.location.pathname}?l=${lang}`)
     this.handleClose()
   }
 

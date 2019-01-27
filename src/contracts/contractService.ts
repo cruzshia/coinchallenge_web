@@ -110,7 +110,9 @@ export const getAllPastEvents = async (
 
 export const getPastSponsor = async (
   contract: Contract | null,
-  sponserSize?: number,
+  groupId: string,
+  challenger: string,
+  sponserSize: number = 0,
   options?: PastEventProp
 ) => {
   options = options || { fromBlock: 0 }
@@ -120,8 +122,15 @@ export const getPastSponsor = async (
     data: [] as Sponsor[]
   }
   let data: any[] = []
-  const sponsers =
-    (await getAllPastEvents(contract, 'SponsorChallenge', options)) || []
+  const sponsers: any[] = []
+  if (contract) {
+    for (let i = 0; i < sponserSize; i++) {
+      const sponsor = await contract.methods
+        .getSponsor(groupId, challenger)
+        .call()
+      sponsers.push(sponsor)
+    }
+  }
 
   if (!sponsers.length) {
     return response
@@ -150,26 +159,30 @@ interface SponsorEventProp {
   fromBlock?: number
   callback?: (sponser: Sponsor) => void
 }
+
+let skipFirst = false
 export const sponsorEvents = async ({
   contract,
   challenger,
   fromBlock = 0,
   callback
 }: SponsorEventProp) => {
+  skipFirst = fromBlock === 0
   contract.events
     .SponsorChallenge({
       filter: { challenger: challenger },
       fromBlock: fromBlock ? fromBlock + 1 : fromBlock
     })
     .on('data', function(event) {
-      console.log('sponsor', event)
       if (callback) {
         const { amount, comment, who } = event.returnValues
-        callback({
-          amount,
-          comment,
-          who
-        })
+        !skipFirst &&
+          callback({
+            amount,
+            comment,
+            who
+          })
+        skipFirst = false
       }
     })
 }

@@ -163,7 +163,12 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
         this.fetched = true
       } else if (!this.sponsorFetched && targetDays > 0) {
         this.sponsorFetched = true
-        const sponsorData = await getPastSponsor(contract, sponserSize)
+        const sponsorData = await getPastSponsor(
+          contract,
+          this.groupId,
+          this.address,
+          sponserSize
+        )
         sponsorEvents({
           contract,
           challenger: this.address,
