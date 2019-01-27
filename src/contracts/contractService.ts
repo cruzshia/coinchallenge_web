@@ -126,7 +126,7 @@ export const getPastSponsor = async (
   if (contract) {
     for (let i = 0; i < sponserSize; i++) {
       const sponsor = await contract.methods
-        .getSponsor(groupId, challenger)
+        .getSponsor(groupId, challenger, i)
         .call()
       sponsers.push(sponsor)
     }
@@ -138,15 +138,14 @@ export const getPastSponsor = async (
 
   sponserSize = sponserSize || sponsers.length
   data = sponsers.slice(sponserSize * -1).reverse()
-  response.blockNumber = data[0].blockNumber
+  response.blockNumber = sponserSize ? data[0].blockNumber : 0
 
   response.data =
     data.map(sponsor => {
-      const { amount, comment, who } = sponsor.returnValues
       return {
-        amount,
-        comment,
-        who
+        amount: sponsor._amount,
+        comment: sponsor._comment,
+        who: sponsor._who
       }
     }) || []
 
