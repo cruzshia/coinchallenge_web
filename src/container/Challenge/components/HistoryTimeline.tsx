@@ -87,7 +87,7 @@ class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
                 {intl.formatMessage({
                   id: 'achieveRate'
                 })}{' '}
-                {formatPercent(challenge.completeDays, challenge.totalDays)}%
+                {formatPercent(challenge.completeDays, challenge.totalDays)}
                 <br />
                 {intl.formatMessage({
                   id: 'amount'

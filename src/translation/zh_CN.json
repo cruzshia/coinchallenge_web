@@ -17,7 +17,7 @@
     "maxChallengeDays": "最多挑战天数",
     "maxDelayDays": "最多延迟纪录天数",
     "minChallengeAmount": "最少挑战硬币",
-    "docTitleChallenge": "{address}的挑战",
+    "docTitleChallenge": "Coin挑战者-{address}",
     "sponsor": "赞助挑战者",
     "sponsorDesc": "跟挑战者说句话吧！",
     "amount": "数量",

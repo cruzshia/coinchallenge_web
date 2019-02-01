@@ -132,7 +132,7 @@ function ChallengeInfo({
           <CrowdCtr>
             <StyledUnitFont>Achieve </StyledUnitFont>
             <StyledFont>
-              &nbsp;{formatPercent(completeDays, totalDays)}%
+              &nbsp;{formatPercent(completeDays, totalDays)}
             </StyledFont>
           </CrowdCtr>
         </Grid>
