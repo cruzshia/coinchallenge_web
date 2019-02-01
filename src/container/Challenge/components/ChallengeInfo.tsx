@@ -141,7 +141,10 @@ function ChallengeInfo({
         {intl.formatMessage({ id: 'sponsorContent' })}
       </StyledContent>
       <InfoTxt>
-        Achieve rate grater than {formatPercent(targetDays, totalDays)}% can get{' '}
+        {intl.formatMessage(
+          { id: 'challengeDesc' },
+          { rate: formatPercent(targetDays, totalDays) }
+        )}
         <Tooltip
           title={`${formatNumber(
             amount
@@ -152,6 +155,7 @@ function ChallengeInfo({
           classes={{ tooltip: classes.lightTooltip }}
         >
           <span style={{ fontSize: '30px' }}>
+            {' '}
             {formatNumber(amount + sponsorAmount)}
             {REACT_APP_COIN}
           </span>

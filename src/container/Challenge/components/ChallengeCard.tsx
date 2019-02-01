@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-// import { FormattedMessage } from 'react-intl'
 import { breakPoint } from '@Src/contants/common'
 import LogoImg from '@Src/images/logo.png'
 

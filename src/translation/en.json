@@ -3,6 +3,9 @@
     "confirm": "confirm",
     "create": "Create",
     "cancel": "cancel",
+    "status.Succeeded": "Success",
+    "status.Failed": "Faild",
+    "status.Aborted": "Aborted",
     "providerNotFound": "no provider was found, please install related extensions(metamask)",
     "browserNotSupport": "you browser didn't support wallet, please use chrome/firefox/opera instead",
     "accountNotFound": "Didn't detect any account, please login to wallet plugin first",
@@ -35,5 +38,8 @@
     "sponsorContent": "Sponsor challenger to encourage them hitting target! They will get you sponsor when complete challenge. You will get 100% sponsor coin back when they fail.",
     "createDataError": "create group data not completed or has error",
     "shareDesc": "I just start a {totalDays} days walking challenge with {amount}, sponsor and encourage me to hit the target!",
-    "waitConfirm": "Transaction is waiting for confirmation"
+    "waitConfirm": "Transaction is waiting for confirmation",
+    "achieveRate": "Achieve Rate",
+    "challengeDesc": "Achieve rate grater than {rate} can get ",
+    "history": "History"
 }

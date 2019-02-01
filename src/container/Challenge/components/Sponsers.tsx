@@ -1,28 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { COLOR_BAR } from '@Src/contants/themeColor'
-import SnackbarContent from '@material-ui/core/SnackbarContent'
+import { APP_THEME, APP_LIGHT_BG } from '@Src/contants/themeColor'
 import { breakPoint } from '@Src/contants/common'
 import { Sponsor } from '@Src/typing/globalTypes'
 import web3 from 'web3'
-
-const SnackbarCtr = styled('div')({
-  position: 'relative',
-  margin: '10px 0',
-  '.bar-item': {
-    width: '558px',
-    div: {
-      width: '100%'
-    }
-  },
-  [`@media (max-width:${breakPoint})`]: {
-    width: '100%',
-    '.bar-item': {
-      width: '100%'
-    }
-  }
-})
 
 const SponserCtr = styled('div')({
   marginTop: '10px',
@@ -31,51 +13,62 @@ const SponserCtr = styled('div')({
   alignItems: 'center'
 })
 
-const Address = styled('span')({
-  fontSize: '12px',
-  color: 'rgba(0, 0, 0, 0.3)'
-})
-
-const InnerContent = styled('div')({
-  display: 'flex',
-  justifyContent: 'space-between',
+const BarCtr = styled('div')({
+  width: '60%',
+  minWidth: '558px',
+  background: APP_LIGHT_BG,
+  marginBottom: '15px',
   [`@media (max-width: ${breakPoint})`]: {
-    flexDirection: 'column-reverse'
+    width: '100%',
+    minWidth: 0,
+    padding: '0 10px'
   }
 })
 
+const Address = styled('span')({
+  fontSize: '12px',
+  paddingRight: '10px',
+  color: 'rgba(0, 0, 0, 0.3)'
+})
+
 const CoinTxt = styled('div')({
-  color: '#ffeb3b',
+  color: APP_THEME,
   textAlign: 'right'
 })
 
 const Comment = styled('span')({
-  fontSize: '16px'
+  fontSize: '16px',
+  color: 'rgba(0, 0, 0, 0.8)'
+})
+
+const SponsorTitle = styled('div')({
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginBottom: '5px',
+  [`@media (max-width: ${breakPoint})`]: {
+    flexDirection: 'column-reverse',
+    [CoinTxt]: {
+      display: 'block',
+      marginBottom: '5px'
+    }
+  }
 })
 
 function Sponsers({ sponsors }: { sponsors: Sponsor[] }) {
   return (
     <SponserCtr>
-      {sponsors.map((sponser: any, idx: number) => (
-        <SnackbarCtr key={idx}>
-          <SnackbarContent
-            aria-describedby='client-snackbar'
-            style={{ backgroundColor: COLOR_BAR[idx % 3] }}
-            className='bar-item'
-            message={
-              <React.Fragment>
-                <InnerContent>
-                  <Address>{sponser.who}</Address>
-                  <CoinTxt>
-                    +{web3.utils.fromWei(sponser.amount)}{' '}
-                    {process.env.REACT_APP_COIN}
-                  </CoinTxt>
-                </InnerContent>
-                <Comment>{sponser.comment}</Comment>
-              </React.Fragment>
-            }
-          />
-        </SnackbarCtr>
+      {sponsors.map((sponsor: any, idx: number) => (
+        <BarCtr key={idx}>
+          <SponsorTitle>
+            <Address>{sponsor.who}</Address>
+            <CoinTxt>
+              +{web3.utils.fromWei(sponsor.amount)} {process.env.REACT_APP_COIN}
+            </CoinTxt>
+          </SponsorTitle>
+          <div>
+            <Comment>{sponsor.comment}</Comment>
+          </div>
+        </BarCtr>
       ))}
     </SponserCtr>
   )

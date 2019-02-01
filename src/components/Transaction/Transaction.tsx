@@ -1,5 +1,6 @@
 import React from 'react'
-import LinearProgress from '@material-ui/core/LinearProgress'
+import Loading from '@Src/images/blocking.gif'
+import styled from 'styled-components'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 
 interface TransactionProp extends InjectedIntlProps {
@@ -7,17 +8,38 @@ interface TransactionProp extends InjectedIntlProps {
   classNames?: string
 }
 
+const Div = styled('div')({
+  position: 'relative',
+  fontSize: 12
+})
+
+const Img = styled('img')({
+  width: '100px',
+  display: 'block',
+  margin: '0 auto'
+})
+
+const Href = styled('a')({
+  position: 'absolute',
+  transform: 'translateX(-50%)',
+  left: '50%',
+  bottom: 0
+})
+
 function Transaction({ txHash, classNames, intl }: TransactionProp) {
   return (
-    <React.Fragment>
+    <Div>
       {txHash ? (
-        <a href={`https://ropsten.etherscan.io/tx/${txHash}`} target='_blank'>
+        <Href
+          href={`https://ropsten.etherscan.io/tx/${txHash}`}
+          target='_blank'
+        >
           {intl.formatMessage({ id: 'waitConfirm' })}
-        </a>
+        </Href>
       ) : null}
 
-      <LinearProgress color='secondary' className={classNames} />
-    </React.Fragment>
+      <Img src={Loading} className={classNames} />
+    </Div>
   )
 }
 

@@ -1,5 +1,5 @@
 import Contract from 'web3/eth/contract'
-import { Sponsor } from '@Src/typing/globalTypes'
+import { Sponsor, ChallengeType } from '@Src/typing/globalTypes'
 import { parseChallenge } from '@Utils/contractUtils'
 //process.env.REACT_APP_CONTRACT_ADDRESS
 
@@ -66,17 +66,28 @@ export const getPastChallenges = async ({
   contract,
   challenger
 }: GetChallengeProp) => {
-  let statusData = new Array(3).fill(0)
   const finishChallenges =
     (await getAllPastEvents(contract, 'FinishChallenge', {
       fromBlock: 0,
       filter: { who: challenger }
     })) || []
+
+  const data: Array<ChallengeType> = []
+
   for (let i = 0; i < finishChallenges.length; i++) {
-    const { status } = finishChallenges[i].returnValues
-    statusData[status]++
+    const { returnValues } = finishChallenges[i]
+    data.push({
+      targetDays: returnValues.targetDays,
+      totalDays: returnValues.totalDays,
+      completeDays: returnValues.completeDays,
+      startDayTimestamp: 0,
+      sponserSize: 0,
+      amount: returnValues.amount,
+      status: returnValues.status
+    })
   }
-  return statusData
+
+  return data
 }
 
 export const getNewChallengeGroup = async (contract: Contract) => {

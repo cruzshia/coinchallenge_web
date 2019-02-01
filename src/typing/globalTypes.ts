@@ -16,6 +16,7 @@ export interface ChallengeType {
   startDayTimestamp: number
   sponserSize: number
   amount: number
+  status?: number
 }
 
 export interface Action {

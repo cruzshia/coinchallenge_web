@@ -3,6 +3,9 @@
     "confirm": "確認",
     "create": "創建",
     "cancel": "取消",
+    "status.Succeeded": "挑戰成功",
+    "status.Failed": "挑戰失敗",
+    "status.Aborted": "已放棄",
     "providerNotFound": "未偵測到錢包插件，請先安裝擴充套件(metamask)",
     "browserNotSupport": "你的瀏覽器不支援錢包插件，請改使用chrome/firefox或者opera瀏覽器",
     "accountNotFound": "未偵測到帳戶，請先登入錢包插件",
@@ -35,5 +38,9 @@
     "sponsorContent": "贊助挑戰者，激勵他完成目標！若完成挑戰，對方將獲得你的贊助;若失敗贊助金額將100%完全歸還。",
     "createDataError": "創建挑戰資料有誤或未完成",
     "shareDesc": "我剛剛在 walking challenge 發起 {totalDays} 天挑戰，挑戰金額為 {amount}，贊助且激勵我來達成目標！",
-    "waitConfirm": "交易正在等待確認"
+    "waitConfirm": "交易正在等待確認",
+    "days": "天",
+    "achieveRate": "達成率",
+    "challengeDesc": "達成率高於{rate}可以獲得",
+    "history": "挑戰歷史"
 }

@@ -1,125 +1,108 @@
 import React from 'react'
-import {
-  APP_THEME,
-  APP_LIGHT_BG,
-  APP_FONT_COLOR_DARK
-} from '@Src/contants/themeColor'
+import { APP_LIGHT_BG, APP_THEME } from '@Src/contants/themeColor'
+import { breakPoint } from '@Src/contants/common'
 import styled from 'styled-components'
 
 import { injectIntl, InjectedIntlProps } from 'react-intl'
-import { PieChart } from 'react-d3-components'
 import Contract from 'web3/eth/contract'
 import { getPastChallenges } from '@Src/contracts/contractService'
+import { ChallengeType } from '@Src/typing/globalTypes'
+import { formatPercent, formatNumber } from '@Src/utils'
+import web3 from 'web3'
 
 const STATUS = ['Succeeded', 'Failed', 'Aborted']
+const STATUS_COLOR = ['#ff7473', '#47b8e0', '#ffc952']
 
-const TimelineCtr = styled('div')({
-  background: APP_LIGHT_BG,
-  display: 'flex',
-  justifyContent: 'center',
-  text: {
-    color: APP_FONT_COLOR_DARK
-  }
-})
-
-interface TimelineProp extends InjectedIntlProps {
+interface HistoryProp extends InjectedIntlProps {
   contract: Contract | null
   challenger: string
 }
 
-interface StatusData {
-  x: string
-  y: number
-}
-interface TimelineState {
-  width: number
-  challengesStatus: {
-    values: StatusData[]
-  }
+interface HistoryState {
+  challenges: Array<ChallengeType>
 }
 
-function color(label: string) {
-  if (label.indexOf('success') >= 0) {
-    return '#ff7473'
-  } else if (label.indexOf('failed') >= 0) {
-    return '#47b8e0'
-  }
-  return '#ffc952'
-}
+const Title = styled('div')({
+  fontSize: 30,
+  color: 'rgba(0, 0, 0, 0.8)',
+  textAlign: 'center',
+  margin: '20px 0 10px',
+  paddingBottom: '10px',
+  borderBottom: `3px solid ${APP_THEME}`
+})
 
-class HistoryTimeline extends React.PureComponent<TimelineProp, TimelineState> {
+const TimelineCtr = styled('div')({
+  background: APP_LIGHT_BG,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center'
+})
+
+const HistoryCtr = styled('div')({
+  width: '60%',
+  minWidth: '558px',
+  display: 'flex',
+  margin: '10px 0',
+  justifyContent: 'space-between',
+  color: 'rgba(0, 0, 0, 0.6)',
+  [`@media (max-width: ${breakPoint})`]: {
+    width: '100%',
+    minWidth: 0,
+    padding: '0 10px'
+  }
+})
+
+class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
   private fetched: boolean = false
   public state = {
-    width: 600,
-    challengesStatus: {
-      values: []
-    }
+    challenges: []
   }
-
-  private detectWidth = () => {
-    this.setState({
-      width: screen.width < 520 ? 430 : 600
-    })
-  }
-
   public async componentDidUpdate() {
     const { contract, challenger } = this.props
     if (contract && !this.fetched) {
+      const pastChallengs = await getPastChallenges({ contract, challenger })
       this.fetched = true
-      let values = []
-      const pastStatus: Number[] = await getPastChallenges({
-        contract,
-        challenger
-      })
-      for (let i = 0; i < pastStatus.length; i++) {
-        if (pastStatus[i]) {
-          values.push({
-            x: STATUS[i % 3],
-            y: pastStatus[i]
-          } as StatusData)
-        }
-      }
       this.setState({
-        challengesStatus: {
-          values
-        }
+        challenges: pastChallengs
       })
     }
   }
-
-  public componentDidMount() {
-    if (process.browser) {
-      this.detectWidth()
-      window.onresize = this.detectWidth
-    }
-  }
-
-  public componentWillUnmount() {
-    window.onresize = null
-  }
-
   public render() {
-    const { challengesStatus } = this.state
-    if (!challengesStatus.values.length) {
-      return null
-    }
+    const { intl } = this.props
+    const { challenges } = this.state
     return (
       <TimelineCtr>
-        <PieChart
-          data={this.state.challengesStatus}
-          colorScale={(label: string) => color(label)}
-          x={(data: any) => `${data.x}:${data.y}`}
-          width={this.state.width}
-          height={400}
-          margin={{ top: 10, bottom: 10, left: 100, right: 100 }}
-          showOuterLabels={false}
-          showInnerLabels={false}
-          fill='red'
-          string
-          tooltipHtml={(x: string) => (
-            <span style={{ color: '#34314c' }}>{x}</span>
-          )}
-        />
+        <Title>
+          {challenges.length
+            ? intl.formatMessage({
+                id: 'history'
+              })
+            : null}
+        </Title>
+        {challenges.map((challenge: ChallengeType, idx: number) => {
+          const status = challenge.status || 0
+          return (
+            <HistoryCtr key={`history-${idx}`}>
+              <div>
+                {intl.formatMessage({
+                  id: 'achieveRate'
+                })}{' '}
+                {formatPercent(challenge.completeDays, challenge.totalDays)}%
+                <br />
+                {intl.formatMessage({
+                  id: 'amount'
+                })}{' '}
+                {formatNumber(Number(web3.utils.fromWei(challenge.amount)))}
+                {process.env.REACT_APP_COIN}
+              </div>
+              <div style={{ color: STATUS_COLOR[status] }}>
+                {intl.formatMessage({
+                  id: 'status.' + STATUS[status]
+                })}
+              </div>
+            </HistoryCtr>
+          )
+        })}
       </TimelineCtr>
     )
   }

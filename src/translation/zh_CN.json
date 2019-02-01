@@ -3,6 +3,9 @@
     "confirm": "确认",
     "create": "创建",
     "cancel": "取消",
+    "status.Succeeded": "挑战成功",
+    "status.Failed": "挑战失败",
+    "status.Aborted": "已放弃",
     "providerNotFound": "未侦测到钱包插件，请先安装扩充套件(metamask)",
     "browserNotSupport": "你的浏览器不支援钱包插件，请改使用chrome/firefox或者opera浏览器",
     "accountNotFound": "未侦测到帐户，请先登入钱包插件",
@@ -35,5 +38,8 @@
     "sponsorContent": "赞助挑战者，激励他完成目标！若完成挑战，对方将获得你的赞助;若失败赞助金额将100%完全归还。",
     "createDataError": "创建挑战资料有误或未完成",
     "shareDesc": "我刚刚在 walking challenge 发起 {totalDays} 天挑战，挑战金额为 {amount}，赞助且激励我来达成目标！",
-    "waitConfirm": "交易正在等待确认"
+    "waitConfirm": "交易正在等待确认",
+    "achieveRate": "达成率",
+    "challengeDesc": "达成率高于{rate}可以获得",
+    "history": "挑战历史"
 }
