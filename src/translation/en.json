@@ -45,13 +45,15 @@
     "landing.start.title": "Start A Coin Challenge",
     "landing.start.subtitle": "Get into good habbits",
     "landing.start.desc": "According psychology, it should take 21~90 days to get into the habbit, then habbit can last without any effort.",
-    "landing.blocks.title": "Get ready for miracle happening",
+    "landing.blocks.title": "Services",
     "landing.blocks.desc": "Get bonus from sponsors when completes challenges",
-    "landing.block1.title": "Challenge iOS App",
+    "landing.block1.title": "iOS App",
     "landing.block1.desc": "Coin Challenges App can create challenges and get into the habbit。In the same time, users can see active challenges here and sponsor challengers to encourage them.",
     "landing.block2.title": "Coin Challenge Website",
     "landing.block2.desc": "Share your challenges to social network, let friends sponsor and ecourage you to get good habbits!",
     "landing.block3.title": "Get Rewards",
     "landing.block3.desc": "Challenger can get all sponsors when complete challenges. In the other side, sponsors can get partial profits from challlenge coins when challenge fails, and challenger can also get 10 percent back that we ecourage you to conquer challenge again!",
-    "contact.info": "Contact Info"
+    "contact.info": "Contact Info",
+    "about.us": "About us",
+    "about.desc": "Different from most current Dapps, CoinChallenges aims to make block chain can be used more easily with our life, that's why we choose reward mechanism that hope users can get rewards when they play Dapps."
 }

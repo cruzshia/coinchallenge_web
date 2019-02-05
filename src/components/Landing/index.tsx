@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import SnapImg from '@Src/images/habbits.jpg'
+import Language from '@material-ui/icons/Language'
+import { Helmet } from 'react-helmet'
 
 const imageDir = '/landing/images/'
 
@@ -10,11 +12,21 @@ const LandingCtr = styled('div')<{ show: boolean }>`
   margin-top: -60px;
   opacity: ${props => (props.show ? 1 : 0)};
 `
+
+const StyledUl = styled('ul')({
+  right: 0,
+  transform: 'translateX(50%)'
+})
+
 const StyleId = 'landing-link'
 
 class Landing extends React.PureComponent<InjectedIntlProps> {
   private ref: HTMLElement | null = null
   private headerRef: HTMLElement | null = null
+
+  private scriptRef: React.RefObject<HTMLScriptElement> = React.createRef()
+  private scriptRef2: React.RefObject<HTMLScriptElement> = React.createRef()
+
   public state = {
     show: false
   }
@@ -56,6 +68,11 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
       this.ref.style.visibility = 'visible'
       this.headerRef.style.visibility = 'visible'
     }
+
+    if (this.scriptRef.current && this.scriptRef2.current) {
+      this.scriptRef.current.remove()
+      this.scriptRef2.current.remove()
+    }
   }
 
   public render() {
@@ -86,10 +103,20 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                   <nav id='mainav' className='fl_right'>
                     <ul className='clear'>
                       <li>
-                        <Link to='/'>Home</Link>
-                      </li>
-                      <li>
-                        <Link to='/create'>create</Link>
+                        <a className='drop' href='#'>
+                          <Language />
+                        </a>
+                        <StyledUl>
+                          <li>
+                            <Link to='/?l=zh_TW'>繁體中文</Link>
+                          </li>
+                          <li>
+                            <Link to='/?l=zh_CN'>简体中文</Link>
+                          </li>
+                          <li>
+                            <Link to='/?l=en_US'>English</Link>
+                          </li>
+                        </StyledUl>
                       </li>
                     </ul>
                   </nav>
@@ -193,35 +220,47 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
               <section className='hoc container clear'>
                 {/* ################################################################################################ */}
                 <div className='sectiontitle center'>
-                  <h6 className='heading'>Tempor turpis pede</h6>
-                  <p>Dictum ipsum vel auctor leo est tincidunt est cras.</p>
+                  <h6 className='heading'>實用小技巧</h6>
+                  <p>透過以下方法，可以讓挑戰更容易成功並或的更多獎勵</p>
                 </div>
                 <ul className='nospace group infoboxes'>
                   <li className='one_third first'>
                     <article className='infobox'>
                       <i className='fa fa-codepen' />
                       <p>
-                        <a href='#'>View Details</a>
+                        <a>社群網絡</a>
                       </p>
-                      <h6>Lectus nullam et diam</h6>
+                      <h6>
+                        分享給好友圈
+                        <br />
+                        獲得更多贊助
+                      </h6>
                     </article>
                   </li>
                   <li className='one_third'>
                     <article className='infobox'>
                       <i className='fa fa-scissors' />
                       <p>
-                        <a href='#'>View Details</a>
+                        <a>付出得到回報</a>
                       </p>
-                      <h6>Non dui consequat pulvinar</h6>
+                      <h6>
+                        贊助挑戰者
+                        <br />
+                        失敗可獲得的部分挑戰硬幣
+                      </h6>
                     </article>
                   </li>
                   <li className='one_third'>
                     <article className='infobox'>
                       <i className='fa fa-crosshairs' />
                       <p>
-                        <a href='#'>View Details</a>
+                        <a>邀請好友</a>
                       </p>
-                      <h6>Integer velit mi facilisis</h6>
+                      <h6>
+                        互相督促
+                        <br />
+                        一起完成挑戰
+                      </h6>
                     </article>
                   </li>
                 </ul>
@@ -241,17 +280,11 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
               <footer id='footer' className='hoc clear'>
                 {/* ################################################################################################ */}
                 <div className='one_third first'>
-                  <h6 className='heading'>Gomag</h6>
-                  <p>
-                    Et posuere sit amet vulputate tempor tellus maecenas
-                    vehicula magna quis pede curabitur iaculis dui eu purus
-                    quisque est enim lobortis.
-                  </p>
-                  <p className='btmspace-50'>
-                    Sed sollicitudin a mi vestibulum nisi ut lectus duis quam
-                    leo consectetuer.
-                  </p>
-                  <nav>
+                  <h6 className='heading'>
+                    {intl.formatMessage({ id: 'about.us' })}
+                  </h6>
+                  <p>{intl.formatMessage({ id: 'about.desc' })}</p>
+                  {/* <nav>
                     <ul className='nospace'>
                       <li>
                         <a href='index.html'>
@@ -271,7 +304,7 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                         <a href='#'>Privacy</a>
                       </li>
                     </ul>
-                  </nav>
+                  </nav> */}
                 </div>
                 <div className='one_third'>
                   <h6 className='heading'>
@@ -296,26 +329,6 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                     <li>
                       <a className='faicon-twitter' href='#'>
                         <i className='fa fa-twitter' />
-                      </a>
-                    </li>
-                    <li>
-                      <a className='faicon-dribble' href='#'>
-                        <i className='fa fa-dribbble' />
-                      </a>
-                    </li>
-                    <li>
-                      <a className='faicon-linkedin' href='#'>
-                        <i className='fa fa-linkedin' />
-                      </a>
-                    </li>
-                    <li>
-                      <a className='faicon-google-plus' href='#'>
-                        <i className='fa fa-google-plus' />
-                      </a>
-                    </li>
-                    <li>
-                      <a className='faicon-vk' href='#'>
-                        <i className='fa fa-vk' />
                       </a>
                     </li>
                   </ul>
@@ -377,8 +390,19 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
             <a id='backtotop' href='#top'>
               <i className='fa fa-chevron-up' />
             </a>
+            <Helmet>
+              <script
+                src='/landing/jquery.mobilemenu.js'
+                defer
+                ref={this.scriptRef2}
+              />
+            </Helmet>
           </React.Fragment>
-        ) : null}
+        ) : (
+          <Helmet>
+            <script src='/landing/jquery.min.js' defer ref={this.scriptRef} />
+          </Helmet>
+        )}
       </LandingCtr>
     )
   }
