@@ -28,7 +28,7 @@ if (typeof window !== 'undefined' && window.__PRELOADED_STATE__) {
     completeDays: 0,
     targetDays: 0,
     totalDays: 0,
-    startDayTimestamp: 0,
+    startTimestamp: 0,
     sponserSize: 0,
     amount: 0
   } as ChallengeType

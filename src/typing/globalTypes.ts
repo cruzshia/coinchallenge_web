@@ -13,7 +13,7 @@ export interface ChallengeType {
   targetDays: number
   totalDays: number
   completeDays: number
-  startDayTimestamp: number
+  startTimestamp: number
   sponserSize: number
   amount: number
   status?: number

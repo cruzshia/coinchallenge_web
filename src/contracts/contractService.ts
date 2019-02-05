@@ -46,7 +46,7 @@ export const newChallengesEvents = async ({
         groupId,
         targetDays,
         totalDays,
-        startDayTimestamp,
+        startTimestamp,
         amount
       } = event.returnValues
       callback &&
@@ -55,7 +55,7 @@ export const newChallengesEvents = async ({
           groupId,
           targetDays,
           totalDays,
-          startDayTimestamp,
+          startTimestamp,
           amount
         })
     }
@@ -80,7 +80,7 @@ export const getPastChallenges = async ({
       targetDays: returnValues.targetDays,
       totalDays: returnValues.totalDays,
       completeDays: returnValues.completeDays,
-      startDayTimestamp: 0,
+      startTimestamp: 0,
       sponserSize: 0,
       amount: returnValues.amount,
       status: returnValues.status
