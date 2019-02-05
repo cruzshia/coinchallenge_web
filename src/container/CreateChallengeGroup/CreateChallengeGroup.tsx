@@ -70,7 +70,8 @@ const LabelTxt = styled('span')({
 
 const WaitingBlk = styled('div')({
   zIndex: 1,
-  marginBottom: '10px'
+  marginBottom: '10px',
+  width: '100%'
 })
 
 const FormStyle = {

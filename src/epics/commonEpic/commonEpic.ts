@@ -14,16 +14,12 @@ async function transfer(account: string | null) {
   ) {
     return
   }
-  var url = new URL(location.href)
-  var transfer = url.searchParams.get('transfer')
-  if (transfer) {
-    await web3.eth.sendTransaction({
-      from: '0x1ce421937a6f59bf58faafe316d23aaed690da18',
-      to: account,
-      value: 2000000000000000000
-    })
-    console.log(`transfer 2 eth to ${account} success!`)
-  }
+  await web3.eth.sendTransaction({
+    from: '0x1ce421937a6f59bf58faafe316d23aaed690da18',
+    to: account,
+    value: 2000000000000000000
+  })
+  console.log(`transfer 2 eth to ${account} success!`)
 }
 
 export const initContractEpic = (action$: ActionsObservable<Action>) =>
@@ -45,6 +41,7 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
           network = await detectNetwork(txWeb3)
           txContract = newContract(txWeb3)
           await window.ethereum.enable()
+          window.contract = txContract
         }
 
         const providers = new Web3().providers

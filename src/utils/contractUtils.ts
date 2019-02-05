@@ -2,7 +2,8 @@ import Web3 from 'web3'
 import CoinChallengs from '@Src/contracts/CoinChallenges.json'
 import { ChallengeType } from '@Src/typing/globalTypes'
 
-let networkAddress = 'ws://localhost:7545'
+let networkAddress =
+  'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
 let contractAddress = '0x3B09cf89469fF20E007F1B0e4Ae58f463c5Fe59E'
 
 export const newContract = (web3Interface: Web3, address?: string) => {
@@ -26,7 +27,7 @@ export const parseChallenge = (response: any): ChallengeType => {
     targetDays: Number(response._targetDays),
     totalDays: Number(response._totalDays),
     completeDays: Number(response._completeDays),
-    startDayTimestamp: Number(response._startDayTimestamp) * 1000 * 86400,
+    startTimestamp: Number(response._startTimestamp) * 1000,
     sponserSize: Number(response._sponsorSize),
     amount: Number(Web3.utils.fromWei(response._amount))
   }
@@ -50,7 +51,7 @@ export const detectNetwork = async (web3: Web3 | null) => {
       break
     case 3: //ropsten
       networkAddress =
-        'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
+        'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
       contractAddress = '0x3B09cf89469fF20E007F1B0e4Ae58f463c5Fe59E'
       break
     default:
