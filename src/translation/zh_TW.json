@@ -42,5 +42,17 @@
     "days": "天",
     "achieveRate": "達成率",
     "challengeDesc": "達成率高於{rate}可以獲得",
-    "history": "挑戰歷史"
+    "history": "挑戰歷史",
+    "landing.start.title": "開始硬幣挑戰",
+    "landing.start.subtitle": "養成良好習慣",
+    "landing.start.desc": "根據行為心理學，習慣的養成需要 21 ～ 90 天，習慣養成後，就能毫不費力的持續發生！",
+    "landing.blocks.title": "準備好，開始讓奇蹟發生",
+    "landing.blocks.desc": "一旦完成挑戰就能從贊助者獲得獎勵",
+    "landing.block1.title": "挑戰APP",
+    "landing.block1.desc": "Coin Challenges App提供發起挑戰，養成習慣。並同時能查看目前活躍的挑戰給予贊助鼓勵挑戰者！",
+    "landing.block2.title": "Coin Challenge網頁",
+    "landing.block2.desc": "分享您的挑戰到社群網路，讓好友們贊助並鼓勵您的習慣養成計畫！",
+    "landing.block3.title": "獲得獎勵",
+    "landing.block3.desc": "挑戰者一但成功完成挑戰，可以獲得贊助者的所有硬幣。另一方面， 若用戶挑戰失敗， 則贊助者可以依照贊助比例，獲得部分挑戰的硬幣，同時會返還挑戰者百分之十的硬幣，鼓勵用戶再次挑戰！",
+    "contact.info": "聯絡資訊"
 }

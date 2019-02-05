@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Fade from '@material-ui/core/Fade'
 import Language from '@material-ui/icons/Language'
 import { SvgIconProps } from '@material-ui/core/SvgIcon'
-import { supportLang, breakPoint } from '@Src/contants/common'
+import { supportLang } from '@Src/contants/common'
 
 const StyledAppBar = styled(AppBar)({
   width: '100vw',

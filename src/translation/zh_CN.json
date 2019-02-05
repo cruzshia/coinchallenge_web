@@ -41,5 +41,17 @@
     "waitConfirm": "交易正在等待确认",
     "achieveRate": "达成率",
     "challengeDesc": "达成率高于{rate}可以获得",
-    "history": "挑战历史"
+    "history": "挑战历史",
+    "landing.start.title": "开始硬币挑战",
+    "landing.start.subtitle": "养成良好习惯",
+    "landing.start.desc": "根据行为心理学，习惯的养成需要 21 ～ 90 天，习惯养成后，就能毫不费力的持续发生！",
+    "landing.blocks.title": "准备好，开始让奇迹发生",
+    "landing.blocks.desc": "一旦完成挑战就能从赞助者获得奖励",
+    "landing.block1.title": "挑战APP",
+    "landing.block1.desc": "Coin Challenges App提供发起挑战，养成习惯。并同时能查看目前活跃的挑战给予赞助鼓励挑战者！",
+    "landing.block2.title": "Coin Challenge网页",
+    "landing.block2.desc": "分享您的挑战到社群网路，让好友们赞助并鼓励您的习惯养成计画！",
+    "landing.block3.title": "获得奖励",
+    "landing.block3.desc": "挑战者一但成功完成挑战，可以获得赞助者的所有硬币。另一方面， 若用户挑战失败， 则赞助者可以依照赞助比例，获得部分挑战的硬币，同时会返还挑战者百分之十的硬币，鼓励用户再次挑战！",
+    "contact.info": "联络资讯"
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { injectIntl, InjectedIntlProps } from 'react-intl'
+import SnapImg from '@Src/images/habbits.jpg'
 
 const imageDir = '/landing/images/'
 
@@ -10,7 +12,7 @@ const LandingCtr = styled('div')<{ show: boolean }>`
 `
 const StyleId = 'landing-link'
 
-class Landing extends React.PureComponent {
+class Landing extends React.PureComponent<InjectedIntlProps> {
   private ref: HTMLElement | null = null
   private headerRef: HTMLElement | null = null
   public state = {
@@ -57,6 +59,7 @@ class Landing extends React.PureComponent {
   }
 
   public render() {
+    const { intl } = this.props
     return (
       <LandingCtr show={this.state.show}>
         {/* ################################################################################################ */}
@@ -82,7 +85,7 @@ class Landing extends React.PureComponent {
                   </div>
                   <nav id='mainav' className='fl_right'>
                     <ul className='clear'>
-                      <li className='active'>
+                      <li>
                         <Link to='/'>Home</Link>
                       </li>
                       <li>
@@ -100,14 +103,13 @@ class Landing extends React.PureComponent {
                 <div>
                   {/* ################################################################################################ */}
                   <h2 className='heading'>
-                    Coin Your Life
+                    {intl.formatMessage({ id: 'landing.start.title' })}
                     <br />
-                    <strong>Get into the habbit</strong>
+                    <strong>
+                      {intl.formatMessage({ id: 'landing.start.subtitle' })}
+                    </strong>
                   </h2>
-                  <p>
-                    According Psychology, it should take 21~90 days to get into
-                    the habbit, then habbit can last without any effort.
-                  </p>
+                  <p>{intl.formatMessage({ id: 'landing.start.desc' })}</p>
                   <footer>
                     <ul className='nospace inline pushright'>
                       <li>
@@ -131,44 +133,48 @@ class Landing extends React.PureComponent {
                 {/* main body */}
                 {/* ################################################################################################ */}
                 <div className='sectiontitle center'>
-                  <h6 className='heading'>Start your Challenge</h6>
-                  <p>Get reward as you hit the goal</p>
+                  <h6 className='heading'>
+                    {intl.formatMessage({ id: 'landing.blocks.title' })}
+                  </h6>
+                  <p>{intl.formatMessage({ id: 'landing.blocks.desc' })}</p>
                 </div>
                 <ul className='nospace group center btmspace-80'>
                   <li className='one_third first'>
                     <article>
                       <i className='btmspace-30 fa fa-3x fa-apple' />
-                      <h6 className='heading font-x1'>Challenge App</h6>
+                      <h6 className='heading font-x1'>
+                        {intl.formatMessage({ id: 'landing.block1.title' })}
+                      </h6>
                       <p className='btmspace-30'>
-                        Provider user to start challenges and watch others
-                        activities
+                        {intl.formatMessage({ id: 'landing.block1.desc' })}
                       </p>
                     </article>
                   </li>
                   <li className='one_third'>
                     <article>
                       <i className='btmspace-30 fa fa-3x fa-code' />
-                      <h6 className='heading font-x1'>Challenge Web</h6>
+                      <h6 className='heading font-x1'>
+                        {intl.formatMessage({ id: 'landing.block2.title' })}
+                      </h6>
                       <p className='btmspace-30'>
-                        User can share their challenge pages to get sponsors!
-                        Also, developers can create thrie challenge group here
-                        to make theirs app to become dapp!
+                        {intl.formatMessage({ id: 'landing.block2.desc' })}
                       </p>
                     </article>
                   </li>
                   <li className='one_third'>
                     <article>
                       <i className='btmspace-30 fa fa-3x fa-calendar-check-o' />
-                      <h6 className='heading font-x1'>Get habbits</h6>
+                      <h6 className='heading font-x1'>
+                        {intl.formatMessage({ id: 'landing.block3.title' })}
+                      </h6>
                       <p className='btmspace-30'>
-                        After complete challenges, the most excited part is you
-                        can get good habbits into you life!
+                        {intl.formatMessage({ id: 'landing.block3.desc' })}
                       </p>
                     </article>
                   </li>
                 </ul>
                 <figure>
-                  <img src={`${imageDir}/978x380.png`} alt='' />
+                  <img src={SnapImg} alt='' />
                 </figure>
                 {/* ################################################################################################ */}
                 {/* / main body */}
@@ -229,7 +235,7 @@ class Landing extends React.PureComponent {
             <div
               className='wrapper row4 bgded overlay'
               style={{
-                backgroundImage: 'url("images/demo/backgrounds/04.png")'
+                backgroundImage: `url("images/demo/backgrounds/04.png")`
               }}
             >
               <footer id='footer' className='hoc clear'>
@@ -268,22 +274,17 @@ class Landing extends React.PureComponent {
                   </nav>
                 </div>
                 <div className='one_third'>
-                  <h6 className='heading'>Metus nam eu urna tempus</h6>
+                  <h6 className='heading'>
+                    {intl.formatMessage({ id: 'contact.info' })}
+                  </h6>
                   <ul className='nospace btmspace-30 linklist contact'>
                     <li>
-                      <i className='fa fa-map-marker' />
-                      <address>
-                        Street Name &amp; Number, Town, Postcode/Zip
-                      </address>
+                      <i className='fa fa-facebook-square' />
+                      <address>Coin Challenges</address>
                     </li>
                     <li>
-                      <i className='fa fa-phone' /> +00 (123) 456 7890
-                    </li>
-                    <li>
-                      <i className='fa fa-fax' /> +00 (123) 456 7890
-                    </li>
-                    <li>
-                      <i className='fa fa-envelope-o' /> info@domain.com
+                      <i className='fa fa-envelope-o' />{' '}
+                      coin.challenge@gmail.com
                     </li>
                   </ul>
                   <ul className='faico clear'>
@@ -383,4 +384,4 @@ class Landing extends React.PureComponent {
   }
 }
 
-export default Landing
+export default injectIntl(Landing)
