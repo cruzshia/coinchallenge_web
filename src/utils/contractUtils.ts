@@ -3,7 +3,7 @@ import CoinChallengs from '@Src/contracts/CoinChallenges.json'
 import { ChallengeType } from '@Src/typing/globalTypes'
 
 let networkAddress = 'ws://localhost:7545'
-let contractAddress = '0x353acf73C7c2e7E07D666cC1c615fcbdAc62f7D8'
+let contractAddress = '0x3B09cf89469fF20E007F1B0e4Ae58f463c5Fe59E'
 
 export const newContract = (web3Interface: Web3, address?: string) => {
   let newContract = null
@@ -51,7 +51,7 @@ export const detectNetwork = async (web3: Web3 | null) => {
     case 3: //ropsten
       networkAddress =
         'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
-      contractAddress = '0x353acf73C7c2e7E07D666cC1c615fcbdAc62f7D8'
+      contractAddress = '0x3B09cf89469fF20E007F1B0e4Ae58f463c5Fe59E'
       break
     default:
       networkAddress = 'ws://localhost:7545'
