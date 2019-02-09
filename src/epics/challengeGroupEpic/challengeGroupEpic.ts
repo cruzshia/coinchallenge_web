@@ -44,12 +44,14 @@ export const newChallengeGroupEpic = (
       delete payload.dispatch
 
       payload.minAmount = web3.utils.toWei(payload.minAmount, 'ether')
+      payload.agent =
+        payload.agent === ''
+          ? '0xa99CeB4475670cCDF31a78232bfA585848598cBA'
+          : payload.agent
+
       return from(
         contract.methods
-          .createChallengeGroup(
-            ...Object.values(payload),
-            '0xa99CeB4475670cCDF31a78232bfA585848598cBA'
-          )
+          .createChallengeGroup(...Object.values(payload))
           .send({ from: address }, (_err: any, hash: string) => {
             dispatch(
               setConfirm({

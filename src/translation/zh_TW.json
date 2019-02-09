@@ -3,6 +3,7 @@
     "confirm": "確認",
     "create": "創建",
     "cancel": "取消",
+    "agent": "代理帳戶",
     "status.Succeeded": "挑戰成功",
     "status.Failed": "挑戰失敗",
     "status.Aborted": "已放棄",

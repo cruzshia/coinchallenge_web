@@ -3,6 +3,7 @@
     "confirm": "confirm",
     "create": "Create",
     "cancel": "cancel",
+    "agent": "agent",
     "status.Succeeded": "Success",
     "status.Failed": "Faild",
     "status.Aborted": "Aborted",

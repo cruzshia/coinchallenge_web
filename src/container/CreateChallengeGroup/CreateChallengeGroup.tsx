@@ -28,6 +28,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import web3 from 'web3'
 
 const Form = styled('form')({
   display: 'flex',
@@ -116,10 +117,15 @@ type CreateChallengeGroupProp = {
   setPopup: (payload: SetPopProps) => void
 }
 
-type ErrorProp = { [s in keyof ChallengeGroupType]?: boolean }
+interface ErrorKeys extends ChallengeGroupType {
+  agent?: any
+}
+
+type ErrorProp = { [s in keyof ErrorKeys]?: boolean }
 type StateProp = {
   challengeGroup: ChallengeGroupType
   error: ErrorProp
+  agent: string
 }
 
 const mapStateToProps = (state: Map<string, object>) => {
@@ -159,7 +165,8 @@ class CreateChallengeGroup extends React.Component<
     error: {
       minDays: true,
       maxDays: true
-    } as ErrorProp
+    } as ErrorProp,
+    agent: ''
   }
 
   private onTextChange = (key: keyof ChallengeGroupType) => (
@@ -230,6 +237,17 @@ class CreateChallengeGroup extends React.Component<
     })
   }
 
+  private onAgentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.currentTarget.value as string
+    const isEmpty = val === ''
+    const { error } = this.state
+    error['agent'] = !isEmpty && !web3.utils.isAddress(val)
+    this.setState({
+      agent: val,
+      error: { ...error }
+    })
+  }
+
   private onSubmit = () => {
     let hasError = Object.keys(this.state.error).length === 0
     for (let field in this.state.error) {
@@ -243,7 +261,10 @@ class CreateChallengeGroup extends React.Component<
       return
     }
     this.props.checkWallet()
-    this.props.newChallengeGroup(this.state.challengeGroup)
+    this.props.newChallengeGroup({
+      ...this.state.challengeGroup,
+      agent: this.state.agent
+    })
   }
 
   public componentDidUpdate() {
@@ -263,7 +284,7 @@ class CreateChallengeGroup extends React.Component<
   }
 
   public render() {
-    const { challengeGroup, error } = this.state
+    const { challengeGroup, error, agent } = this.state
     const { intl, isConfirming, txHash } = this.props
 
     return (
@@ -402,6 +423,20 @@ class CreateChallengeGroup extends React.Component<
           style={Styles}
           required
         />
+
+        <TextField
+          label={<Label text={intl.formatMessage({ id: 'agent' })} />}
+          className='textField'
+          margin='normal'
+          variant='outlined'
+          placeholder='e.g 0xa99CeB4475670cCDF31a78232bfA585848598cBA'
+          value={agent}
+          onChange={this.onAgentChange}
+          error={error.agent}
+          InputLabelProps={CreateChallengeGroup.LabelProp}
+          style={Styles}
+        />
+
         <br />
         {isConfirming ? (
           <WaitingBlk>
