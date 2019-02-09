@@ -69,7 +69,17 @@ export const getChallengeEpic = (
             : setPopup({ showPop: true, popMessage: 'challenge not found' })
         }),
         catchError((err: any) => {
-          return of(setPopup({ showPop: true, popMessage: err.message }))
+          const { message } = err
+
+          return of(
+            setPopup({
+              showPop: true,
+              popMessage:
+                message.indexOf('exist') !== -1
+                  ? 'challenge not found'
+                  : message
+            })
+          )
         })
       )
     })

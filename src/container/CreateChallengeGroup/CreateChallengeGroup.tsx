@@ -99,8 +99,8 @@ const defaultGroupState = {
   id: '',
   name: '',
   url: '',
-  minDays: '12',
-  maxDays: '12',
+  minDays: '0',
+  maxDays: '0',
   maxDelayDays: '7',
   minAmount: ''
 }
@@ -156,7 +156,10 @@ class CreateChallengeGroup extends React.Component<
 
   public state = {
     challengeGroup: { ...defaultGroupState } as ChallengeGroupType,
-    error: {} as ErrorProp
+    error: {
+      minDays: true,
+      maxDays: true
+    } as ErrorProp
   }
 
   private onTextChange = (key: keyof ChallengeGroupType) => (
@@ -183,8 +186,13 @@ class CreateChallengeGroup extends React.Component<
     if (Number(challengeGroup['maxDays']) < Number(challengeGroup['minDays'])) {
       challengeGroup['maxDays'] = challengeGroup['minDays']
     }
+    error['minDays'] = Number(challengeGroup['minDays']) <= 0
+    error['maxDays'] = Number(challengeGroup['maxDays']) <= 0
     this.setState({
-      challengeGroup: { ...challengeGroup }
+      challengeGroup: { ...challengeGroup },
+      error: {
+        ...error
+      }
     })
   }
 

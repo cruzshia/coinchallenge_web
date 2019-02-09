@@ -3,8 +3,6 @@ import compression from 'compression'
 import express from 'express'
 import morgan from 'morgan'
 import path from 'path'
-// import Loadable from 'react-loadable';
-// import cookieParser from 'cookie-parser';
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router'
@@ -45,7 +43,6 @@ app.use(compression())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('dev'))
-// app.use(cookieParser());
 
 app.use(express.static(path.resolve(__dirname, '../build')))
 
@@ -59,22 +56,32 @@ app.get('/challenge/:groupId/:address', async (req, res) => {
   )
   const contract = newContract(
     web3,
-    '0x353acf73C7c2e7E07D666cC1c615fcbdAc62f7D8'
+    '0x0884104630fF102C5c83a4DA450139e8B300098C'
   )
-  const challengeRes = await getChallenge({
-    contract,
-    groupId,
-    challenger: address
-  })
+  let challengeRes
+  try {
+    challengeRes = await getChallenge({
+      contract,
+      groupId,
+      challenger: address
+    })
+    store.dispatch(setChallenge(challengeRes))
+  } catch (err) {
+    console.log('ssr get challenge error')
+    console.log(err)
+  }
 
-  const { name, url } = await getChallengeGroup({
-    contract,
-    groupId,
-    challenger: address
-  })
-
-  store.dispatch(setChallenge(challengeRes))
-  store.dispatch(setChallengeGroup({ groupImage: url, groupName: name }))
+  try {
+    const { name, url } = await getChallengeGroup({
+      contract,
+      groupId,
+      challenger: address
+    })
+    store.dispatch(setChallengeGroup({ groupImage: url, groupName: name }))
+  } catch (err) {
+    console.log('ssr get challenge group error')
+    console.log(err)
+  }
 
   const html = getRenderedHtml(req.url)
   const preloadedState = store.getState().toJS()
@@ -146,11 +153,6 @@ const getRenderedHtml = url => {
 
   return index.replace('<div id="root"></div>', `<div id="root">${html}</div>`)
 }
-
-// We tell React Loadable to load all required assets and start listening - ROCK AND ROLL!
-// Loadable.preloadAll().then(() => {
-//   app.listen(PORT, console.log(`App listening on port ${PORT}!`));
-// });
 
 app.listen(PORT, console.log(`App listening on port ${PORT}!`))
 
