@@ -32,7 +32,6 @@ import {
 } from '../dist/contracts/contractService'
 
 let filePath = path.resolve(__dirname, '../build', 'index.html')
-let index = fs.readFileSync(filePath, 'utf8')
 
 // Our loader - this basically acts as the entry point for each page load
 
@@ -104,20 +103,24 @@ app.get('**', function(req, res) {
   res.send(getRenderedHtml(req.url))
 })
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: APP_THEME
+    },
+    type: 'light'
+  }
+})
+
 const getRenderedHtml = url => {
+  let index = fs.readFileSync(filePath, 'utf8')
   const sheet = new ServerStyleSheet()
 
   const sheetsRegistry = new SheetsRegistry()
   // Create a sheetsManager instance.
   const sheetsManager = new Map()
-  const generateClassName = createGenerateClassName()
-  const theme = createMuiTheme({
-    palette: {
-      primary: {
-        main: APP_THEME
-      },
-      type: 'light'
-    }
+  const generateClassName = createGenerateClassName({
+    dangerouslyUseGlobalCSS: false
   })
 
   const html = renderToString(

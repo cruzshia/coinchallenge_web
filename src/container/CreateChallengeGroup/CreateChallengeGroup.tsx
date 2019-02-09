@@ -274,7 +274,7 @@ class CreateChallengeGroup extends React.Component<
         response: {},
         error: false
       })
-      this.setState({ challengeGroup: defaultGroupState })
+      this.setState({ challengeGroup: defaultGroupState, agent: '' })
     }
   }
 
