@@ -214,7 +214,7 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
             <div
               className='wrapper bgded overlay coloured'
               style={{
-                backgroundImage: 'url("images/demo/backgrounds/02.png")'
+                backgroundImage: `url("${imageDir}backgrounds/02.jpg")`
               }}
             >
               <section className='hoc container clear'>

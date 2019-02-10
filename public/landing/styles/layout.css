@@ -827,7 +827,7 @@ textarea:focus,
 
 .overlay.coloured::after {
     color: inherit;
-    background-color: rgba(207, 72, 69, .5)/* #FF5864 */
+    background-color: rgba(255, 255, 255, 0.5)/* #FF5864 */
     ;
 }
 
@@ -885,7 +885,7 @@ textarea:focus,
 /* Page Intro */
 
 #pageintro {
-    color: #191919;
+    color: #fff;
 }
 
 
