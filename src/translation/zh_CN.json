@@ -56,5 +56,14 @@
     "landing.block3.desc": "挑战者一但成功完成挑战，可以获得赞助者的所有硬币。另一方面， 若用户挑战失败， 则赞助者可以依照赞助比例，获得部分挑战的硬币，同时会返还挑战者百分之十的硬币，鼓励用户再次挑战！",
     "contact.info": "联络资讯",
     "about.us": "关于我们",
-    "about.desc": "有别于目前大多数的博弈Dapps，CoinChallenges想让区块链可以更落实的运用在生活中，因此才发想出奖励机制的应用，希望使用者能在畅玩Dapp的过程中，也能获得一些回馈。"
+    "about.desc": "有别于目前大多数的博弈Dapps，CoinChallenges想让区块链可以更落实的运用在生活中，因此才发想出奖励机制的应用，希望使用者能在畅玩Dapp的过程中，也能获得一些回馈。",
+    "section.tips": "实用小技巧",
+    "section.tips.desc": "透过以下方法，可以让挑战更容易成功并或的更多奖励",
+    "section.social.network": "社群网络",
+    "section.social.network.desc": "分享给好友圈<br />获得更多赞助",
+    "section.paid.off": "付出得到回报",
+    "section.paid.off.desc": "赞助挑战者<br />失败可获得的部分挑战硬币",
+    "section.invite.friend": "邀请好友",
+    "section.invite.friend.desc": "互相督促<br />一起完成挑战",
+    "download.app": "下载App"
 }

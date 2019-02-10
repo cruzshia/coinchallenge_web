@@ -57,5 +57,14 @@
     "landing.block3.desc": "挑戰者一但成功完成挑戰，可以獲得贊助者的所有硬幣。另一方面， 若用戶挑戰失敗， 則贊助者可以依照贊助比例，獲得部分挑戰的硬幣，同時會返還挑戰者百分之十的硬幣，鼓勵用戶再次挑戰！",
     "contact.info": "聯絡資訊",
     "about.us": "關於我們",
-    "about.desc": "有別於目前大多數的博弈Dapps，CoinChallenges想讓區塊鏈可以更落實的運用在生活中，因此才發想出獎勵機制的應用，希望使用者能在暢玩Dapp的過程中，也能獲得一些回饋。"
+    "about.desc": "有別於目前大多數的博弈Dapps，CoinChallenges想讓區塊鏈可以更落實的運用在生活中，因此才發想出獎勵機制的應用，希望使用者能在暢玩Dapp的過程中，也能獲得一些回饋。",
+    "section.tips": "實用小技巧",
+    "section.tips.desc": "透過以下方法，可以讓挑戰更容易成功並或的更多獎勵",
+    "section.social.network": "社群網絡",
+    "section.social.network.desc": "分享給好友圈<br />獲得更多贊助",
+    "section.paid.off": "付出得到回報",
+    "section.paid.off.desc": "贊助挑戰者<br />失敗可獲得的部分挑戰硬幣",
+    "section.invite.friend": "邀請好友",
+    "section.invite.friend.desc": "互相督促<br />一起完成挑戰",
+    "download.app": "下載App"
 }

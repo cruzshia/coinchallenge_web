@@ -28,6 +28,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
 import web3 from 'web3'
 
 const Form = styled('form')({
@@ -348,6 +349,7 @@ class CreateChallengeGroup extends React.Component<
             value={challengeGroup.minDays}
             onChange={this.onDayChange('minDays')}
             style={SelectStyle}
+            input={<OutlinedInput labelWidth={150} />}
           >
             {new Array(79).fill(0).map((_data: number, index: number) => (
               <MenuItem key={`option-${index}`} value={index + 12}>
@@ -371,15 +373,16 @@ class CreateChallengeGroup extends React.Component<
             value={challengeGroup.maxDays}
             onChange={this.onDayChange('maxDays')}
             style={SelectStyle}
+            input={<OutlinedInput labelWidth={150} />}
           >
             {new Array(90 - Number(challengeGroup.minDays) + 1)
               .fill(0)
               .map((_data: number, index: number) => (
                 <MenuItem
                   key={`option-max-${index}`}
-                  value={Number(challengeGroup.minDays) + index}
+                  value={(Number(challengeGroup.minDays) || 12) + index}
                 >
-                  {Number(challengeGroup.minDays) + index}
+                  {(Number(challengeGroup.minDays) || 12) + index}
                 </MenuItem>
               ))}
           </Select>
@@ -399,6 +402,7 @@ class CreateChallengeGroup extends React.Component<
             value={challengeGroup.maxDelayDays}
             onChange={this.onDelayDayChange}
             style={SelectStyle}
+            input={<OutlinedInput labelWidth={140} />}
           >
             {new Array(90).fill(0).map((_data: number, index: number) => (
               <MenuItem key={`option-delay-${index}`} value={index + 1}>

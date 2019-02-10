@@ -56,5 +56,14 @@
     "landing.block3.desc": "Challenger can get all sponsors when complete challenges. In the other side, sponsors can get partial profits from challlenge coins when challenge fails, and challenger can also get 10 percent back that we ecourage you to conquer challenge again!",
     "contact.info": "Contact Info",
     "about.us": "About us",
-    "about.desc": "Different from most current Dapps, CoinChallenges aims to make block chain can be used more easily with our life, that's why we choose reward mechanism that hope users can get rewards when they play Dapps."
+    "about.desc": "Different from most current Dapps, CoinChallenges aims to make block chain can be used more easily with our life, that's why we choose reward mechanism that hope users can get rewards when they play Dapps.",
+    "section.tips": "Useful tips",
+    "section.tips.desc": "Make challenge easier succeed and get more bonus by tips below",
+    "section.social.network": "Social Network",
+    "section.social.network.desc": "Share to friends<br />Get more sponsors",
+    "section.paid.off": "All efforts have paid off",
+    "section.paid.off.desc": "Sponsor challenger<br />Get coin from failer",
+    "section.invite.friend": "Invite Friends",
+    "section.invite.friend.desc": "Urge Each Other<br />Complete together",
+    "download.app": "Download App"
 }

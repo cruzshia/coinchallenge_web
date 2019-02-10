@@ -141,7 +141,7 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                     <ul className='nospace inline pushright'>
                       <li>
                         <a className='btn' href='#'>
-                          Download App
+                          {intl.formatMessage({ id: 'download.app' })}
                         </a>
                       </li>
                     </ul>
@@ -220,47 +220,59 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
               <section className='hoc container clear'>
                 {/* ################################################################################################ */}
                 <div className='sectiontitle center'>
-                  <h6 className='heading'>實用小技巧</h6>
-                  <p>透過以下方法，可以讓挑戰更容易成功並或的更多獎勵</p>
+                  <h6 className='heading'>
+                    {intl.formatMessage({ id: 'section.tips' })}
+                  </h6>
+                  <p>{intl.formatMessage({ id: 'section.tips.desc' })}</p>
                 </div>
                 <ul className='nospace group infoboxes'>
                   <li className='one_third first'>
                     <article className='infobox'>
                       <i className='fa fa-codepen' />
                       <p>
-                        <a>社群網絡</a>
+                        <a>
+                          {intl.formatMessage({ id: 'section.social.network' })}
+                        </a>
                       </p>
-                      <h6>
-                        分享給好友圈
-                        <br />
-                        獲得更多贊助
-                      </h6>
+                      <h6
+                        dangerouslySetInnerHTML={{
+                          __html: intl.formatMessage({
+                            id: 'section.social.network.desc'
+                          })
+                        }}
+                      />
                     </article>
                   </li>
                   <li className='one_third'>
                     <article className='infobox'>
                       <i className='fa fa-scissors' />
                       <p>
-                        <a>付出得到回報</a>
+                        <a>{intl.formatMessage({ id: 'section.paid.off' })}</a>
                       </p>
-                      <h6>
-                        贊助挑戰者
-                        <br />
-                        失敗可獲得的部分挑戰硬幣
-                      </h6>
+                      <h6
+                        dangerouslySetInnerHTML={{
+                          __html: intl.formatMessage({
+                            id: 'section.paid.off.desc'
+                          })
+                        }}
+                      />
                     </article>
                   </li>
                   <li className='one_third'>
                     <article className='infobox'>
                       <i className='fa fa-crosshairs' />
                       <p>
-                        <a>邀請好友</a>
+                        <a>
+                          {intl.formatMessage({ id: 'section.invite.friend' })}
+                        </a>
                       </p>
-                      <h6>
-                        互相督促
-                        <br />
-                        一起完成挑戰
-                      </h6>
+                      <h6
+                        dangerouslySetInnerHTML={{
+                          __html: intl.formatMessage({
+                            id: 'section.invite.friend.desc'
+                          })
+                        }}
+                      />
                     </article>
                   </li>
                 </ul>
