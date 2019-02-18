@@ -83,7 +83,8 @@ export const getPastChallenges = async ({
       startTimestamp: 0,
       sponserSize: 0,
       amount: returnValues.amount,
-      status: returnValues.status
+      status: returnValues.status,
+      goal: returnValues.goal
     })
   }
 

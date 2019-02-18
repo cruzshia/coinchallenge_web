@@ -29,7 +29,8 @@ export const parseChallenge = (response: any): ChallengeType => {
     completeDays: Number(response._completeDays),
     startTimestamp: Number(response._startTimestamp) * 1000,
     sponserSize: Number(response._sponsorSize),
-    amount: Number(Web3.utils.fromWei(response._amount))
+    amount: Number(Web3.utils.fromWei(response._amount)),
+    goal: response._goal
   }
 
   return challenge

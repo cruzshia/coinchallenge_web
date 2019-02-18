@@ -30,7 +30,8 @@ if (typeof window !== 'undefined' && window.__PRELOADED_STATE__) {
     totalDays: 0,
     startTimestamp: 0,
     sponserSize: 0,
-    amount: 0
+    amount: 0,
+    goal: ''
   } as ChallengeType
 }
 

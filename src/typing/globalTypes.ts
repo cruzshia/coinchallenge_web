@@ -17,6 +17,7 @@ export interface ChallengeType {
   sponserSize: number
   amount: number
   status?: number
+  goal: string
 }
 
 export interface Action {

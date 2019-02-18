@@ -16,7 +16,10 @@ const StyledTitle = styled('span')({
   fontSize: '34px',
   padding: '10px',
   lineHeight: '30px',
-  width: '100%'
+  width: '100%',
+  '.goal': {
+    fontSize: '24px'
+  }
 })
 
 const Logo = styled('img')({
@@ -25,18 +28,22 @@ const Logo = styled('img')({
   margin: '0 auto'
 })
 interface ChallengeCardProp {
-  groupId: string
   name: string
+  goal: string
   url: string
   invalidAddress: boolean
 }
 
 const ChallengeCard = React.memo(
-  ({ groupId, name, url, invalidAddress }: ChallengeCardProp) => (
+  ({ goal, name, url, invalidAddress }: ChallengeCardProp) => (
     <React.Fragment>
       {/* <StyledFont>Challenger: {address}</StyledFont> */}
       <StyledTtitleCtr>
-        <StyledTitle>{invalidAddress ? '' : name}</StyledTitle>
+        <StyledTitle>
+          {invalidAddress ? '' : name}
+          <br />
+          <span className='goal'>{goal}</span>
+        </StyledTitle>
         {invalidAddress || url === '' ? (
           <Logo src={LogoImg} />
         ) : (

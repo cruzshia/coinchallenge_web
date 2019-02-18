@@ -232,6 +232,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       totalDays,
       targetDays,
       amount,
+      goal,
       intl,
       isCofirmingSponsor,
       txhash,
@@ -268,8 +269,8 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
           </Helmet>
           <StyledGridList>
             <ChallengeCard
-              groupId={this.groupId}
               name={groupName}
+              goal={goal}
               url={groupImage}
               invalidAddress={this.state.invalidAddress}
             />
