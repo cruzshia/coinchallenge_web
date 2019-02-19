@@ -8,7 +8,7 @@ export const APP_THEME = REACT_APP_THEME || '#ff5864'
 export const APP_SUB_THEME = REACT_APP_SUB_THEME || '#ff99a0'
 export const APP_FONT_COLOR = REACT_APP_FONT_COLOR || '#fffafa'
 export const APP_FONT_COLOR_DARK = '#101010'
-export const APP_LIGHT_BG = '#fffafa'
+export const APP_LIGHT_BG = 'rgb(255,250,250)' //'#fffafa'
 export const APP_THEME_BACKGROUND =
   REACT_APP_THEME_BACKGROUND ||
   `linear-gradient(45deg, ${APP_THEME} 30%, ${APP_SUB_THEME} 90%)`

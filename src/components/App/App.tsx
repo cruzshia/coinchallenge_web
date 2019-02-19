@@ -54,7 +54,11 @@ class App extends Component {
             <Home />
             <Switch>
               <Route path='/' exact component={Landing} />
-              <Route path='/create' exact component={CreateChallengeGroup} />
+              <Route
+                path='/group/create'
+                exact
+                component={CreateChallengeGroup}
+              />
               <Route
                 path='/challenge/:groupId/:address'
                 component={Challenge}
