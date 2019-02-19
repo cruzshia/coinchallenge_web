@@ -241,10 +241,15 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       groupImage
     } = this.props
 
-    const title = intl.formatMessage(
-      { id: 'docTitleChallenge' },
-      { address: this.address }
+    const goalText = intl.formatMessage(
+      { id: `group.unit.${this.groupId}` },
+      { goal }
     )
+
+    const title =
+      intl.formatMessage({ id: `group.title.${this.groupId}` }) +
+      ' - ' +
+      goalText
 
     const shareDesc = intl.formatMessage(
       {
@@ -270,7 +275,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
           <StyledGridList>
             <ChallengeCard
               name={groupName}
-              goal={goal}
+              goal={goalText}
               url={groupImage}
               invalidAddress={this.state.invalidAddress}
             />

@@ -42,7 +42,7 @@ const ChallengeCard = React.memo(
         <StyledTitle>
           {invalidAddress ? '' : name}
           <br />
-          <span className='goal'>{goal}</span>
+          <span className='goal'>{url === '' ? '' : goal}</span>
         </StyledTitle>
         {invalidAddress || url === '' ? (
           <Logo src={LogoImg} />

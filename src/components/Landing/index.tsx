@@ -200,9 +200,9 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                     </article>
                   </li>
                 </ul>
-                <figure>
+                {/* <figure>
                   <img src={SnapImg} alt='' />
-                </figure>
+                </figure> */}
                 {/* ################################################################################################ */}
                 {/* / main body */}
                 <div className='clear' />

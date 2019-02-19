@@ -7,11 +7,16 @@ import { injectIntl, InjectedIntlProps } from 'react-intl'
 import Contract from 'web3/eth/contract'
 import { getPastChallenges } from '@Src/contracts/contractService'
 import { ChallengeType } from '@Src/typing/globalTypes'
-import { formatPercent, formatNumber } from '@Src/utils'
+import { formatNumber } from '@Src/utils'
 import web3 from 'web3'
+import moment from 'moment'
 
 const STATUS = ['Succeeded', 'Failed', 'Aborted']
-const STATUS_COLOR = ['#ff7473', '#47b8e0', '#ffc952']
+const STATUS_COLOR = [
+  'rgba(0, 0, 0, 0.6)',
+  'rgba(0, 0, 0, 0.6)',
+  'rgba(0, 0, 0, 0.6)'
+]
 
 interface HistoryProp extends InjectedIntlProps {
   contract: Contract | null
@@ -52,6 +57,11 @@ const HistoryCtr = styled('div')({
   }
 })
 
+const Amount = styled('span')({
+  color: 'rgba(0, 0, 0, 0.8)',
+  lineHeight: '20px'
+})
+
 class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
   private fetched: boolean = false
   public state = {
@@ -70,6 +80,7 @@ class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
   public render() {
     const { intl } = this.props
     const { challenges } = this.state
+
     return (
       <TimelineCtr>
         <Title>
@@ -84,16 +95,14 @@ class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
           return (
             <HistoryCtr key={`history-${idx}`}>
               <div>
-                {intl.formatMessage({
-                  id: 'achieveRate'
-                })}{' '}
-                {formatPercent(challenge.completeDays, challenge.totalDays)}
+                {moment(challenge.startTimestamp * 1000).format(
+                  intl.formatMessage({ id: 'challenge.history.date.formate' })
+                )}
                 <br />
-                {intl.formatMessage({
-                  id: 'amount'
-                })}{' '}
-                {formatNumber(Number(web3.utils.fromWei(challenge.amount)))}
-                {process.env.REACT_APP_COIN}
+                <Amount>
+                  {formatNumber(Number(web3.utils.fromWei(challenge.amount)))}{' '}
+                  {process.env.REACT_APP_COIN}
+                </Amount>
               </div>
               <div style={{ color: STATUS_COLOR[status] }}>
                 {intl.formatMessage({

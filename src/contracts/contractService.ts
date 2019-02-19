@@ -80,7 +80,7 @@ export const getPastChallenges = async ({
       targetDays: returnValues.targetDays,
       totalDays: returnValues.totalDays,
       completeDays: returnValues.completeDays,
-      startTimestamp: 0,
+      startTimestamp: returnValues.startTimestamp,
       sponserSize: 0,
       amount: returnValues.amount,
       status: returnValues.status,

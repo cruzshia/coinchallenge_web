@@ -40,6 +40,8 @@
     "createDataError": "There's an error in create group data",
     "shareDesc": "I just start a {totalDays} days walking challenge with {amount}, sponsor and encourage me to hit the target!",
     "waitConfirm": "Transaction is waiting for confirmation",
+    "days": "Days",
+    "achieve": "Achieve",
     "achieveRate": "Achieve Rate",
     "challengeDesc": "Achieve rate grater than {rate} can get ",
     "history": "History",
@@ -65,5 +67,14 @@
     "section.paid.off.desc": "Sponsor challenger<br />Get coin from failer",
     "section.invite.friend": "Invite Friends",
     "section.invite.friend.desc": "Urge Each Other<br />Complete together",
-    "download.app": "Download App"
+    "download.app": "Download App",
+    "challenge.history.date.formate": "YYYY/M/D",
+    "group.title.com.coinchallenges.walking": "Walking Step Challenge",
+    "group.unit.com.coinchallenges.walking": "{goal} Steps",
+    "group.title.com.coinchallenges.step": "Walking Step Challenge",
+    "group.unit.com.coinchallenges.step": "{goal} Steps",
+    "group.title.com.coinchallenges.distance": "Walking+Running Distance Challenge",
+    "group.unit.com.coinchallenges.distance": "{goal}KM",
+    "group.title.com.coinchallenges.calorie": "Calorie Burning Challenge",
+    "group.unit.com.coinchallenges.calorie": "{goal} Calories"
 }

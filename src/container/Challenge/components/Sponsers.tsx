@@ -46,10 +46,13 @@ const SponsorTitle = styled('div')({
   justifyContent: 'space-between',
   marginBottom: '5px',
   [`@media (max-width: ${breakPoint})`]: {
-    flexDirection: 'column-reverse',
+    alignItems: 'center',
+    [Address]: {
+      flex: 3,
+      wordBreak: 'break-all'
+    },
     [CoinTxt]: {
-      display: 'block',
-      marginBottom: '5px'
+      flex: 1
     }
   }
 })

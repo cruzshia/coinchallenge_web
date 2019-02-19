@@ -27,6 +27,7 @@ const StyledContent = styled('div')({
   color: APP_FONT_COLOR_DARK,
   opacity: 0.6,
   margin: '10px',
+  lineHeight: '32px',
   [`@media (max-width: ${breakPoint})`]: {
     fontSize: 20,
     lineHeight: '24px'
@@ -48,16 +49,7 @@ const InfoBlk = styled('div')({
 interface InfoCtrProp {
   bgcolor?: string
 }
-const StyledInfoCtr = styled('div')<InfoCtrProp>`
-  display: flex;
-  background: ${(props: InfoCtrProp) =>
-    props.bgcolor ? props.bgcolor : APP_LIGHT_BG};
-  justify-content: center;
-  align-items: center;
-  @media (max-width: ${breakPoint}) {
-    flex-direction: column;
-  }
-`
+
 const Grid = styled('div')({
   width: '50%',
   padding: '10px 0',
@@ -72,7 +64,8 @@ const InfoTxt = styled('div')({
   fontSize: 30,
   [`@media (max-width: ${breakPoint})`]: {
     fontSize: 24,
-    lineHeight: '30px'
+    lineHeight: '30px',
+    wordBreak: 'break-word'
   }
 })
 
@@ -92,6 +85,19 @@ const Amount = styled('div')({
   fontSize: 40,
   padding: '10px 0'
 })
+
+const StyledInfoCtr = styled('div')<InfoCtrProp>`
+  display: flex;
+  background: ${(props: InfoCtrProp) =>
+    props.bgcolor ? props.bgcolor : APP_LIGHT_BG};
+  justify-content: center;
+  align-items: center;
+  @media (max-width: ${breakPoint}) {
+    ${StyledFont} {
+      font-size: 32px;
+    }
+  }
+`
 interface ChallengeInfoProp extends InjectedIntlProps, WithStyles {
   address: string
   completeDays: number
@@ -126,11 +132,13 @@ function ChallengeInfo({
           <StyledFont>
             {completeDays}/{totalDays}
           </StyledFont>
-          <StyledUnitFont> Days</StyledUnitFont>
+          <StyledUnitFont> {intl.formatMessage({ id: 'days' })}</StyledUnitFont>
         </Grid>
         <Grid>
           <CrowdCtr>
-            <StyledUnitFont>Achieve </StyledUnitFont>
+            <StyledUnitFont>
+              {intl.formatMessage({ id: 'achieve' })}{' '}
+            </StyledUnitFont>
             <StyledFont>
               &nbsp;{formatPercent(completeDays, totalDays)}
             </StyledFont>
