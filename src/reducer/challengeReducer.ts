@@ -17,6 +17,7 @@ export type ChallengeState = {
   txhash: string
   groupName: string
   groupImage: string
+  minAmount: number
 } & ChallengeType
 
 export type ChallengeStateType = RecordOf<ChallengeState>
@@ -31,7 +32,8 @@ if (typeof window !== 'undefined' && window.__PRELOADED_STATE__) {
     startTimestamp: 0,
     sponserSize: 0,
     amount: 0,
-    goal: ''
+    goal: '',
+    minAmount: 0
   } as ChallengeType
 }
 
@@ -64,10 +66,15 @@ const challengeReducer = (state = initialState, action: Action) => {
         txhash
       })
     case SET_CAHLLENGE_GROUP:
-      const { groupName, groupImage } = action.payload as SetGroupProp
+      const {
+        groupName,
+        groupImage,
+        minAmount
+      } = action.payload as SetGroupProp
       return state.merge({
         groupName,
-        groupImage
+        groupImage,
+        minAmount
       })
     default:
       return state

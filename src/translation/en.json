@@ -80,5 +80,6 @@
     "group.title.com.coinchallenges.calorie": "Calorie Burning Challenge",
     "group.unit.com.coinchallenges.calorie": "{goal} Calories",
     "error.withdraw": "Withdraw error, please confirm you balance in CoinChallenges",
-    "withdraw.success": "Withdraw success"
+    "withdraw.success": "Withdraw success",
+    "min.amount.error": "Can't less then group's min amount {amount}"
 }

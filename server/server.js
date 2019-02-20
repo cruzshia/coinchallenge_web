@@ -71,12 +71,14 @@ app.get('/challenge/:groupId/:address', async (req, res) => {
   }
 
   try {
-    const { name, url } = await getChallengeGroup({
+    const { name, url, minAmount } = await getChallengeGroup({
       contract,
       groupId,
       challenger: address
     })
-    store.dispatch(setChallengeGroup({ groupImage: url, groupName: name }))
+    store.dispatch(
+      setChallengeGroup({ groupImage: url, groupName: name, minAmount })
+    )
   } catch (err) {
     console.log('ssr get challenge group error')
     console.log(err)

@@ -29,6 +29,7 @@ import { changeRoute } from '@Utils/index'
 import web3 from 'web3'
 
 import { sponsorEvents, getPastSponsor } from '@Src/contracts/contractService'
+import moment from 'moment'
 
 const ChallengeContainer = styled('div')({
   display: 'flex',
@@ -70,6 +71,8 @@ interface ChallengeProp
   txhash: string
   groupName: string
   groupImage: string
+  minAmount: number
+  startTimestamp: number
   fetchChallenge: (data: RouteParams) => void
   sponserChallenge: (payload: SponserProp) => void
   setChallengeSponsersAction: (sponsors: Sponsor[]) => void
@@ -204,16 +207,36 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     amount: number
     comment: string
   }) => {
-    this.props.checkWallet()
-    const { txContract, account } = this.props
-    if (txContract && account) {
-      this.props.sponserChallenge({
-        groupId: this.groupId,
-        who: this.address,
-        amount,
-        comment
+    const { setPopup, checkWallet, minAmount, intl } = this.props
+    if (amount < minAmount) {
+      setPopup({
+        showPop: true,
+        popMessage: intl.formatMessage(
+          { id: 'min.amount.error' },
+          {
+            amount: minAmount + ' ' + REACT_APP_COIN
+          }
+        )
       })
+    } else {
+      checkWallet()
+      const { txContract, account, sponserChallenge } = this.props
+      if (txContract && account) {
+        sponserChallenge({
+          groupId: this.groupId,
+          who: this.address,
+          amount,
+          comment
+        })
+      }
     }
+  }
+
+  private canSponsor = () => {
+    const { completeDays, targetDays, totalDays, startTimestamp } = this.props
+    const diffDaysFromStart = moment().diff(moment(startTimestamp), 'd')
+    const failedDays = diffDaysFromStart - completeDays
+    return failedDays <= totalDays - targetDays
   }
 
   public componentDidUpdate() {
@@ -288,7 +311,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
               sponsorAmount={this.state.sponsorAmount}
               invalidAddress={this.state.invalidAddress}
             />
-            {totalDays ? (
+            {totalDays && this.canSponsor() ? (
               <SponsorButton onSponsor={this.onSponsor} intl={intl} />
             ) : null}
             {isCofirmingSponsor ? (

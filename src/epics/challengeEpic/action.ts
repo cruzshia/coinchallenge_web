@@ -10,6 +10,7 @@ interface GetChallengeProp {
 export interface SetGroupProp {
   groupName: string
   groupImage: string
+  minAmount: number
 }
 
 export interface SetSponserProp {

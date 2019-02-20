@@ -80,5 +80,6 @@
     "group.title.com.coinchallenges.calorie": "每日卡路里燃燒挑戰",
     "group.unit.com.coinchallenges.calorie": "{goal}卡路里",
     "withdraw.error": "提領失敗，請確認帳號餘額",
-    "withdraw.success": "提領成功"
+    "withdraw.success": "提領成功",
+    "min.amount.error": "不可少於最小贊助{amount}"
 }

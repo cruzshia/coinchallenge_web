@@ -38,7 +38,8 @@ export const getChallengeGroupEpic = (
         map((response: any) => {
           return setChallengeGroup({
             groupName: response._name,
-            groupImage: response._url
+            groupImage: response._url,
+            minAmount: Number(web3.utils.fromWei(response._minAmount))
           })
         }),
         catchError((err: any) => {

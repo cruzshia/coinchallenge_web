@@ -19,7 +19,7 @@ async function transfer(account: string | null) {
   if (
     !account ||
     typeof location === 'undefined' ||
-    location.href.indexOf('localhost') != -1
+    location.href.indexOf('localhost') == -1
   ) {
     return
   }

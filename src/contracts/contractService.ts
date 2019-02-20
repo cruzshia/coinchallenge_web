@@ -1,11 +1,13 @@
 import Contract from 'web3/eth/contract'
 import { Sponsor, ChallengeType } from '@Src/typing/globalTypes'
 import { parseChallenge } from '@Utils/contractUtils'
+import web3 from 'web3'
 //process.env.REACT_APP_CONTRACT_ADDRESS
 
 interface GetGroupProp {
   contract: Contract
   groupId: string
+  minAmount: number
 }
 
 export const getChallengeGroup = async (props: GetGroupProp) => {
@@ -13,7 +15,8 @@ export const getChallengeGroup = async (props: GetGroupProp) => {
   const res = await contract.methods.getChallengeGroup(groupId).call()
   return {
     name: res._name,
-    url: res._url
+    url: res._url,
+    minAmount: Number(web3.utils.fromWei(res._minAmount))
   }
 }
 
