@@ -7,6 +7,8 @@
     "status.Succeeded": "成功",
     "status.Failed": "失敗",
     "status.Aborted": "放棄",
+    "withdraw": "提款",
+    "withdraw.confirm.desc": "確認從CoinChallenges提款 {balance}？",
     "providerNotFound": "未偵測到錢包插件，請先安裝擴充套件(metamask)",
     "browserNotSupport": "你的瀏覽器不支援錢包插件，請改使用chrome/firefox或者opera瀏覽器",
     "accountNotFound": "未偵測到帳戶，請先登入錢包插件",
@@ -76,5 +78,7 @@
     "group.title.com.coinchallenges.distance": "每日走跑距離挑戰",
     "group.unit.com.coinchallenges.distance": "{goal}公里",
     "group.title.com.coinchallenges.calorie": "每日卡路里燃燒挑戰",
-    "group.unit.com.coinchallenges.calorie": "{goal}卡路里"
+    "group.unit.com.coinchallenges.calorie": "{goal}卡路里",
+    "withdraw.error": "提領失敗，請確認帳號餘額",
+    "withdraw.success": "提領成功"
 }

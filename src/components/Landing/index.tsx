@@ -97,7 +97,7 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                   {/* ################################################################################################ */}
                   <div id='logo' className='fl_left'>
                     <h1>
-                      <a href='index.html'>CoinChallenges</a>
+                      <a href='/'>CoinChallenges</a>
                     </h1>
                   </div>
                   <nav id='mainav' className='fl_right'>
@@ -329,7 +329,7 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                     </li>
                     <li>
                       <i className='fa fa-envelope-o' />{' '}
-                      coin.challenge@gmail.com
+                      coin.challenge.hi@gmail.com
                     </li>
                   </ul>
                   <ul className='faico clear'>

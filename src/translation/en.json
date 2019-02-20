@@ -7,6 +7,8 @@
     "status.Succeeded": "Success",
     "status.Failed": "Faild",
     "status.Aborted": "Aborted",
+    "withdraw": "Withdraw",
+    "withdraw.confirm.desc": "Withdraw {balance} from CoinChallenges?",
     "providerNotFound": "no provider was found, please install related extensions(metamask)",
     "browserNotSupport": "you browser didn't support wallet, please use chrome/firefox/opera instead",
     "accountNotFound": "Didn't detect any account, please login to wallet plugin first",
@@ -76,5 +78,7 @@
     "group.title.com.coinchallenges.distance": "Walking+Running Distance Challenge",
     "group.unit.com.coinchallenges.distance": "{goal}KM",
     "group.title.com.coinchallenges.calorie": "Calorie Burning Challenge",
-    "group.unit.com.coinchallenges.calorie": "{goal} Calories"
+    "group.unit.com.coinchallenges.calorie": "{goal} Calories",
+    "error.withdraw": "Withdraw error, please confirm you balance in CoinChallenges",
+    "withdraw.success": "Withdraw success"
 }

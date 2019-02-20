@@ -7,6 +7,8 @@
     "status.Succeeded": "成功",
     "status.Failed": "失败",
     "status.Aborted": "放弃",
+    "withdraw": "提款",
+    "withdraw.confirm.desc": "确认从CoinChallenges提款 {balance}？",
     "providerNotFound": "未侦测到钱包插件，请先安装扩充套件(metamask)",
     "browserNotSupport": "你的浏览器不支援钱包插件，请改使用chrome/firefox或者opera浏览器",
     "accountNotFound": "未侦测到帐户，请先登入钱包插件",
@@ -76,5 +78,7 @@
     "group.title.com.coinchallenges.distance": "每日走跑距离挑战",
     "group.unit.com.coinchallenges.distance": "{goal}公里",
     "group.title.com.coinchallenges.calorie": "每日卡路里燃烧挑战",
-    "group.unit.com.coinchallenges.calorie": "{goal}卡路里"
+    "group.unit.com.coinchallenges.calorie": "{goal}卡路里",
+    "withdraw.error": "提领失败，请确认帐号余额",
+    "withdraw.success": "提领成功"
 }

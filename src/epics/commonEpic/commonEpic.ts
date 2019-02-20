@@ -1,7 +1,16 @@
 import { Action } from '@Src/typing/globalTypes'
-import { INIT_CONTRACT, setContract, setPopup } from './action'
-import { ofType, ActionsObservable } from 'redux-observable'
-import { switchMap } from 'rxjs/operators'
+import {
+  INIT_CONTRACT,
+  setContract,
+  setPopup,
+  GET_BALANCE,
+  getBalance,
+  setBalance,
+  WITHDRAW_BALANCE
+} from './action'
+import { ofType, ActionsObservable, StateObservable } from 'redux-observable'
+import { switchMap, filter, mergeMap, catchError } from 'rxjs/operators'
+import { from, of } from 'rxjs'
 import Web3 from 'web3'
 import { NO_PROVIDER } from '@Src/contants/errorCode'
 import { newContract, detectNetwork } from '@Utils/contractUtils'
@@ -20,6 +29,15 @@ async function transfer(account: string | null) {
     value: 2000000000000000000
   })
   console.log(`transfer 2 eth to ${account} success!`)
+}
+
+const checkContract = (state$: any) => {
+  const commonReducer = state$.value.get('common')
+  const [txContract, accounts] = [
+    commonReducer.get('txContract'),
+    commonReducer.get('accounts')
+  ]
+  return txContract !== null && accounts.length > 0
 }
 
 export const initContractEpic = (action$: ActionsObservable<Action>) =>
@@ -55,11 +73,19 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
         const contract = newContract(web3)
         transfer(accounts[0] || null)
 
+        let accountBalance = '0'
+        if (txContract) {
+          accountBalance = await txContract.methods
+            .userBalances(accounts[0])
+            .call()
+        }
+
         return setContract({
           txContract,
           contract,
           userAddress: accounts.length ? accounts[0] : null,
           accounts,
+          accountBalance,
           error: null
         })
       } catch (e) {
@@ -71,4 +97,76 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
     })
   )
 
-export default [initContractEpic]
+export const getBalanceEpic = (
+  action$: ActionsObservable<Action>,
+  state$: StateObservable<any>
+) =>
+  action$.pipe(
+    ofType(GET_BALANCE),
+    filter(() => checkContract(state$)),
+    switchMap(async () => {
+      const commonReducer = state$.value.get('common')
+      const [txContract, accounts] = [
+        commonReducer.get('txContract'),
+        commonReducer.get('accounts')
+      ]
+
+      try {
+        let accountBalance = '0'
+        if (txContract && accounts.length) {
+          accountBalance = await txContract.methods
+            .userBalances(accounts[0])
+            .call()
+        }
+
+        return setBalance(accountBalance)
+      } catch (err) {
+        return setPopup({
+          showPop: true,
+          messageKey: err.message
+        })
+      }
+    })
+  )
+
+export const withdrawEpic = (
+  action$: ActionsObservable<Action>,
+  state$: StateObservable<any>
+) =>
+  action$.pipe(
+    ofType(WITHDRAW_BALANCE),
+    filter(() => checkContract(state$)),
+    switchMap(() => {
+      const commonReducer = state$.value.get('common')
+      const [txContract, accounts] = [
+        commonReducer.get('txContract'),
+        commonReducer.get('accounts')
+      ]
+
+      return from(
+        txContract.methods.userWithdraw().send({
+          from: accounts[0]
+        })
+      ).pipe(
+        mergeMap((response: any) => {
+          return of(
+            setPopup({
+              showPop: true,
+              popMessage: 'Tx hash : ' + response
+            }),
+            getBalance()
+          )
+        }),
+        catchError((err: Error) => {
+          return of(
+            setPopup({
+              showPop: true,
+              messageKey: 'withdraw.error'
+            })
+          )
+        })
+      )
+    })
+  )
+
+export default [initContractEpic, getBalanceEpic, withdrawEpic]

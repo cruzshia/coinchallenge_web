@@ -1,5 +1,10 @@
 import React from 'react'
-import { addLocaleData, IntlProvider } from 'react-intl'
+import {
+  addLocaleData,
+  IntlProvider,
+  injectIntl,
+  InjectedIntlProps
+} from 'react-intl'
 import localeEn from 'react-intl/locale-data/en'
 import localeZh from 'react-intl/locale-data/zh'
 

@@ -8,6 +8,12 @@ export const CHECK_WALLET = '@COMMON/CHECK_WALLET'
 
 export const SET_CONFIRM = '@COMMON/SET_CONFIRM'
 
+export const GET_BALANCE = '@COMMON/GET_BALANCE'
+export const SET_BALANCE = '@COMMON/SET_BALANCE'
+
+export const WITHDRAW_BALANCE = '@COMMON/WITHDRAW_BALANCE'
+export const SET_WITHRAW_RESULT = '@COMMON/SET_WITHRAW_RESULT'
+
 export const initContract = () => ({ type: INIT_CONTRACT })
 
 export const setContract = (payload: {
@@ -15,6 +21,7 @@ export const setContract = (payload: {
   contract: Contract | null
   userAddress: string | null
   accounts?: Array<string>
+  accountBalance: string
   error: object | null
 }) => ({
   type: SET_CONTRACT,
@@ -46,4 +53,19 @@ export interface SetConfirmProp {
 export const setConfirm = (payload: SetConfirmProp) => ({
   type: SET_CONFIRM,
   payload
+})
+
+export const getBalance = () => ({
+  type: GET_BALANCE
+})
+
+export const setBalance = (balance: string) => ({
+  type: SET_BALANCE,
+  payload: {
+    balance
+  }
+})
+
+export const withdrawBalance = () => ({
+  type: WITHDRAW_BALANCE
 })

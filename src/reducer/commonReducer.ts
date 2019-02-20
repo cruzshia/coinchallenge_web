@@ -27,6 +27,7 @@ export type CommonState = {
   messageKey: string | null
   isConfirming: boolean
   txHash?: string
+  accountBalance: string
   error: {
     code: number
     text: string
@@ -47,7 +48,8 @@ const stateMaker = Record<CommonState>({
   messageKey: null,
   isConfirming: false,
   txHash: '',
-  error: null
+  error: null,
+  accountBalance: '0'
 })
 
 interface SetContractPayload {
@@ -56,6 +58,7 @@ interface SetContractPayload {
   userAddress: string | null
   accounts: Array<string>
   loading: boolean
+  accountBalance: string
   error: {
     code: number
     text: string
@@ -72,6 +75,7 @@ const commonReducer = (state = initialState, action: Action) => {
         contract,
         userAddress,
         accounts = [],
+        accountBalance,
         error
       } = action.payload as SetContractPayload
       return state.merge({
@@ -79,6 +83,7 @@ const commonReducer = (state = initialState, action: Action) => {
         contract,
         userAddress,
         accounts,
+        accountBalance,
         loading: false,
         error
       })
