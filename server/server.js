@@ -55,7 +55,7 @@ app.get('/challenge/:groupId/:address', async (req, res) => {
   )
   const contract = newContract(
     web3,
-    '0x0884104630fF102C5c83a4DA450139e8B300098C'
+    '0x1b208c276Ca97Bc030053a6EBf7cbb2C42f42760'
   )
   let challengeRes
   try {
