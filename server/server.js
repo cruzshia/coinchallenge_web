@@ -53,9 +53,10 @@ app.get('/challenge/:groupId/:address', async (req, res) => {
       'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
     )
   )
+
   const contract = newContract(
     web3,
-    '0x1b208c276Ca97Bc030053a6EBf7cbb2C42f42760'
+    '0x14120E0d85c9102a7963d511510d259578d948EA'
   )
   let challengeRes
   try {
