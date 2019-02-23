@@ -38,7 +38,7 @@
     "userDenied": "使用者拒絕交易",
     "createSuccess": "挑戰群組創建成功！",
     "challengeNotFound": "挑戰不存在或已結束",
-    "sponsorContent": "贊助挑戰者，激勵他完成目標！若完成挑戰，對方將獲得你的贊助;若失敗贊助金額將100%完全歸還。",
+    "sponsorContent": "贊助挑戰者，激勵他完成目標！若完成挑戰，對方將獲得你的贊助；若失敗，你的贊助金額將完全歸還，還能獲得挑戰者的金額。",
     "createDataError": "創建挑戰資料有誤",
     "shareDesc": "我剛剛在 step challenge 發起 {totalDays} 天挑戰，挑戰金額為 {amount}，贊助且激勵我來達成目標！",
     "waitConfirm": "交易正在等待確認",

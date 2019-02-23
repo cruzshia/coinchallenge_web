@@ -22,7 +22,7 @@ export const getMetmaskUrl = () => {
 
 export const formatPercent = (a: number, b: number) => {
   if (b === 0 || a === 0) {
-    return '0.0'
+    return '0'
   }
   return new Decimal((a * 100) / b).toFixed(2).toString() + '%'
 }

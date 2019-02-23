@@ -38,7 +38,7 @@
     "userDenied": "user denied transaction",
     "createSuccess": "create challenge group success!",
     "challengeNotFound": "Challenge not found or has finished.",
-    "sponsorContent": "Sponsor challenger to encourage them hitting target! They will get you sponsor when complete challenge. You will get 100% sponsor coin back when they fail.",
+    "sponsorContent": "Sponsor to encourage challenger in the goal. If successful, challenger will get your sponsor. If failed, your sponsor will 100% back to you, and will also get challenger's amount.",
     "createDataError": "There's an error in create group data",
     "shareDesc": "I just start a {totalDays} days walking challenge with {amount}, sponsor and encourage me to hit the target!",
     "waitConfirm": "Transaction is waiting for confirmation",

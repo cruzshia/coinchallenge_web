@@ -44,7 +44,7 @@ const TimelineCtr = styled('div')({
 })
 
 const HistoryCtr = styled('div')({
-  width: '60%',
+  width: '80%',
   minWidth: '558px',
   display: 'flex',
   margin: '10px 0',

@@ -17,7 +17,9 @@ const FabCtr = styled('span')({
   background: APP_LIGHT_BG,
   zIndex: 6,
   '.sponsor-btn': {
-    padding: '0 30px'
+    padding: '0 30px',
+    minWidth: '300px',
+    lineHeight: '45px'
   }
 })
 

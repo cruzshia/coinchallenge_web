@@ -38,7 +38,7 @@
     "userDenied": "使用者拒绝交易",
     "createSuccess": "挑战群组创建成功！",
     "challengeNotFound": "挑战不存在或已结束",
-    "sponsorContent": "赞助挑战者，激励他完成目标！若完成挑战，对方将获得你的赞助;若失败赞助金额将100%完全归还。",
+    "sponsorContent": "赞助挑战者，激励他完成目标！若完成挑战，对方将获得你的赞助；若失败，你的赞助金额将完全归还，还能获得挑战者的金额。",
     "createDataError": "创建挑战资料有误",
     "shareDesc": "我刚刚在 walking challenge 发起 {totalDays} 天挑战，挑战金额为 {amount}，赞助且激励我来达成目标！",
     "waitConfirm": "交易正在等待确认",

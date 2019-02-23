@@ -23,14 +23,17 @@ const StyledUnitFont = styled('span')({
 })
 
 const StyledContent = styled('div')({
-  fontSize: 24,
+  fontSize: 16,
   color: APP_FONT_COLOR_DARK,
   opacity: 0.6,
-  margin: '10px',
-  lineHeight: '32px',
+  margin: '10px auto',
+  lineHeight: '24px',
+  textAlign: 'left',
+  maxWidth: '80%',
   [`@media (max-width: ${breakPoint})`]: {
     fontSize: 20,
-    lineHeight: '24px'
+    lineHeight: '24px',
+    maxWidth: '100%'
   }
 })
 
@@ -125,7 +128,7 @@ function ChallengeInfo({
     <InfoBlk>
       <Address>{invalidAddress ? '--' : address}</Address>
       <Amount>
-        {amount} {REACT_APP_COIN}
+        {Number(amount)} {REACT_APP_COIN}
       </Amount>
       <StyledInfoCtr>
         <Grid>
@@ -140,7 +143,7 @@ function ChallengeInfo({
               {intl.formatMessage({ id: 'achieve' })}{' '}
             </StyledUnitFont>
             <StyledFont>
-              &nbsp;{formatPercent(completeDays, totalDays)}
+              &nbsp;{Number(formatPercent(completeDays, totalDays))}
             </StyledFont>
           </CrowdCtr>
         </Grid>
@@ -148,27 +151,6 @@ function ChallengeInfo({
       <StyledContent>
         {intl.formatMessage({ id: 'sponsorContent' })}
       </StyledContent>
-      <InfoTxt>
-        {intl.formatMessage(
-          { id: 'challengeDesc' },
-          { rate: formatPercent(targetDays, totalDays) }
-        )}
-        <Tooltip
-          title={`${formatNumber(
-            amount
-          )} ${REACT_APP_COIN} from bet , ${formatNumber(
-            sponsorAmount
-          )} ${REACT_APP_COIN} from sponsor`}
-          placement='top'
-          classes={{ tooltip: classes.lightTooltip }}
-        >
-          <span style={{ fontSize: '30px' }}>
-            {' '}
-            {formatNumber(amount + sponsorAmount)}
-            {REACT_APP_COIN}
-          </span>
-        </Tooltip>
-      </InfoTxt>
     </InfoBlk>
   )
 }
