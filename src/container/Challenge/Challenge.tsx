@@ -265,12 +265,15 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     } = this.props
 
     const goalText = intl.formatMessage(
-      { id: `group.unit.${this.groupId}` },
+      { id: `group.unit.${this.groupId}`, defaultMessage: '' },
       { goal }
     )
 
     const title =
-      intl.formatMessage({ id: `group.title.${this.groupId}` }) +
+      intl.formatMessage({
+        id: `group.title.${this.groupId}`,
+        defaultMessage: 'CoinChallenges'
+      }) +
       ' - ' +
       goalText
 

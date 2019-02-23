@@ -116,13 +116,10 @@ const { REACT_APP_COIN } = process.env
 function ChallengeInfo({
   address,
   completeDays,
-  targetDays,
   totalDays,
   amount,
-  classes,
   intl,
-  invalidAddress,
-  sponsorAmount
+  invalidAddress
 }: ChallengeInfoProp) {
   return (
     <InfoBlk>

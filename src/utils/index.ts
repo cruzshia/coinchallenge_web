@@ -24,7 +24,7 @@ export const formatPercent = (a: number, b: number) => {
   if (b === 0 || a === 0) {
     return '0'
   }
-  return new Decimal((a * 100) / b).toFixed(2).toString() + '%'
+  return Number(new Decimal((a * 100) / b).toFixed(2).toString()) + '%'
 }
 
 export const isUrlValid = (url: string) => {
