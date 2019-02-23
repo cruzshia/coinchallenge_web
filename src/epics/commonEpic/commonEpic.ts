@@ -15,21 +15,21 @@ import Web3 from 'web3'
 import { NO_PROVIDER } from '@Src/contants/errorCode'
 import { newContract, detectNetwork } from '@Utils/contractUtils'
 
-async function transfer(account: string | null) {
-  if (
-    !account ||
-    typeof location === 'undefined' ||
-    location.href.indexOf('localhost') == -1
-  ) {
-    return
-  }
-  await web3.eth.sendTransaction({
-    from: '0x1ce421937a6f59bf58faafe316d23aaed690da18',
-    to: account,
-    value: 2000000000000000000
-  })
-  console.log(`transfer 2 eth to ${account} success!`)
-}
+// async function transfer(account: string | null) {
+//   if (
+//     !account ||
+//     typeof location === 'undefined' ||
+//     location.href.indexOf('localhost') == -1
+//   ) {
+//     return
+//   }
+//   await web3.eth.sendTransaction({
+//     from: '0x1ce421937a6f59bf58faafe316d23aaed690da18',
+//     to: account,
+//     value: 2000000000000000000
+//   })
+//   console.log(`transfer 2 eth to ${account} success!`)
+// }
 
 const checkContract = (state$: any) => {
   const commonReducer = state$.value.get('common')
@@ -70,7 +70,6 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
           : await web3.eth.getAccounts()
 
         const contract = newContract(web3)
-        transfer(accounts[0] || null)
 
         let accountBalance = '0'
         if (txContract) {

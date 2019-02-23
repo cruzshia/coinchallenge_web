@@ -24,7 +24,7 @@
     "minChallengeAmount": "最少挑战硬币",
     "docTitleChallenge": "Coin挑战者-{address}",
     "sponsor": "赞助挑战者",
-    "sponsorDesc": "跟挑战者说句话吧！",
+    "sponsorDesc": "跟挑战者说句话吧：",
     "amount": "数量",
     "comment": "想说的话",
     "completeDays": "完成天数",

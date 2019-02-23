@@ -14,7 +14,7 @@ const SponserCtr = styled('div')({
 })
 
 const BarCtr = styled('div')({
-  width: '60%',
+  width: 'calc(80% - 20px)',
   minWidth: '558px',
   background: APP_LIGHT_BG,
   marginBottom: '15px',

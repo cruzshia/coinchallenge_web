@@ -24,7 +24,7 @@
     "minChallengeAmount": "Min Challenge amount",
     "docTitleChallenge": "Coin Challenger{address}",
     "sponsor": "sponsor",
-    "sponsorDesc": "Say something to challenger!",
+    "sponsorDesc": "Say something to challenger:",
     "amount": "amount",
     "comment": "comment",
     "completeDays": "CompleteDays",
