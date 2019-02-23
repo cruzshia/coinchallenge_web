@@ -14,7 +14,7 @@ const StyledTitle = styled('span')({
   position: 'absolute',
   top: 0,
   fontSize: '34px',
-  padding: '10px',
+  padding: '20px 0 0 20px',
   lineHeight: '30px',
   width: '100%',
   '.goal': {

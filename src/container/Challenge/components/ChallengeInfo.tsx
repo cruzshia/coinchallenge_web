@@ -79,7 +79,6 @@ const styles = (_theme: any) => ({
 })
 
 const Address = styled('div')({
-  background: '#fff',
   color: 'rgba(0, 0, 0, 0.4)',
   padding: '10px 0'
 })
@@ -117,6 +116,7 @@ function ChallengeInfo({
   address,
   completeDays,
   totalDays,
+  targetDays,
   amount,
   intl,
   invalidAddress
@@ -140,11 +140,14 @@ function ChallengeInfo({
               {intl.formatMessage({ id: 'achieve' })}{' '}
             </StyledUnitFont>
             <StyledFont>
-              &nbsp;{Number(formatPercent(completeDays, totalDays))}
+              &nbsp;{formatPercent(completeDays, totalDays)}
             </StyledFont>
           </CrowdCtr>
         </Grid>
       </StyledInfoCtr>
+      <StyledContent>
+        {intl.formatMessage({ id: 'completeDesc' }, { targetDays })}
+      </StyledContent>
       <StyledContent>
         {intl.formatMessage({ id: 'sponsorContent' })}
       </StyledContent>

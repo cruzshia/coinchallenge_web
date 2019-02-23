@@ -43,7 +43,9 @@ export const getChallengeGroupEpic = (
           })
         }),
         catchError((err: any) => {
-          return of(setPopup({ showPop: true, popMessage: err.message }))
+          return of(
+            setPopup({ showPop: true, messageKey: 'challengeGroup.error' })
+          )
         })
       )
     })
@@ -67,18 +69,13 @@ export const getChallengeEpic = (
           const challenge = parseChallenge(response)
           return challenge.totalDays
             ? setChallenge(challenge)
-            : setPopup({ showPop: true, popMessage: 'challenge not found' })
+            : setPopup({ showPop: true, messageKey: 'challenge.error' })
         }),
-        catchError((err: any) => {
-          const { message } = err
-
+        catchError((_err: any) => {
           return of(
             setPopup({
               showPop: true,
-              popMessage:
-                message.indexOf('exist') !== -1
-                  ? 'challenge not found'
-                  : message
+              messageKey: 'challenge.error'
             })
           )
         })
@@ -122,13 +119,13 @@ export const sponsorChallengeEpic = (
       ).pipe(
         mergeMap(() =>
           of(
-            setPopup({ showPop: true, messageKey: 'donateSuccess' }),
+            // setPopup({ showPop: true, messageKey: 'donateSuccess' }),
             setConfirmSponsor({ isCofirmingSponsor: false, txhash: '' })
           )
         ),
         catchError((err: Error) => {
           return of(
-            setPopup({ showPop: true, popMessage: err.message }),
+            // setPopup({ showPop: true, popMessage: err.message }),
             setConfirmSponsor({ isCofirmingSponsor: false, txhash: '' })
           )
         })

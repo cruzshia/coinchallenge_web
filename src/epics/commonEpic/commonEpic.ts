@@ -122,7 +122,7 @@ export const getBalanceEpic = (
       } catch (err) {
         return setPopup({
           showPop: true,
-          messageKey: err.message
+          messageKey: '123'
         })
       }
     })

@@ -94,7 +94,10 @@ class SponsorButton extends React.PureComponent<
           onClose={this.handleClose}
           aria-labelledby='form-dialog-title'
         >
-          <DialogTitle id='form-dialog-title'>
+          <DialogTitle
+            id='form-dialog-title'
+            style={{ textTransform: 'uppercase' }}
+          >
             {intl.formatMessage({ id: 'sponsor' })}
           </DialogTitle>
           <DialogContent>

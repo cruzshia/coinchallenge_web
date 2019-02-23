@@ -47,6 +47,7 @@ const Form = styled('form')({
     backgroundColor: APP_THEME,
     color: '#fff',
     padding: '0 40px',
+    marginTop: '10px',
     '&:hover': {
       backgroundColor: APP_THEME,
       opacity: 0.9
@@ -73,7 +74,8 @@ const LabelTxt = styled('span')({
 const WaitingBlk = styled('div')({
   zIndex: 1,
   marginBottom: '10px',
-  width: '100%'
+  width: '100%',
+  textAlign: 'center'
 })
 
 const FormStyle = {

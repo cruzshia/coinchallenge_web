@@ -44,7 +44,7 @@ const TimelineCtr = styled('div')({
 })
 
 const HistoryCtr = styled('div')({
-  width: '80%',
+  width: '60%',
   minWidth: '558px',
   display: 'flex',
   margin: '10px 0',
@@ -80,7 +80,9 @@ class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
   public render() {
     const { intl } = this.props
     const { challenges } = this.state
-
+    if (!challenges.length) {
+      return null
+    }
     return (
       <TimelineCtr>
         <Title>

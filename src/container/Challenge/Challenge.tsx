@@ -53,6 +53,7 @@ const StyledGridList = styled('div')({
 const LoadingBlk = styled('div')({
   maxWidth: '400px',
   margin: '0 auto',
+  textAlign: 'center',
   a: {
     display: 'inline-block',
     marginBottom: '10px'

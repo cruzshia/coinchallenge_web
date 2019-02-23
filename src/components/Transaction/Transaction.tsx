@@ -1,5 +1,5 @@
 import React from 'react'
-import Loading from '@Src/images/blocking.gif'
+import Loading from '@Src/images/loading.gif'
 import styled from 'styled-components'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 
@@ -10,7 +10,8 @@ interface TransactionProp extends InjectedIntlProps {
 
 const Div = styled('div')({
   position: 'relative',
-  fontSize: 12
+  fontSize: 14,
+  lineHeight: '16px'
 })
 
 const Img = styled('img')({
@@ -23,7 +24,8 @@ const Href = styled('a')({
   position: 'absolute',
   transform: 'translateX(-50%)',
   left: '50%',
-  bottom: 0
+  bottom: '-10px',
+  color: '#FF5722'
 })
 
 function Transaction({ txHash, classNames, intl }: TransactionProp) {

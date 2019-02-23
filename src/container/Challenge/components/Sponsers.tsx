@@ -65,7 +65,8 @@ function Sponsers({ sponsors }: { sponsors: Sponsor[] }) {
           <SponsorTitle>
             <Address>{sponsor.who}</Address>
             <CoinTxt>
-              +{web3.utils.fromWei(sponsor.amount)} {process.env.REACT_APP_COIN}
+              +{Number(web3.utils.fromWei(sponsor.amount))}{' '}
+              {process.env.REACT_APP_COIN}
             </CoinTxt>
           </SponsorTitle>
           <div>
