@@ -8,13 +8,11 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import styled from 'styled-components'
 import { InjectedIntl } from 'react-intl'
-import { APP_LIGHT_BG } from '@Src/contants/themeColor'
 
 const FabCtr = styled('span')({
   display: 'block',
   textAlign: 'center',
   padding: 10,
-  background: APP_LIGHT_BG,
   zIndex: 6,
   '.sponsor-btn': {
     padding: '0 30px',

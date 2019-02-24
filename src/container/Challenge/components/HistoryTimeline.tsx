@@ -59,7 +59,13 @@ const HistoryCtr = styled('div')({
 
 const Amount = styled('span')({
   color: 'rgba(0, 0, 0, 0.8)',
-  lineHeight: '20px'
+  lineHeight: '20px',
+  fontWeight: 600
+})
+
+const ResultText = styled('div')({
+  fontSize: '18px',
+  fontWeight: 600
 })
 
 class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
@@ -108,11 +114,11 @@ class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
                   {process.env.REACT_APP_COIN}
                 </Amount>
               </div>
-              <div style={{ color: STATUS_COLOR[status] }}>
+              <ResultText style={{ color: STATUS_COLOR[status] }}>
                 {intl.formatMessage({
                   id: 'status.' + STATUS[status]
                 })}
-              </div>
+              </ResultText>
             </HistoryCtr>
           )
         })}

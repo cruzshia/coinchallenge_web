@@ -7,19 +7,21 @@ import {
 } from '@Src/contants/themeColor'
 import { breakPoint } from '@Src/contants/common'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
-import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles, WithStyles } from '@material-ui/core/styles'
-import { formatPercent, formatNumber } from '@Src/utils'
+import { formatPercent } from '@Src/utils'
 
 const StyledFont = styled('span')({
   fontSize: '40px',
+  fontWeight: 700,
   color: APP_THEME,
   textAlign: 'center'
 })
 
 const StyledUnitFont = styled('span')({
+  fontSize: 14,
   color: APP_FONT_COLOR_DARK,
-  opacity: 0.6
+  opacity: 0.6,
+  wordBreak: 'keep-all'
 })
 
 const StyledContent = styled('div')({
@@ -31,7 +33,7 @@ const StyledContent = styled('div')({
   textAlign: 'left',
   maxWidth: '80%',
   [`@media (max-width: ${breakPoint})`]: {
-    fontSize: 20,
+    fontSize: 16,
     lineHeight: '24px',
     maxWidth: '100%'
   }
@@ -61,17 +63,6 @@ const Grid = styled('div')({
   }
 })
 
-const InfoTxt = styled('div')({
-  color: APP_THEME,
-  padding: 5,
-  fontSize: 30,
-  [`@media (max-width: ${breakPoint})`]: {
-    fontSize: 24,
-    lineHeight: '30px',
-    wordBreak: 'break-word'
-  }
-})
-
 const styles = (_theme: any) => ({
   lightTooltip: {
     fontSize: 20
@@ -85,6 +76,7 @@ const Address = styled('div')({
 
 const Amount = styled('div')({
   fontSize: 40,
+  fontWeight: 700,
   padding: '10px 0'
 })
 
@@ -96,7 +88,8 @@ const StyledInfoCtr = styled('div')<InfoCtrProp>`
   align-items: center;
   @media (max-width: ${breakPoint}) {
     ${StyledFont} {
-      font-size: 32px;
+      font-size: 28px;
+      word-break: keep-all;
     }
   }
 `
