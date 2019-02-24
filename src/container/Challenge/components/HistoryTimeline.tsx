@@ -102,7 +102,9 @@ class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
                 )}
                 <br />
                 <Amount>
-                  {formatNumber(Number(web3.utils.fromWei(challenge.amount)))}{' '}
+                  {Number(
+                    formatNumber(Number(web3.utils.fromWei(challenge.amount)))
+                  )}{' '}
                   {process.env.REACT_APP_COIN}
                 </Amount>
               </div>
