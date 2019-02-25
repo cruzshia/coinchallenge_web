@@ -81,7 +81,7 @@
     "group.title.coin.challenges.distance": "每日走跑距離挑戰",
     "group.unit.coin.challenges.distance": "{goal}公里",
     "group.title.coin.challenges.calorie": "每日卡路里燃燒挑戰",
-    "group.unit.coin.challenges.calorie": "{goal}卡路里",
+    "group.unit.coin.challenges.calorie": "{goal}千卡路里",
     "withdraw.error": "提領失敗，請確認帳號餘額",
     "withdraw.success": "提領成功",
     "min.amount.error": "不可少於最小贊助{amount}"
