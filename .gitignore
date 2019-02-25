@@ -9,8 +9,8 @@
 /coverage
 
 # build files
-/dist
-/build
+# /dist
+# /build
 
 # misc
 .DS_Store
