@@ -121,7 +121,7 @@ export const getBalanceEpic = (
       } catch (err) {
         return setPopup({
           showPop: true,
-          messageKey: '123'
+          popMessage: 'get balance error'
         })
       }
     })
@@ -150,7 +150,7 @@ export const withdrawEpic = (
           return of(
             setPopup({
               showPop: true,
-              popMessage: 'Tx hash : ' + response
+              popMessage: 'Tx hash : ' + response.data
             }),
             getBalance()
           )
