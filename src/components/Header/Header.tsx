@@ -23,6 +23,7 @@ import Button from '@material-ui/core/Button'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import { Dispatch } from 'redux'
 import { withdrawBalance } from '@Epics/commonEpic/action'
+import Web3 from 'web3'
 
 const StyledAppBar = styled(AppBar)({
   width: '100vw',
@@ -144,7 +145,8 @@ class ButtonAppBar extends PureComponent<BarProp, BarState> {
           {Number(balance) > 0 ? (
             <React.Fragment>
               <Balance>
-                {Number(Number(balance).toFixed(8))} {REACT_APP_COIN}
+                {Number(Number(Web3.utils.fromWei(balance)).toFixed(8))}{' '}
+                {REACT_APP_COIN}
               </Balance>
               <MonetizationOnIcon onClick={this.onOpenWithdraw} />
             </React.Fragment>
