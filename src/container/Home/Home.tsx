@@ -41,8 +41,6 @@ interface Props {
 
 class Home extends React.Component<Props & InjectedIntlProps> {
   public async componentDidMount() {
-    const { initContract } = this.props
-    initContract()
     if (process.browser) {
       require('particles.js')
       window.particlesJS.load('particle-body', '/particlesjs-config.json')

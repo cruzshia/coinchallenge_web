@@ -24,12 +24,16 @@ export const newContract = (web3Interface: Web3, address?: string) => {
 
 export const parseChallenge = (response: any): ChallengeType => {
   const challenge = {
+    round: Number(response._currentRound),
     targetDays: Number(response._targetDays),
     totalDays: Number(response._totalDays),
     completeDays: Number(response._completeDays),
     startTimestamp: Number(response._startTimestamp) * 1000,
     sponserSize: Number(response._sponsorSize),
     amount: Number(Web3.utils.fromWei(response._amount)),
+    totalSponsorAmount: Number(
+      Web3.utils.fromWei(response._totalSponsorAmount)
+    ),
     goal: response._goal
   }
 

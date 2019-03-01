@@ -80,12 +80,14 @@ export const getPastChallenges = async ({
   for (let i = 0; i < finishChallenges.length; i++) {
     const { returnValues } = finishChallenges[i]
     data.push({
+      round: returnValues.round,
       targetDays: returnValues.targetDays,
       totalDays: returnValues.totalDays,
       completeDays: returnValues.completeDays,
       startTimestamp: returnValues.startTimestamp,
       sponserSize: 0,
       amount: returnValues.amount,
+      totalSponsorAmount: returnValues.totalSponsorAmount,
       status: returnValues.status,
       goal: returnValues.goal
     })
@@ -125,25 +127,40 @@ export const getAllPastEvents = async (
 
 export const getPastSponsor = async (
   contract: Contract | null,
+  round: number,
   groupId: string,
   challenger: string,
   sponserSize: number = 0,
   options?: PastEventProp
 ) => {
   options = options || { fromBlock: 0 }
+  //SponsorChallenge
 
   let response = {
     data: [] as Sponsor[]
   }
   let data: any[] = []
-  const sponsers: any[] = []
+  let sponsers: any[] = []
+
   if (contract) {
-    for (let i = 0; i < sponserSize; i++) {
-      const sponsor = await contract.methods
-        .getSponsor(groupId, challenger, i)
-        .call()
-      sponsers.push(sponsor)
-    }
+    sponsers =
+      (await getAllPastEvents(contract, 'SponsorChallenge', {
+        fromBlock: 0,
+        toBlock: 'latest',
+        filter: {
+          groupId,
+          challenger,
+          round
+        }
+      })) || []
+
+    sponsers = sponsers.map(sponsor => {
+      return {
+        who: sponsor.returnValues.sponsor,
+        amount: sponsor.returnValues.amount,
+        commnet: sponsor.returnValues.comment
+      }
+    })
   }
 
   if (!sponsers.length) {
@@ -153,14 +170,7 @@ export const getPastSponsor = async (
   sponserSize = sponserSize || sponsers.length
   data = sponsers.slice(sponserSize * -1).reverse()
 
-  response.data =
-    data.map(sponsor => {
-      return {
-        amount: sponsor._amount,
-        comment: sponsor._comment,
-        who: sponsor._who
-      }
-    }) || []
+  response.data = sponsers || []
 
   return response
 }

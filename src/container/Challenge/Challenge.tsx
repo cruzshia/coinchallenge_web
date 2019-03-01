@@ -15,7 +15,12 @@ import Notifier from './components/Notifier'
 import { breakPoint } from '@Src/contants/common'
 
 import Contract from 'web3/eth/contract'
-import { checkWallet, setPopup, SetPopProps } from '@Epics/commonEpic/action'
+import {
+  checkWallet,
+  setPopup,
+  SetPopProps,
+  initContract
+} from '@Epics/commonEpic/action'
 import {
   getChallenge,
   sponserChallenge,
@@ -79,6 +84,7 @@ interface ChallengeProp
   setChallengeSponsersAction: (sponsors: Sponsor[]) => void
   checkWallet: () => void
   setPopup: (payload: SetPopProps) => void
+  initContract: () => void
 }
 
 interface ChallengeState {
@@ -118,7 +124,8 @@ const mapDispathToProps = (dispatch: Dispatch) => ({
       })
     ),
   checkWallet: () => dispatch(checkWallet()),
-  setPopup: (payload: SetPopProps) => dispatch(setPopup(payload))
+  setPopup: (payload: SetPopProps) => dispatch(setPopup(payload)),
+  initContract: () => dispatch(initContract())
 })
 
 const { REACT_APP_COIN = 'ETH' } = process.env
@@ -155,7 +162,8 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       fetchChallenge,
       sponserSize,
       targetDays,
-      setPopup
+      setPopup,
+      round
     } = this.props
     const isValid = await web3.utils.isAddress(this.address)
     if (!isValid && !this.fetched) {
@@ -181,6 +189,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
         this.sponsorFetched = true
         const sponsorData = await getPastSponsor(
           contract,
+          round,
           this.groupId,
           this.address,
           sponserSize
@@ -245,8 +254,9 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   }
 
   public componentDidMount() {
-    const { history, location } = this.props
+    const { history, location, initContract } = this.props
     changeRoute({ history, location, match: {} })
+    initContract()
     this.checkAndFetch()
   }
 
@@ -266,7 +276,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     } = this.props
 
     const goalText = intl.formatMessage(
-      { id: `group.unit.${this.groupId}`, defaultMessage: '' },
+      { id: `group.unit.${this.groupId}`, defaultMessage: ' ' },
       { goal }
     )
 
@@ -312,7 +322,6 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
               targetDays={targetDays}
               totalDays={totalDays}
               amount={amount}
-              sponsorAmount={this.state.sponsorAmount}
               invalidAddress={this.state.invalidAddress}
             />
             {totalDays && this.canSponsor() ? (

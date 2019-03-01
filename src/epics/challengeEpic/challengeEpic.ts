@@ -63,7 +63,7 @@ export const getChallengeEpic = (
       const { groupId, challenger } = action.payload as any
 
       return from(
-        contract.methods.getChallenge(groupId, challenger).call()
+        contract.methods.getCurrentChallenge(groupId, challenger).call()
       ).pipe(
         map((response: any) => {
           const challenge = parseChallenge(response)

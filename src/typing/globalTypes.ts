@@ -10,12 +10,14 @@ export interface ChallengeGroupType {
 }
 
 export interface ChallengeType {
+  round: number
   targetDays: number
   totalDays: number
   completeDays: number
   startTimestamp: number
   sponserSize: number
   amount: number
+  totalSponsorAmount: number
   status?: number
   goal: string
 }
