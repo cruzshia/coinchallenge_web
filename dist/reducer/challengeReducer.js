@@ -19,12 +19,14 @@ if (typeof window !== 'undefined' && window.__PRELOADED_STATE__) {
   initState = window.__PRELOADED_STATE__.challenge;
 } else {
   initState = {
+    round: 0,
     completeDays: 0,
     targetDays: 0,
     totalDays: 0,
     startTimestamp: 0,
     sponserSize: 0,
     amount: 0,
+    totalSponsorAmount: 0,
     goal: '',
     minAmount: 0
   };

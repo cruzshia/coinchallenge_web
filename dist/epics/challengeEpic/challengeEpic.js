@@ -53,7 +53,7 @@ var getChallengeEpic = function getChallengeEpic(action$, state$) {
     var _ref4 = action.payload,
         groupId = _ref4.groupId,
         challenger = _ref4.challenger;
-    return (0, _rxjs.from)(contract.methods.getChallenge(groupId, challenger).call()).pipe((0, _operators.map)(function (response) {
+    return (0, _rxjs.from)(contract.methods.getCurrentChallenge(groupId, challenger).call()).pipe((0, _operators.map)(function (response) {
       var challenge = (0, _contractUtils.parseChallenge)(response);
       return challenge.totalDays ? (0, _action.setChallenge)(challenge) : (0, _action2.setPopup)({
         showPop: true,

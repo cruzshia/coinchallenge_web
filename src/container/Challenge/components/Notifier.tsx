@@ -72,7 +72,7 @@ class Notifier extends React.Component<
       message: (
         <span>
           {proposer} has created a challenge with{' '}
-          <StyledTxt>{amount}</StyledTxt>
+          <StyledTxt>{Number(amount)}</StyledTxt>
           {REACT_APP_COIN}
         </span>
       )

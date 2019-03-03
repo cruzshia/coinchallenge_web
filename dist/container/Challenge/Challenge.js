@@ -124,6 +124,9 @@ var mapDispathToProps = function mapDispathToProps(dispatch) {
     },
     setPopup: function setPopup(payload) {
       return dispatch((0, _action.setPopup)(payload));
+    },
+    initContract: function initContract() {
+      return dispatch((0, _action.initContract)());
     }
   };
 };
@@ -155,7 +158,7 @@ function (_React$Component) {
       var sponsors = _this.state.sponsors;
 
       _this.setState({
-        sponsors: [sponsor].concat(sponsors),
+        sponsors: sponsors.concat([sponsor]),
         sponsorAmount: _this.state.sponsorAmount + Number(_web.default.utils.fromWei(sponsor.amount))
       });
     });
@@ -239,13 +242,13 @@ function (_React$Component) {
       var _checkAndFetch = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2() {
-        var _this$props4, contract, fetchChallenge, sponserSize, targetDays, setPopup, isValid, sponsorData;
+        var _this$props4, contract, fetchChallenge, sponserSize, targetDays, setPopup, round, isValid, sponsorData;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this$props4 = this.props, contract = _this$props4.contract, fetchChallenge = _this$props4.fetchChallenge, sponserSize = _this$props4.sponserSize, targetDays = _this$props4.targetDays, setPopup = _this$props4.setPopup;
+                _this$props4 = this.props, contract = _this$props4.contract, fetchChallenge = _this$props4.fetchChallenge, sponserSize = _this$props4.sponserSize, targetDays = _this$props4.targetDays, setPopup = _this$props4.setPopup, round = _this$props4.round;
                 _context2.next = 3;
                 return _web.default.utils.isAddress(this.address);
 
@@ -294,7 +297,7 @@ function (_React$Component) {
 
                 this.sponsorFetched = true;
                 _context2.next = 19;
-                return (0, _contractService.getPastSponsor)(contract, this.groupId, this.address, sponserSize);
+                return (0, _contractService.getPastSponsor)(contract, round, this.groupId, this.address, sponserSize);
 
               case 19:
                 sponsorData = _context2.sent;
@@ -334,12 +337,14 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this$props5 = this.props,
           history = _this$props5.history,
-          location = _this$props5.location;
+          location = _this$props5.location,
+          initContract = _this$props5.initContract;
       (0, _utils.changeRoute)({
         history: history,
         location: location,
         match: {}
       });
+      initContract();
       this.checkAndFetch();
     }
   }, {
@@ -359,7 +364,7 @@ function (_React$Component) {
           groupImage = _this$props6.groupImage;
       var goalText = intl.formatMessage({
         id: "group.unit.".concat(this.groupId),
-        defaultMessage: ''
+        defaultMessage: ' '
       }, {
         goal: goal
       });
@@ -408,7 +413,6 @@ function (_React$Component) {
         targetDays: targetDays,
         totalDays: totalDays,
         amount: amount,
-        sponsorAmount: this.state.sponsorAmount,
         invalidAddress: this.state.invalidAddress
       }), totalDays && this.canSponsor() ? _react.default.createElement(_SponsorButton.default, {
         onSponsor: this.onSponsor,

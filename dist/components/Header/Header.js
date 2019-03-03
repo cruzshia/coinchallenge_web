@@ -45,6 +45,8 @@ var _reactIntl = require("react-intl");
 
 var _action = require("../../epics/commonEpic/action");
 
+var _web = _interopRequireDefault(require("web3"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
@@ -136,7 +138,8 @@ function (_PureComponent) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
       anchorEl: null,
-      openWithdraw: false
+      openWithdraw: false,
+      isWithrawing: false
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onOpenWithdraw", function () {
@@ -155,7 +158,8 @@ function (_PureComponent) {
       _this.props.withdrawBalance();
 
       _this.setState({
-        openWithdraw: false
+        openWithdraw: false,
+        isWithrawing: true
       });
     });
 
@@ -188,16 +192,19 @@ function (_PureComponent) {
     value: function render() {
       var _this2 = this;
 
-      var anchorEl = this.state.anchorEl;
+      var _this$state = this.state,
+          anchorEl = _this$state.anchorEl,
+          isWithrawing = _this$state.isWithrawing;
       var _this$props = this.props,
           balance = _this$props.balance,
           intl = _this$props.intl;
+      var formatBalance = Number(Number(_web.default.utils.fromWei(balance)).toFixed(8));
       var open = Boolean(anchorEl);
       return _react.default.createElement(StyledAppBar, {
         id: "project-header"
       }, _react.default.createElement("h1", null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
-      }, this.props.title), Number(balance) > 0 ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(Balance, null, Number(Number(balance).toFixed(8)), " ", REACT_APP_COIN), _react.default.createElement(MonetizationOnIcon, {
+      }, this.props.title), Number(balance) > 0 && !isWithrawing ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(Balance, null, formatBalance, " ", REACT_APP_COIN), _react.default.createElement(MonetizationOnIcon, {
         onClick: this.onOpenWithdraw
       })) : null, _react.default.createElement(LangIcon, {
         onClick: this.handeClick
@@ -230,7 +237,7 @@ function (_PureComponent) {
       }, intl.formatMessage({
         id: 'withdraw.confirm.desc'
       }, {
-        balance: "".concat(balance, " ").concat(REACT_APP_COIN)
+        balance: "".concat(formatBalance, " ").concat(REACT_APP_COIN)
       }))), _react.default.createElement(_DialogActions.default, null, _react.default.createElement(_Button.default, {
         onClick: this.onCloseWithraw,
         color: "primary"

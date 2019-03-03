@@ -106,7 +106,7 @@ function (_React$Component) {
 
       _this.queue.push({
         key: Math.random(),
-        message: _react.default.createElement("span", null, proposer, " has created a challenge with", ' ', _react.default.createElement(StyledTxt, null, amount), REACT_APP_COIN)
+        message: _react.default.createElement("span", null, proposer, " has created a challenge with", ' ', _react.default.createElement(StyledTxt, null, Number(amount)), REACT_APP_COIN)
       });
 
       _this.processQueue();

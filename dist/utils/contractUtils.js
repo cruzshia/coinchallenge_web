@@ -18,7 +18,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var networkAddress = 'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
-var contractAddress = '0x14120E0d85c9102a7963d511510d259578d948EA';
+var contractAddress = '0xADED855550796DDA123f13d236dFEA12aa102D0B';
 
 var newContract = function newContract(web3Interface, address) {
   var newContract = null;
@@ -38,12 +38,14 @@ exports.newContract = newContract;
 
 var parseChallenge = function parseChallenge(response) {
   var challenge = {
+    round: Number(response._currentRound),
     targetDays: Number(response._targetDays),
     totalDays: Number(response._totalDays),
     completeDays: Number(response._completeDays),
     startTimestamp: Number(response._startTimestamp) * 1000,
     sponserSize: Number(response._sponsorSize),
     amount: Number(_web.default.utils.fromWei(response._amount)),
+    totalSponsorAmount: Number(_web.default.utils.fromWei(response._totalSponsorAmount)),
     goal: response._goal
   };
   return challenge;
@@ -91,7 +93,7 @@ function () {
           case 12:
             //ropsten
             networkAddress = 'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
-            contractAddress = '0x14120E0d85c9102a7963d511510d259578d948EA';
+            contractAddress = '0xADED855550796DDA123f13d236dFEA12aa102D0B';
             return _context.abrupt("break", 17);
 
           case 15:

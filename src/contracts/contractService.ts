@@ -143,24 +143,24 @@ export const getPastSponsor = async (
   let sponsers: any[] = []
 
   if (contract) {
-    sponsers =
-      (await getAllPastEvents(contract, 'SponsorChallenge', {
-        fromBlock: 0,
-        toBlock: 'latest',
-        filter: {
-          groupId,
-          challenger,
-          round
-        }
-      })) || []
+    let sponsor: any | undefined
+    let i = 0
+    while (i === 0 || sponsor._who) {
+      try {
+        sponsor = await contract.methods
+          .getSponsor(groupId, challenger, round, i)
+          .call()
 
-    sponsers = sponsers.map(sponsor => {
-      return {
-        who: sponsor.returnValues.sponsor,
-        amount: sponsor.returnValues.amount,
-        commnet: sponsor.returnValues.comment
+        sponsers.push({
+          who: sponsor._who,
+          amount: sponsor._amount,
+          comment: sponsor._comment
+        })
+      } catch (error) {
+        sponsor = {}
       }
-    })
+      i++
+    }
   }
 
   if (!sponsers.length) {
@@ -168,7 +168,7 @@ export const getPastSponsor = async (
   }
 
   sponserSize = sponserSize || sponsers.length
-  data = sponsers.slice(sponserSize * -1).reverse()
+  // data = sponsers.slice(sponserSize * -1).reverse()
 
   response.data = sponsers || []
 
@@ -193,11 +193,11 @@ export const sponsorEvents = async ({
     })
     .on('data', function(event) {
       if (callback) {
-        const { amount, comment, who } = event.returnValues
+        const { amount, comment, sponsor } = event.returnValues
         callback({
           amount,
           comment,
-          who
+          who: sponsor
         })
       }
     })
@@ -214,7 +214,7 @@ export const getChallenge = async ({
   challenger
 }: GetChallengeServerProp) => {
   const response = await contract.methods
-    .getChallenge(groupId, challenger)
+    .getCurrentChallenge(groupId, challenger)
     .call()
   return parseChallenge(response)
 }

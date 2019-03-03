@@ -150,7 +150,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   private onNewSponsor = (sponsor: Sponsor) => {
     const sponsors = this.state.sponsors
     this.setState({
-      sponsors: [sponsor].concat(sponsors),
+      sponsors: sponsors.concat([sponsor]),
       sponsorAmount:
         this.state.sponsorAmount + Number(web3.utils.fromWei(sponsor.amount))
     })
