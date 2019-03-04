@@ -21,6 +21,7 @@ const STATUS_COLOR = [
 interface HistoryProp extends InjectedIntlProps {
   contract: Contract | null
   challenger: string
+  groupId: string
 }
 
 interface HistoryState {
@@ -74,9 +75,13 @@ class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
     challenges: []
   }
   public async componentDidUpdate() {
-    const { contract, challenger } = this.props
+    const { contract, groupId, challenger } = this.props
     if (contract && !this.fetched) {
-      const pastChallengs = await getPastChallenges({ contract, challenger })
+      const pastChallengs = await getPastChallenges({
+        contract,
+        groupId,
+        challenger
+      })
       this.fetched = true
       this.setState({
         challenges: pastChallengs

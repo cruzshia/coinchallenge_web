@@ -120,13 +120,13 @@ function (_React$PureComponent) {
       var _componentDidUpdate = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee() {
-        var _this$props, contract, challenger, pastChallengs;
+        var _this$props, contract, groupId, challenger, pastChallengs;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this$props = this.props, contract = _this$props.contract, challenger = _this$props.challenger;
+                _this$props = this.props, contract = _this$props.contract, groupId = _this$props.groupId, challenger = _this$props.challenger;
 
                 if (!(contract && !this.fetched)) {
                   _context.next = 7;
@@ -136,6 +136,7 @@ function (_React$PureComponent) {
                 _context.next = 4;
                 return (0, _contractService.getPastChallenges)({
                   contract: contract,
+                  groupId: groupId,
                   challenger: challenger
                 });
 

@@ -7,6 +7,7 @@ import Contract from 'web3/eth/contract'
 import { newChallengesEvents } from '@Src/contracts/contractService'
 import { ChallengeType } from '@Src/typing/globalTypes'
 import { withStyles, WithStyles } from '@material-ui/core/styles'
+import web3 from 'web3'
 interface MessageProp {
   key: number
   message: ReactNode
@@ -72,7 +73,7 @@ class Notifier extends React.Component<
       message: (
         <span>
           {proposer} has created a challenge with{' '}
-          <StyledTxt>{Number(amount)}</StyledTxt>
+          <StyledTxt>{Number(web3.utils.fromWei(amount))}</StyledTxt>
           {REACT_APP_COIN}
         </span>
       )

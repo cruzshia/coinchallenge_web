@@ -95,6 +95,7 @@ interface ChallengeState {
 export interface RouteParams {
   address: string
   groupId: string
+  round?: number
 }
 
 const mapStateToProps = (state: Map<string, object>) => {
@@ -113,7 +114,8 @@ const mapDispathToProps = (dispatch: Dispatch) => ({
     dispatch(
       getChallenge({
         groupId: data.groupId,
-        challenger: data.address
+        challenger: data.address,
+        round: data.round
       })
     ),
   sponserChallenge: (payload: SponserProp) =>
@@ -132,6 +134,7 @@ const { REACT_APP_COIN = 'ETH' } = process.env
 class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   public address: string = ''
   public groupId: string = ''
+  public round: number | undefined = undefined
   public fetched: boolean = false
   public sponsorFetched: boolean = false
 
@@ -140,6 +143,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     const params = this.props.match.params as RouteParams
     this.address = params.address
     this.groupId = params.groupId
+    this.round = params.round ? Number(params.round) : undefined
     this.state = {
       sponsors: [],
       sponsorAmount: 0,
@@ -182,7 +186,8 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       if (!this.fetched) {
         fetchChallenge({
           address: this.address,
-          groupId: this.groupId
+          groupId: this.groupId,
+          round: this.round
         })
         this.fetched = true
       } else if (!this.sponsorFetched && targetDays > 0) {
@@ -333,7 +338,11 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
               </LoadingBlk>
             ) : null}
             <Sponsers sponsors={this.state.sponsors} />
-            <HistoryTimeline contract={contract} challenger={this.address} />
+            <HistoryTimeline
+              contract={contract}
+              groupId={this.groupId}
+              challenger={this.address}
+            />
           </StyledGridList>
         </ChallengeContainer>
         <Notifier contract={contract} />

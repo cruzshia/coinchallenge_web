@@ -111,7 +111,8 @@ var mapDispathToProps = function mapDispathToProps(dispatch) {
     fetchChallenge: function fetchChallenge(data) {
       return dispatch((0, _action2.getChallenge)({
         groupId: data.groupId,
-        challenger: data.address
+        challenger: data.address,
+        round: data.round
       }));
     },
     sponserChallenge: function sponserChallenge(payload) {
@@ -149,6 +150,8 @@ function (_React$Component) {
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "address", '');
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "groupId", '');
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "round", undefined);
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "fetched", false);
 
@@ -228,6 +231,7 @@ function (_React$Component) {
     var params = _this.props.match.params;
     _this.address = params.address;
     _this.groupId = params.groupId;
+    _this.round = params.round ? Number(params.round) : undefined;
     _this.state = {
       sponsors: [],
       sponsorAmount: 0,
@@ -283,7 +287,8 @@ function (_React$Component) {
 
                 fetchChallenge({
                   address: this.address,
-                  groupId: this.groupId
+                  groupId: this.groupId,
+                  round: this.round
                 });
                 this.fetched = true;
                 _context2.next = 22;
@@ -423,6 +428,7 @@ function (_React$Component) {
         sponsors: this.state.sponsors
       }), _react.default.createElement(_HistoryTimeline.default, {
         contract: contract,
+        groupId: this.groupId,
         challenger: this.address
       }))), _react.default.createElement(_Notifier.default, {
         contract: contract

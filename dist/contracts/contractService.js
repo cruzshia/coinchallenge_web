@@ -108,17 +108,18 @@ function () {
   var _ref5 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee3(_ref4) {
-    var contract, challenger, finishChallenges, data, i, returnValues;
+    var contract, groupId, challenger, finishChallenges, data, i, returnValues;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            contract = _ref4.contract, challenger = _ref4.challenger;
+            contract = _ref4.contract, groupId = _ref4.groupId, challenger = _ref4.challenger;
             _context3.next = 3;
             return getAllPastEvents(contract, 'FinishChallenge', {
               fromBlock: 0,
               filter: {
-                who: challenger
+                groupId: groupId,
+                challenger: challenger
               }
             });
 

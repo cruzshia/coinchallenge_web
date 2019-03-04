@@ -47,13 +47,18 @@ exports.getChallengeGroupEpic = getChallengeGroupEpic;
 
 var getChallengeEpic = function getChallengeEpic(action$, state$) {
   return action$.pipe((0, _reduxObservable.ofType)(_action.GET_CAHLLENGE), (0, _operators.switchMap)(function (action) {
+    var _contract$methods;
+
     var commonReducer = state$.value.get('common');
     var _ref3 = [commonReducer.get('contract')],
         contract = _ref3[0];
     var _ref4 = action.payload,
         groupId = _ref4.groupId,
-        challenger = _ref4.challenger;
-    return (0, _rxjs.from)(contract.methods.getCurrentChallenge(groupId, challenger).call()).pipe((0, _operators.map)(function (response) {
+        challenger = _ref4.challenger,
+        round = _ref4.round;
+    var method = isNaN(round) ? 'getCurrentChallenge' : 'getChallenge';
+    var params = isNaN(round) ? [groupId, challenger] : [groupId, challenger, round];
+    return (0, _rxjs.from)((_contract$methods = contract.methods)[method].apply(_contract$methods, params).call()).pipe((0, _operators.map)(function (response) {
       var challenge = (0, _contractUtils.parseChallenge)(response);
       return challenge.totalDays ? (0, _action.setChallenge)(challenge) : (0, _action2.setPopup)({
         showPop: true,

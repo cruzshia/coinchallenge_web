@@ -60,7 +60,7 @@ class App extends Component {
                 component={CreateChallengeGroup}
               />
               <Route
-                path='/challenge/:groupId/:address'
+                path='/challenge/:groupId/:address/:round?'
                 component={Challenge}
               />
               <Route component={() => <Redirect to='/' />} />

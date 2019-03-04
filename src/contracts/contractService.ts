@@ -22,6 +22,7 @@ export const getChallengeGroup = async (props: GetGroupProp) => {
 
 interface GetChallengeProp {
   contract: Contract
+  groupId: string
   challenger: string
 }
 
@@ -67,12 +68,13 @@ export const newChallengesEvents = async ({
 
 export const getPastChallenges = async ({
   contract,
+  groupId,
   challenger
 }: GetChallengeProp) => {
   const finishChallenges =
     (await getAllPastEvents(contract, 'FinishChallenge', {
       fromBlock: 0,
-      filter: { who: challenger }
+      filter: { groupId, challenger }
     })) || []
 
   const data: Array<ChallengeType> = []
