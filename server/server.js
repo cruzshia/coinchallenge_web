@@ -31,6 +31,8 @@ import {
   getChallengeGroup
 } from '../dist/contracts/contractService'
 
+// import json from '../dist/translation/zh_TW.json'
+
 let filePath = path.resolve(__dirname, '../build', 'index.html')
 
 // Our loader - this basically acts as the entry point for each page load
@@ -45,25 +47,44 @@ app.use(morgan('dev'))
 
 app.use(express.static(path.resolve(__dirname, '../build')))
 
-app.get('/challenge/:groupId/:address', async (req, res) => {
-  const { groupId, address } = req.params
+let contract = null
+
+const initContract = async () => {
+  if (contract !== null) return
   const providers = new Web3().providers
   const web3 = new Web3(
     new providers.WebsocketProvider(
       'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
     )
   )
+  contract = newContract(web3, '0xADED855550796DDA123f13d236dFEA12aa102D0B')
+}
 
-  const contract = newContract(
-    web3,
-    '0xADED855550796DDA123f13d236dFEA12aa102D0B'
-  )
+/*
+app.get('/api/share/:groupId/:address/:round*?', async (req, res) => {
+  let { groupId, address, round } = req.params
+  await initContract()
+  let challengeRes = await getChallenge({
+    contract,
+    groupId,
+    challenger: address,
+    round
+  })
+  console.log(req.query.lang)
+  res.send('ok!')
+})
+*/
+app.get('/challenge/:groupId/:address/:round*?', async (req, res) => {
+  let { groupId, address, round } = req.params
+  await initContract()
   let challengeRes
+  round = round && !isNaN(round) ? Number(round) : undefined
   try {
     challengeRes = await getChallenge({
       contract,
       groupId,
-      challenger: address
+      challenger: address,
+      round
     })
     store.dispatch(setChallenge(challengeRes))
   } catch (err) {
