@@ -2,6 +2,7 @@ import Contract from 'web3/eth/contract'
 import { Sponsor, ChallengeType } from '@Src/typing/globalTypes'
 import { parseChallenge } from '@Utils/contractUtils'
 import web3 from 'web3'
+import { number } from 'prop-types'
 //process.env.REACT_APP_CONTRACT_ADDRESS
 
 interface GetGroupProp {
@@ -46,7 +47,7 @@ export const newChallengesEvents = async ({
     },
     function(_error: any, event: any) {
       const {
-        proposer,
+        challenger,
         groupId,
         targetDays,
         totalDays,
@@ -55,7 +56,7 @@ export const newChallengesEvents = async ({
       } = event.returnValues
       callback &&
         callback({
-          proposer,
+          proposer: challenger,
           groupId,
           targetDays,
           totalDays,
@@ -209,15 +210,20 @@ interface GetChallengeServerProp {
   contract: Contract
   groupId: string
   challenger: string
+  round?: number
 }
 export const getChallenge = async ({
   contract,
   groupId,
-  challenger
+  challenger,
+  round
 }: GetChallengeServerProp) => {
-  const response = await contract.methods
-    .getCurrentChallenge(groupId, challenger)
-    .call()
+  const method = round && round > 0 ? 'getChallenge' : 'getCurrentChallenge'
+  const params =
+    method === 'getChallenge'
+      ? [groupId, challenger, round]
+      : [groupId, challenger]
+  const response = await contract.methods[method](...params).call()
   return parseChallenge(response)
 }
 

@@ -317,7 +317,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
           <StyledGridList>
             <ChallengeCard
               name={groupName}
-              goal={goalText}
+              goal={totalDays ? goalText : ''}
               url={groupImage}
               invalidAddress={this.state.invalidAddress}
             />
