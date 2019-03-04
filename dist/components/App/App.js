@@ -110,7 +110,7 @@ function (_Component) {
         exact: true,
         component: _CreateChallengeGroup.default
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/challenge/:groupId/:address",
+        path: "/challenge/:groupId/:address/:round?",
         component: _Challenge.default
       }), _react.default.createElement(_reactRouterDom.Route, {
         component: function component() {

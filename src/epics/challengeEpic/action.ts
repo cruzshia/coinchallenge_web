@@ -5,6 +5,7 @@ import { Dispatch } from 'redux'
 interface GetChallengeProp {
   groupId: string
   challenger: string
+  round?: number
 }
 
 export interface SetGroupProp {

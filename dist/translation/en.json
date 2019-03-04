@@ -74,13 +74,13 @@
     "section.invite.friend.desc": "Urge Each Other<br />Complete together",
     "download.app": "Download App",
     "challenge.history.date.formate": "YYYY/M/D",
-    "group.title.coin.challenges.step": "Walking Step Challenge",
+    "group.title.coin.challenges.step": "Walking Challenge",
     "group.unit.coin.challenges.step": "{goal} Steps",
-    "group.title.coin.challenges.distance": "Walking+Running Distance Challenge",
+    "group.title.coin.challenges.distance": "Running Challenge",
     "group.unit.coin.challenges.distance": "{goal}KM",
     "group.title.coin.challenges.calorie": "Calorie Burning Challenge",
-    "group.unit.coin.challenges.calorie": "{goal} Calories",
-    "error.withdraw": "Withdraw error, please confirm you balance in CoinChallenges",
+    "group.unit.coin.challenges.calorie": "{goal} Cal",
+    "withdraw.error": "Withdraw error, please confirm you balance in CoinChallenges",
     "withdraw.success": "Withdraw success",
     "min.amount.error": "Can't less then group's min amount {amount}"
 }

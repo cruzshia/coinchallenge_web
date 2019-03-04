@@ -95,21 +95,17 @@ function (_React$Component) {
       var _componentDidMount = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee() {
-        var initContract;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                initContract = this.props.initContract;
-                initContract();
-
                 if (process.browser) {
                   require('particles.js');
 
                   window.particlesJS.load('particle-body', '/particlesjs-config.json');
                 }
 
-              case 3:
+              case 1:
               case "end":
                 return _context.stop();
             }

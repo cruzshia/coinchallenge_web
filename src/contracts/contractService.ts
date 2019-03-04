@@ -22,6 +22,7 @@ export const getChallengeGroup = async (props: GetGroupProp) => {
 
 interface GetChallengeProp {
   contract: Contract
+  groupId: string
   challenger: string
 }
 
@@ -67,12 +68,13 @@ export const newChallengesEvents = async ({
 
 export const getPastChallenges = async ({
   contract,
+  groupId,
   challenger
 }: GetChallengeProp) => {
   const finishChallenges =
     (await getAllPastEvents(contract, 'FinishChallenge', {
       fromBlock: 0,
-      filter: { who: challenger }
+      filter: { groupId, challenger }
     })) || []
 
   const data: Array<ChallengeType> = []
@@ -80,12 +82,14 @@ export const getPastChallenges = async ({
   for (let i = 0; i < finishChallenges.length; i++) {
     const { returnValues } = finishChallenges[i]
     data.push({
+      round: returnValues.round,
       targetDays: returnValues.targetDays,
       totalDays: returnValues.totalDays,
       completeDays: returnValues.completeDays,
       startTimestamp: returnValues.startTimestamp,
       sponserSize: 0,
       amount: returnValues.amount,
+      totalSponsorAmount: returnValues.totalSponsorAmount,
       status: returnValues.status,
       goal: returnValues.goal
     })
@@ -125,24 +129,39 @@ export const getAllPastEvents = async (
 
 export const getPastSponsor = async (
   contract: Contract | null,
+  round: number,
   groupId: string,
   challenger: string,
   sponserSize: number = 0,
   options?: PastEventProp
 ) => {
   options = options || { fromBlock: 0 }
+  //SponsorChallenge
 
   let response = {
     data: [] as Sponsor[]
   }
   let data: any[] = []
-  const sponsers: any[] = []
+  let sponsers: any[] = []
+
   if (contract) {
-    for (let i = 0; i < sponserSize; i++) {
-      const sponsor = await contract.methods
-        .getSponsor(groupId, challenger, i)
-        .call()
-      sponsers.push(sponsor)
+    let sponsor: any | undefined
+    let i = 0
+    while (i === 0 || sponsor._who) {
+      try {
+        sponsor = await contract.methods
+          .getSponsor(groupId, challenger, round, i)
+          .call()
+
+        sponsers.push({
+          who: sponsor._who,
+          amount: sponsor._amount,
+          comment: sponsor._comment
+        })
+      } catch (error) {
+        sponsor = {}
+      }
+      i++
     }
   }
 
@@ -151,16 +170,9 @@ export const getPastSponsor = async (
   }
 
   sponserSize = sponserSize || sponsers.length
-  data = sponsers.slice(sponserSize * -1).reverse()
+  // data = sponsers.slice(sponserSize * -1).reverse()
 
-  response.data =
-    data.map(sponsor => {
-      return {
-        amount: sponsor._amount,
-        comment: sponsor._comment,
-        who: sponsor._who
-      }
-    }) || []
+  response.data = sponsers || []
 
   return response
 }
@@ -183,11 +195,11 @@ export const sponsorEvents = async ({
     })
     .on('data', function(event) {
       if (callback) {
-        const { amount, comment, who } = event.returnValues
+        const { amount, comment, sponsor } = event.returnValues
         callback({
           amount,
           comment,
-          who
+          who: sponsor
         })
       }
     })
@@ -204,7 +216,7 @@ export const getChallenge = async ({
   challenger
 }: GetChallengeServerProp) => {
   const response = await contract.methods
-    .getChallenge(groupId, challenger)
+    .getCurrentChallenge(groupId, challenger)
     .call()
   return parseChallenge(response)
 }

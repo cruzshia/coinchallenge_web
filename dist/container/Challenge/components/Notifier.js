@@ -19,6 +19,8 @@ var _contractService = require("../../../contracts/contractService");
 
 var _styles = require("@material-ui/core/styles");
 
+var _web = _interopRequireDefault(require("web3"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -106,7 +108,7 @@ function (_React$Component) {
 
       _this.queue.push({
         key: Math.random(),
-        message: _react.default.createElement("span", null, proposer, " has created a challenge with", ' ', _react.default.createElement(StyledTxt, null, amount), REACT_APP_COIN)
+        message: _react.default.createElement("span", null, proposer, " has created a challenge with", ' ', _react.default.createElement(StyledTxt, null, Number(_web.default.utils.fromWei(amount))), REACT_APP_COIN)
       });
 
       _this.processQueue();

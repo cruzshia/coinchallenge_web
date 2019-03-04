@@ -100,7 +100,6 @@ interface ChallengeInfoProp extends InjectedIntlProps, WithStyles {
   totalDays: number
   amount: number
   invalidAddress: boolean
-  sponsorAmount: number
 }
 
 const { REACT_APP_COIN } = process.env

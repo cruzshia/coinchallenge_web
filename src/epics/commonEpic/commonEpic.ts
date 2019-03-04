@@ -40,9 +40,13 @@ const checkContract = (state$: any) => {
   return txContract !== null && accounts.length > 0
 }
 
-export const initContractEpic = (action$: ActionsObservable<Action>) =>
+export const initContractEpic = (
+  action$: ActionsObservable<Action>,
+  state$: StateObservable<any>
+) =>
   action$.pipe(
     ofType(INIT_CONTRACT),
+    filter(() => state$.value.get('common').get('txContract') === null),
     switchMap(async () => {
       let accounts: string[]
       let txWeb3: Web3 | null = null
@@ -58,6 +62,7 @@ export const initContractEpic = (action$: ActionsObservable<Action>) =>
           txWeb3 = new Web3(window.ethereum || web3.currentProvider)
           network = await detectNetwork(txWeb3)
           txContract = newContract(txWeb3)
+          window.contract = txContract
           await window.ethereum.enable()
         }
 
@@ -121,7 +126,7 @@ export const getBalanceEpic = (
       } catch (err) {
         return setPopup({
           showPop: true,
-          messageKey: '123'
+          popMessage: 'get balance error'
         })
       }
     })
@@ -150,7 +155,7 @@ export const withdrawEpic = (
           return of(
             setPopup({
               showPop: true,
-              popMessage: 'Tx hash : ' + response
+              popMessage: 'Tx hash : ' + response.data
             }),
             getBalance()
           )

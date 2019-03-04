@@ -149,6 +149,9 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
+    initContract: function initContract() {
+      return dispatch((0, _action2.initContract)());
+    },
     checkWallet: function checkWallet() {
       return dispatch((0, _action2.checkWallet)());
     },
@@ -333,12 +336,14 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this$props = this.props,
           history = _this$props.history,
-          location = _this$props.location;
+          location = _this$props.location,
+          initContract = _this$props.initContract;
       (0, _utils.changeRoute)({
         history: history,
         location: location,
         match: {}
       });
+      initContract();
     }
   }, {
     key: "render",
@@ -368,7 +373,8 @@ function (_React$Component) {
         className: "textField",
         margin: "normal",
         variant: "outlined",
-        placeholder: "e.g: com.coin.challenge",
+        type: "number",
+        placeholder: "e.g: 5566",
         value: challengeGroup.id,
         onChange: this.onTextChange('id'),
         error: error.id,

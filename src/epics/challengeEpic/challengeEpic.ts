@@ -60,11 +60,14 @@ export const getChallengeEpic = (
     switchMap((action: Action) => {
       const commonReducer = state$.value.get('common')
       const [contract] = [commonReducer.get('contract')]
-      const { groupId, challenger } = action.payload as any
+      const { groupId, challenger, round } = action.payload as any
 
-      return from(
-        contract.methods.getChallenge(groupId, challenger).call()
-      ).pipe(
+      const method = isNaN(round) ? 'getCurrentChallenge' : 'getChallenge'
+      const params = isNaN(round)
+        ? [groupId, challenger]
+        : [groupId, challenger, round]
+
+      return from(contract.methods[method](...params).call()).pipe(
         map((response: any) => {
           const challenge = parseChallenge(response)
           return challenge.totalDays

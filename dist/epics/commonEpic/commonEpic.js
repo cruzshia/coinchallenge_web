@@ -48,8 +48,10 @@ var checkContract = function checkContract(state$) {
   return txContract !== null && accounts.length > 0;
 };
 
-var initContractEpic = function initContractEpic(action$) {
-  return action$.pipe((0, _reduxObservable.ofType)(_action.INIT_CONTRACT), (0, _operators.switchMap)(
+var initContractEpic = function initContractEpic(action$, state$) {
+  return action$.pipe((0, _reduxObservable.ofType)(_action.INIT_CONTRACT), (0, _operators.filter)(function () {
+    return state$.value.get('common').get('txContract') === null;
+  }), (0, _operators.switchMap)(
   /*#__PURE__*/
   _asyncToGenerator(
   /*#__PURE__*/
@@ -74,7 +76,7 @@ var initContractEpic = function initContractEpic(action$) {
             }
 
             window.web3 = {};
-            _context.next = 17;
+            _context.next = 18;
             break;
 
           case 10:
@@ -85,51 +87,52 @@ var initContractEpic = function initContractEpic(action$) {
           case 13:
             network = _context.sent;
             txContract = (0, _contractUtils.newContract)(txWeb3);
-            _context.next = 17;
+            window.contract = txContract;
+            _context.next = 18;
             return window.ethereum.enable();
 
-          case 17:
+          case 18:
             providers = new _web.default().providers;
             injectProvider = new providers.WebsocketProvider(network);
             web3 = new _web.default(injectProvider);
 
             if (!txWeb3) {
-              _context.next = 26;
+              _context.next = 27;
               break;
             }
 
-            _context.next = 23;
+            _context.next = 24;
             return txWeb3.eth.getAccounts();
 
-          case 23:
+          case 24:
             _context.t0 = _context.sent;
-            _context.next = 29;
+            _context.next = 30;
             break;
 
-          case 26:
-            _context.next = 28;
+          case 27:
+            _context.next = 29;
             return web3.eth.getAccounts();
 
-          case 28:
+          case 29:
             _context.t0 = _context.sent;
 
-          case 29:
+          case 30:
             accounts = _context.t0;
             contract = (0, _contractUtils.newContract)(web3);
             accountBalance = '0';
 
             if (!txContract) {
-              _context.next = 36;
+              _context.next = 37;
               break;
             }
 
-            _context.next = 35;
+            _context.next = 36;
             return txContract.methods.userBalances(accounts[0]).call();
 
-          case 35:
+          case 36:
             accountBalance = _context.sent;
 
-          case 36:
+          case 37:
             return _context.abrupt("return", (0, _action.setContract)({
               txContract: txContract,
               contract: contract,
@@ -139,20 +142,20 @@ var initContractEpic = function initContractEpic(action$) {
               error: null
             }));
 
-          case 39:
-            _context.prev = 39;
+          case 40:
+            _context.prev = 40;
             _context.t1 = _context["catch"](1);
             return _context.abrupt("return", (0, _action.setPopup)({
               showPop: true,
               messageKey: _errorCode.NO_PROVIDER.key
             }));
 
-          case 42:
+          case 43:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, this, [[1, 39]]);
+    }, _callee, this, [[1, 40]]);
   }))));
 };
 
@@ -196,7 +199,7 @@ var getBalanceEpic = function getBalanceEpic(action$, state$) {
             _context2.t0 = _context2["catch"](2);
             return _context2.abrupt("return", (0, _action.setPopup)({
               showPop: true,
-              messageKey: '123'
+              popMessage: 'get balance error'
             }));
 
           case 14:
@@ -223,7 +226,7 @@ var withdrawEpic = function withdrawEpic(action$, state$) {
     })).pipe((0, _operators.mergeMap)(function (response) {
       return (0, _rxjs.of)((0, _action.setPopup)({
         showPop: true,
-        popMessage: 'Tx hash : ' + response
+        popMessage: 'Tx hash : ' + response.data
       }), (0, _action.getBalance)());
     }), (0, _operators.catchError)(function (err) {
       return (0, _rxjs.of)((0, _action.setPopup)({

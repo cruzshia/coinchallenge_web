@@ -14,7 +14,12 @@ import {
   setCreateResult,
   SetResultProp
 } from '@Epics/challengeGroupEpic/action'
-import { checkWallet, setPopup, SetPopProps } from '@Epics/commonEpic/action'
+import {
+  checkWallet,
+  setPopup,
+  SetPopProps,
+  initContract
+} from '@Epics/commonEpic/action'
 import { CommonStateType } from '@Reducers/commonReducer'
 import { ChallengeGroupStateType } from '@Reducers/challengeGroupReducer'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
@@ -118,6 +123,7 @@ type CreateChallengeGroupProp = {
   checkWallet: () => void
   setCreateResult: (payload: SetResultProp) => void
   setPopup: (payload: SetPopProps) => void
+  initContract: () => void
 }
 
 interface ErrorKeys extends ChallengeGroupType {
@@ -142,6 +148,7 @@ const mapStateToProps = (state: Map<string, object>) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  initContract: () => dispatch(initContract()),
   checkWallet: () => dispatch(checkWallet()),
   setPopup: (payload: SetPopProps) => dispatch(setPopup(payload)),
   setCreateResult: (payload: SetResultProp) =>
@@ -282,8 +289,9 @@ class CreateChallengeGroup extends React.Component<
   }
 
   public componentDidMount() {
-    const { history, location } = this.props
+    const { history, location, initContract } = this.props
     changeRoute({ history, location, match: {} })
+    initContract()
   }
 
   public render() {
@@ -300,7 +308,8 @@ class CreateChallengeGroup extends React.Component<
           className='textField'
           margin='normal'
           variant='outlined'
-          placeholder='e.g: com.coin.challenge'
+          type='number'
+          placeholder='e.g: 5566'
           value={challengeGroup.id}
           onChange={this.onTextChange('id')}
           error={error.id}

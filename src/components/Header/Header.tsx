@@ -73,6 +73,7 @@ interface BarProp extends RouteComponentProps, InjectedIntlProps {
 interface BarState {
   anchorEl: null | EventTarget
   openWithdraw: boolean
+  isWithrawing: boolean
 }
 
 const LangMenu = [
@@ -94,7 +95,8 @@ const { REACT_APP_COIN = 'ETH' } = process.env
 class ButtonAppBar extends PureComponent<BarProp, BarState> {
   public state = {
     anchorEl: null,
-    openWithdraw: false
+    openWithdraw: false,
+    isWithrawing: false
   }
 
   private onOpenWithdraw = () => {
@@ -112,7 +114,8 @@ class ButtonAppBar extends PureComponent<BarProp, BarState> {
   private onWithdraw = () => {
     this.props.withdrawBalance()
     this.setState({
-      openWithdraw: false
+      openWithdraw: false,
+      isWithrawing: true
     })
   }
 
@@ -134,19 +137,20 @@ class ButtonAppBar extends PureComponent<BarProp, BarState> {
   }
 
   public render() {
-    const { anchorEl } = this.state
+    const { anchorEl, isWithrawing } = this.state
     const { balance, intl } = this.props
+
+    const formatBalance = Number(Number(Web3.utils.fromWei(balance)).toFixed(8))
 
     const open = Boolean(anchorEl)
     return (
       <StyledAppBar id='project-header'>
         <h1>
           <Link to='/'>{this.props.title}</Link>
-          {Number(balance) > 0 ? (
+          {Number(balance) > 0 && !isWithrawing ? (
             <React.Fragment>
               <Balance>
-                {Number(Number(Web3.utils.fromWei(balance)).toFixed(8))}{' '}
-                {REACT_APP_COIN}
+                {formatBalance} {REACT_APP_COIN}
               </Balance>
               <MonetizationOnIcon onClick={this.onOpenWithdraw} />
             </React.Fragment>
@@ -186,7 +190,7 @@ class ButtonAppBar extends PureComponent<BarProp, BarState> {
               {intl.formatMessage(
                 { id: 'withdraw.confirm.desc' },
                 {
-                  balance: `${balance} ${REACT_APP_COIN}`
+                  balance: `${formatBalance} ${REACT_APP_COIN}`
                 }
               )}
             </DialogContentText>
