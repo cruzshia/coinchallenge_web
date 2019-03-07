@@ -26,21 +26,6 @@
             _v: 1
         }, "addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setIdentity track validateCode".split(" "), 0);
         branch.init('key_live_oeUkIJ33d9F5Kmqs1NX3XdkaBEoJnOKL');
-        branch.deepview({
-            'channel': 'mobile_web',
-            'feature': 'deepview',
-            data: {
-                '$deeplink_path': 'group/create',
-                'user_cookie_id': 'coin-challenge',
-                'page_id': '1234',
-            }
-        }, {
-            'open_app': true
-        }, function(err, data) {
-            console.log(err, data);
-        });
-
-        // branch.deepviewCta()
     </script>
     <!--
       manifest.json provides metadata used when your web app is added to the

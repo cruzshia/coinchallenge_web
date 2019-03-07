@@ -98,6 +98,23 @@ export interface RouteParams {
   round?: number
 }
 
+const deeplinking = (data: RouteParams) => {
+  branch.deepview(
+    {
+      channel: 'safari',
+      feature: 'deepview',
+      $uri_redirect_mode: 2,
+      data: {
+        user_cookie_id: 'coin-challenge',
+        ...data
+      }
+    },
+    {
+      open_app: true
+    }
+  )
+}
+
 const mapStateToProps = (state: Map<string, object>) => {
   const challengeState = state.get('challenge') as ChallengeStateType
   const commonState = state.get('common') as CommonStateType
@@ -180,6 +197,14 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       })
       this.fetched = true
       return
+    }
+
+    if (typeof window !== 'undefined') {
+      deeplinking({
+        address: this.address,
+        groupId: this.groupId,
+        round: this.round
+      })
     }
 
     if (contract) {
