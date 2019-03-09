@@ -71,14 +71,14 @@ function () {
               fromBlock: 0
             }, function (_error, event) {
               var _event$returnValues = event.returnValues,
-                  proposer = _event$returnValues.proposer,
+                  challenger = _event$returnValues.challenger,
                   groupId = _event$returnValues.groupId,
                   targetDays = _event$returnValues.targetDays,
                   totalDays = _event$returnValues.totalDays,
                   startTimestamp = _event$returnValues.startTimestamp,
                   amount = _event$returnValues.amount;
               callback && callback({
-                proposer: proposer,
+                proposer: challenger,
                 groupId: groupId,
                 targetDays: targetDays,
                 totalDays: totalDays,
@@ -397,20 +397,24 @@ function () {
   var _ref12 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee8(_ref11) {
-    var contract, groupId, challenger, response;
+    var _contract$methods;
+
+    var contract, groupId, challenger, round, method, params, response;
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
-            contract = _ref11.contract, groupId = _ref11.groupId, challenger = _ref11.challenger;
-            _context8.next = 3;
-            return contract.methods.getCurrentChallenge(groupId, challenger).call();
+            contract = _ref11.contract, groupId = _ref11.groupId, challenger = _ref11.challenger, round = _ref11.round;
+            method = round && round > 0 ? 'getChallenge' : 'getCurrentChallenge';
+            params = method === 'getChallenge' ? [groupId, challenger, round] : [groupId, challenger];
+            _context8.next = 5;
+            return (_contract$methods = contract.methods)[method].apply(_contract$methods, params).call();
 
-          case 3:
+          case 5:
             response = _context8.sent;
             return _context8.abrupt("return", (0, _contractUtils.parseChallenge)(response));
 
-          case 5:
+          case 7:
           case "end":
             return _context8.stop();
         }

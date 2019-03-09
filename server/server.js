@@ -33,6 +33,8 @@ import {
 
 // import json from '../dist/translation/zh_TW.json'
 
+import { generateImage } from './imageService'
+
 let filePath = path.resolve(__dirname, '../build', 'index.html')
 
 // Our loader - this basically acts as the entry point for each page load
@@ -60,51 +62,100 @@ const initContract = async () => {
   contract = newContract(web3, '0xADED855550796DDA123f13d236dFEA12aa102D0B')
 }
 
-/*
-app.get('/api/share/:groupId/:address/:round*?', async (req, res) => {
-  let { groupId, address, round } = req.params
-  await initContract()
-  let challengeRes = await getChallenge({
-    contract,
-    groupId,
-    challenger: address,
-    round
-  })
-  console.log(req.query.lang)
-  res.send('ok!')
-})
-*/
-app.get('/challenge/:groupId/:address/:round*?', async (req, res) => {
-  let { groupId, address, round } = req.params
+initContract()
+
+const fetchResChallenge = async ({ groupId, challenger, round }) => {
   await initContract()
   let challengeRes
-  round = round && !isNaN(round) ? Number(round) : undefined
   try {
     challengeRes = await getChallenge({
       contract,
       groupId,
+      challenger,
+      round
+    })
+  } catch (error) {
+    throw 'fetch challenge error'
+  }
+  return challengeRes
+}
+
+const fetchGroup = async ({ groupId, challenger }) => {
+  try {
+    const group = await getChallengeGroup({
+      contract,
+      groupId
+    })
+    return group
+  } catch (error) {
+    throw 'fetch group error'
+  }
+}
+
+// app.get('/api/share/:groupId/:address/(:round)?', async (req, res) => {
+app.get('/api/share/:groupId/:address/:round*?', async (req, res) => {
+  let { groupId, address, round } = req.params
+  await initContract()
+  let challengeRes
+  let group
+  try {
+    challengeRes = await fetchResChallenge({
+      groupId,
       challenger: address,
       round
     })
-    store.dispatch(setChallenge(challengeRes))
-  } catch (err) {
-    console.log('ssr get challenge error')
-    console.log(err)
+
+    group = await fetchGroup({
+      groupId
+    })
+  } catch (error) {
+    res.status(911).send({ error: 'error challenge data' })
+    return
   }
 
-  try {
-    const { name, url, minAmount } = await getChallengeGroup({
-      contract,
-      groupId,
-      challenger: address
-    })
-    store.dispatch(
-      setChallengeGroup({ groupImage: url, groupName: name, minAmount })
-    )
-  } catch (err) {
-    console.log('ssr get challenge group error')
-    console.log(err)
+  let challengeData = {
+    groupId,
+    groupName: group.name,
+    challenger: address,
+    goal: challengeRes.goal,
+    amount: challengeRes.amount + ' ' + process.env.REACT_APP_COIN
   }
+
+  generateImage({
+    challengeData,
+    isPreview: true,
+    cbk: async data => {
+      res.writeHead(200, {
+        'Content-Type': 'image/png',
+        'Content-Length': data.length
+      })
+      res.end(data)
+    },
+    errorCbk: err => {
+      console.log(err)
+      res.status(911).send({ error: 'image create failed' })
+    }
+  })
+})
+
+app.get('/challenge/:groupId/:address/(:round)?', async (req, res) => {
+  let { groupId, address, round } = req.params
+
+  round = round && !isNaN(round) ? Number(round) : undefined
+
+  let challengeRes = await fetchResChallenge({
+    groupId,
+    challenger: address,
+    round
+  })
+  store.dispatch(setChallenge(challengeRes))
+
+  const { name, url, minAmount } = await fetchGroup({
+    groupId
+  })
+  store.dispatch(
+    setChallengeGroup({ groupImage: url, groupName: name, minAmount })
+  )
 
   const html = getRenderedHtml(req.url)
   const preloadedState = store.getState().toJS()

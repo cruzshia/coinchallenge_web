@@ -96,6 +96,19 @@ var LoadingBlk = (0, _styledComponents.default)('div')({
   }
 });
 
+var deeplinking = function deeplinking(data) {
+  branch.deepview({
+    channel: 'safari',
+    feature: 'deepview',
+    $uri_redirect_mode: 2,
+    data: _objectSpread({
+      user_cookie_id: 'coin-challenge'
+    }, data)
+  }, {
+    open_app: true
+  });
+};
+
 var mapStateToProps = function mapStateToProps(state) {
   var challengeState = state.get('challenge');
   var commonState = state.get('common');
@@ -275,13 +288,21 @@ function (_React$Component) {
                 return _context2.abrupt("return");
 
               case 9:
+                if (typeof window !== 'undefined') {
+                  deeplinking({
+                    address: this.address,
+                    groupId: this.groupId,
+                    round: this.round
+                  });
+                }
+
                 if (!contract) {
-                  _context2.next = 22;
+                  _context2.next = 23;
                   break;
                 }
 
                 if (this.fetched) {
-                  _context2.next = 15;
+                  _context2.next = 16;
                   break;
                 }
 
@@ -291,20 +312,20 @@ function (_React$Component) {
                   round: this.round
                 });
                 this.fetched = true;
-                _context2.next = 22;
+                _context2.next = 23;
                 break;
 
-              case 15:
+              case 16:
                 if (!(!this.sponsorFetched && targetDays > 0)) {
-                  _context2.next = 22;
+                  _context2.next = 23;
                   break;
                 }
 
                 this.sponsorFetched = true;
-                _context2.next = 19;
+                _context2.next = 20;
                 return (0, _contractService.getPastSponsor)(contract, round, this.groupId, this.address, sponserSize);
 
-              case 19:
+              case 20:
                 sponsorData = _context2.sent;
                 (0, _contractService.sponsorEvents)({
                   contract: contract,
@@ -318,7 +339,7 @@ function (_React$Component) {
                   }, 0)
                 });
 
-              case 22:
+              case 23:
               case "end":
                 return _context2.stop();
             }
@@ -409,7 +430,7 @@ function (_React$Component) {
         content: shareDesc
       })), _react.default.createElement(StyledGridList, null, _react.default.createElement(_ChallengeCard.default, {
         name: groupName,
-        goal: goalText,
+        goal: totalDays ? goalText : '',
         url: groupImage,
         invalidAddress: this.state.invalidAddress
       }), _react.default.createElement(_ChallengeInfo.default, {
