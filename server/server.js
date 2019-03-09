@@ -91,7 +91,7 @@ const fetchGroup = async ({ groupId, challenger }) => {
 // app.get('/api/share/:groupId/:address/(:round)?', async (req, res) => {
 app.get('/api/share/:groupId/:address/:round*?', async (req, res) => {
   let { groupId, address, round } = req.params
-  const { lng } = req.query
+  const { l } = req.query
   await initContract()
   let challengeRes
   let group
@@ -116,7 +116,7 @@ app.get('/api/share/:groupId/:address/:round*?', async (req, res) => {
   }
 
   let challengeData = {
-    lng,
+    lng: l,
     groupId,
     groupName: group.name,
     round: challengeRes.round,
