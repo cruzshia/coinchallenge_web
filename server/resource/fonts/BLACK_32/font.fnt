@@ -4,7 +4,7 @@
   <pages>
     <page id="0" file="font.png"/>
   </pages>
-  <chars count="118">
+  <chars count="119">
     <char id="97" x="2" y="2" width="14" height="18" xoffset="1" yoffset="10" xadvance="18" page="0" chnl="15"/>
     <char id="98" x="2" y="22" width="16" height="26" xoffset="3" yoffset="2" xadvance="20" page="0" chnl="15"/>
     <char id="99" x="18" y="2" width="13" height="18" xoffset="2" yoffset="10" xadvance="16" page="0" chnl="15"/>
@@ -123,7 +123,8 @@
     <char id="55" x="150" y="221" width="16" height="25" xoffset="1" yoffset="3" xadvance="19" page="0" chnl="15"/>
     <char id="56" x="166" y="166" width="16" height="25" xoffset="2" yoffset="3" xadvance="19" page="0" chnl="15"/>
     <char id="57" x="166" y="193" width="16" height="25" xoffset="2" yoffset="3" xadvance="19" page="0" chnl="15"/>
-    <char id="32" x="0" y="0" width="0" height="0" xoffset="2" yoffset="3" xadvance="9" page="0" chnl="15"/>
+    <char id="22825" x="176" y="129" width="32" height="29" xoffset="0" yoffset="3" xadvance="32" page="0" chnl="15"/>
+    <char id="32" x="0" y="0" width="0" height="0" xoffset="0" yoffset="3" xadvance="9" page="0" chnl="15"/>
   </chars>
   <kernings count="372">
     <kerning first="34" second="114" amount="-1"/>

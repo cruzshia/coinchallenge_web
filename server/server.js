@@ -120,6 +120,7 @@ app.get('/api/share/:groupId/:address/:round*?', async (req, res) => {
     groupId,
     groupName: group.name,
     round: challengeRes.round,
+    totalDays: challengeRes.totalDays,
     challenger: address,
     goal: challengeRes.goal,
     amount: challengeRes.amount + ' ' + process.env.REACT_APP_COIN

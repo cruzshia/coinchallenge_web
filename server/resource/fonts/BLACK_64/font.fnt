@@ -1,10 +1,10 @@
 <font>
   <info face="font" size="64" bold="0" italic="0" charset="" unicode="" stretchH="100" smooth="1" aa="1" padding="2,2,2,2" spacing="0,0" outline="0"/>
-  <common lineHeight="84" base="55" scaleW="583" scaleH="511" pages="1" packed="0"/>
+  <common lineHeight="84" base="55" scaleW="646" scaleH="511" pages="1" packed="0"/>
   <pages>
     <page id="0" file="font.png"/>
   </pages>
-  <chars count="118">
+  <chars count="119">
     <char id="97" x="2" y="2" width="28" height="37" xoffset="3" yoffset="19" xadvance="35" page="0" chnl="15"/>
     <char id="98" x="2" y="41" width="33" height="52" xoffset="5" yoffset="3" xadvance="41" page="0" chnl="15"/>
     <char id="99" x="32" y="2" width="27" height="37" xoffset="3" yoffset="19" xadvance="32" page="0" chnl="15"/>
@@ -123,7 +123,8 @@
     <char id="55" x="519" y="239" width="32" height="49" xoffset="3" yoffset="6" xadvance="38" page="0" chnl="15"/>
     <char id="56" x="525" y="117" width="31" height="50" xoffset="3" yoffset="5" xadvance="38" page="0" chnl="15"/>
     <char id="57" x="550" y="65" width="31" height="50" xoffset="3" yoffset="5" xadvance="38" page="0" chnl="15"/>
-    <char id="32" x="0" y="0" width="0" height="0" xoffset="3" yoffset="5" xadvance="19" page="0" chnl="15"/>
+    <char id="22825" x="581" y="2" width="63" height="58" xoffset="1" yoffset="6" xadvance="64" page="0" chnl="15"/>
+    <char id="32" x="0" y="0" width="0" height="0" xoffset="1" yoffset="6" xadvance="19" page="0" chnl="15"/>
   </chars>
   <kernings count="372">
     <kerning first="34" second="114" amount="-2"/>

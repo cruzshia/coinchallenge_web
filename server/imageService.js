@@ -27,11 +27,15 @@ const initTpl = async () => {
     sourceTpl[i.toString()] = await Jimp.read(resourceDir + `${i}.jpg`)
   }
   logoSource = await Jimp.read(path.join(__dirname, '../dist/images/logo.png'))
-  FONT_BLACK_64 = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK)
+  FONT_BLACK_64 = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_64_EN/font.fnt'
+  )
   FONT_BLACK_64_TW = await Jimp.loadFont(
     resourceDir + 'fonts/BLACK_64/font.fnt'
   )
-  FONT_BLACK_32 = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK)
+  FONT_BLACK_32 = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_32_EN/font.fnt'
+  )
   FONT_BLACK_32_TW = await Jimp.loadFont(
     resourceDir + 'fonts/BLACK_32/font.fnt'
   )
@@ -57,16 +61,16 @@ function printText(tpl, font, text, textConfig, Align) {
 }
 
 let addressFontConfig = {
-  maxWidth: 520,
+  maxWidth: 540,
   maxHeight: 30,
-  placementX: 0,
-  placementY: 480
+  placementX: 80,
+  placementY: 482
 }
 let textConfig = {
   maxWidth: 520,
   maxHeight: 30,
   placementX: 10,
-  placementY: 40
+  placementY: 20
 }
 
 exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
@@ -103,44 +107,46 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
   const cloneSourceTpl = sourceTpl[String(groupId)].clone()
 
   const logo = await logoSource.clone().resize(60, 60)
-  cloneSourceTpl.composite(logo, 460, 420, [Jimp.BLEND_DESTINATION_OVER])
+  cloneSourceTpl.composite(logo, 10, 470, [Jimp.BLEND_DESTINATION_OVER])
 
   printText(
     cloneSourceTpl,
     FONT_WHITE_16,
     challenger,
     addressFontConfig,
-    Jimp.HORIZONTAL_ALIGN_RIGHT
+    Jimp.HORIZONTAL_ALIGN_LEFT
   )
 
   printText(
     cloneSourceTpl,
-    isEn ? FONT_BLACK_64 : FONT_BLACK_64_TW,
-    challengeData.groupName,
+    isEn ? FONT_BLACK_32 : FONT_BLACK_32_TW,
+    translate[`group.title.${challengeData.groupId}`],
     textConfig
   )
   printText(
     cloneSourceTpl,
     isEn ? FONT_BLACK_32 : FONT_BLACK_32_TW,
-    translate['target'] +
-      ' ' +
-      translate[`group.unit.${challengeData.groupId}`].replace(
-        '{goal}',
-        challengeData.goal
-      ),
+    translate[`group.unit.${challengeData.groupId}`].replace(
+      '{goal}',
+      challengeData.goal
+    ) +
+      (isEn ? ' / ' : '/') +
+      challengeData.totalDays +
+      (isEn ? ' ' : '') +
+      translate[`days`],
     {
       ...textConfig,
-      placementY: textConfig.placementY + 55
+      placementY: textConfig.placementY + 40
     }
   )
 
   printText(
     cloneSourceTpl,
-    isEn ? FONT_BLACK_32 : FONT_BLACK_32_TW,
-    translate['amount'] + ' ' + challengeData.amount,
+    isEn ? FONT_BLACK_64 : FONT_BLACK_64_TW,
+    challengeData.amount,
     {
       ...textConfig,
-      placementY: textConfig.placementY + 90
+      placementY: textConfig.placementY + 95
     }
   )
 
