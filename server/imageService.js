@@ -1,19 +1,20 @@
 const Jimp = require('jimp')
 const path = require('path')
 
+const resourceDir = path.join(__dirname, './resource/')
+const imageDir = path.join(__dirname, './share/')
 const translation = {
   en: require('../dist/translation/en.json'),
-  'zh-TW': require('../dist/translation/zh_TW.json'),
-  'zh-CN': require('../dist/translation/zh_CN.json')
+  zh_TW: require('../dist/translation/zh_TW.json'),
+  zh_CN: require('../dist/translation/zh_CN.json')
 }
 
-// const img = await Jimp.read(ipImg)
-//       await img.resize(192, 192).blur(20)
-//       cloneSourceTpl.composite(img, 650, 412, [Jimp.BLEND_DESTINATION_OVER])
 const sourceTpl = {}
 let logoSource
 let FONT_BLACK_64
+let FONT_BLACK_64_TW
 let FONT_BLACK_32
+let FONT_BLACK_32_TW
 let FONT_WHITE_16
 
 let initialized = false
@@ -23,13 +24,17 @@ const initTpl = async () => {
     return
   }
   for (let i = 1; i < 4; i++) {
-    sourceTpl[i.toString()] = await Jimp.read(
-      path.join(__dirname, `./resource/${i}.jpg`)
-    )
+    sourceTpl[i.toString()] = await Jimp.read(resourceDir + `${i}.jpg`)
   }
   logoSource = await Jimp.read(path.join(__dirname, '../dist/images/logo.png'))
   FONT_BLACK_64 = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK)
+  FONT_BLACK_64_TW = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_64/font.fnt'
+  )
   FONT_BLACK_32 = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK)
+  FONT_BLACK_32_TW = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_32/font.fnt'
+  )
   FONT_WHITE_16 = await Jimp.loadFont(Jimp.FONT_SANS_16_WHITE)
   initialized = true
 }
@@ -66,8 +71,36 @@ let textConfig = {
 
 exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
   await initTpl()
-  const cloneSourceTpl = sourceTpl[String(challengeData.groupId)].clone()
-  const translate = translation['en']
+  const { groupId, challenger, round } = challengeData
+
+  let lng = challengeData.lng || 'en'
+  let isEn = lng === 'en'
+  let translate = translation[lng]
+  if (!translate) {
+    translate = translation['en']
+    lng = 'en'
+    isEn = true
+  }
+
+  const imageName = `/${groupId}/${challenger}/${round}-${lng}.png`
+  let hasImage = false
+  try {
+    const image = await Jimp.read(`${imageDir}${imageName}`)
+    if (image) {
+      image.quality(100)['getBuffer'](Jimp.MIME_PNG, (err, data) => {
+        if (!err) {
+          hasImage = true
+          cbk && cbk(data)
+        }
+      })
+    }
+  } catch (error) {
+    console.log('generate share image')
+  }
+
+  if (hasImage) return
+
+  const cloneSourceTpl = sourceTpl[String(groupId)].clone()
 
   const logo = await logoSource.clone().resize(60, 60)
   cloneSourceTpl.composite(logo, 460, 420, [Jimp.BLEND_DESTINATION_OVER])
@@ -75,15 +108,20 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
   printText(
     cloneSourceTpl,
     FONT_WHITE_16,
-    challengeData.challenger,
+    challenger,
     addressFontConfig,
     Jimp.HORIZONTAL_ALIGN_RIGHT
   )
 
-  printText(cloneSourceTpl, FONT_BLACK_64, challengeData.groupName, textConfig)
   printText(
     cloneSourceTpl,
-    FONT_BLACK_32,
+    isEn ? FONT_BLACK_64 : FONT_BLACK_64_TW,
+    challengeData.groupName,
+    textConfig
+  )
+  printText(
+    cloneSourceTpl,
+    isEn ? FONT_BLACK_32 : FONT_BLACK_32_TW,
     translate['target'] +
       ' ' +
       translate[`group.unit.${challengeData.groupId}`].replace(
@@ -98,7 +136,7 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
 
   printText(
     cloneSourceTpl,
-    FONT_BLACK_32,
+    isEn ? FONT_BLACK_32 : FONT_BLACK_32_TW,
     translate['amount'] + ' ' + challengeData.amount,
     {
       ...textConfig,
@@ -107,7 +145,8 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
   )
 
   const method = isPreview ? 'getBuffer' : 'getBase64'
-  cloneSourceTpl.quality(100)[method](Jimp.MIME_PNG, (err, data) => {
+  cloneSourceTpl.write(`${imageDir}${imageName}`)
+  cloneSourceTpl[method](Jimp.MIME_PNG, (err, data) => {
     if (err) {
       errorCbk && errorCbk(err)
     } else {

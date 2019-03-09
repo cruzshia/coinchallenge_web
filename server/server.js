@@ -31,13 +31,9 @@ import {
   getChallengeGroup
 } from '../dist/contracts/contractService'
 
-// import json from '../dist/translation/zh_TW.json'
-
 import { generateImage } from './imageService'
 
 let filePath = path.resolve(__dirname, '../build', 'index.html')
-
-// Our loader - this basically acts as the entry point for each page load
 
 const app = express()
 const PORT = process.env.PORT || 4000
@@ -95,6 +91,7 @@ const fetchGroup = async ({ groupId, challenger }) => {
 // app.get('/api/share/:groupId/:address/(:round)?', async (req, res) => {
 app.get('/api/share/:groupId/:address/:round*?', async (req, res) => {
   let { groupId, address, round } = req.params
+  const { lng } = req.query
   await initContract()
   let challengeRes
   let group
@@ -109,13 +106,20 @@ app.get('/api/share/:groupId/:address/:round*?', async (req, res) => {
       groupId
     })
   } catch (error) {
-    res.status(911).send({ error: 'error challenge data' })
+    res.status(400).send({ error: 'error challenge data' })
+    return
+  }
+
+  if (!group.minAmount || !challengeRes.totalDays) {
+    res.status(400).send({ error: 'challenge not found' })
     return
   }
 
   let challengeData = {
+    lng,
     groupId,
     groupName: group.name,
+    round: challengeRes.round,
     challenger: address,
     goal: challengeRes.goal,
     amount: challengeRes.amount + ' ' + process.env.REACT_APP_COIN
