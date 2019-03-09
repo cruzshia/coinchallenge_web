@@ -11,11 +11,17 @@ const translation = {
 
 const sourceTpl = {}
 let logoSource
-let FONT_BLACK_64
-let FONT_BLACK_64_TW
-let FONT_BLACK_32
-let FONT_BLACK_32_TW
+
+let fonts = {
+  ZH_TW: {},
+  ZH_CN: {},
+  EN: {}
+}
 let FONT_WHITE_16
+// let FONT_BLACK_64
+// let FONT_BLACK_64_TW
+// let FONT_BLACK_32
+// let FONT_BLACK_32_TW
 
 let initialized = false
 
@@ -27,17 +33,25 @@ const initTpl = async () => {
     sourceTpl[i.toString()] = await Jimp.read(resourceDir + `${i}.jpg`)
   }
   logoSource = await Jimp.read(path.join(__dirname, '../dist/images/logo.png'))
-  FONT_BLACK_64 = await Jimp.loadFont(
+  fonts['EN']['FONT_BLACK_64'] = await Jimp.loadFont(
     resourceDir + 'fonts/BLACK_64_EN/font.fnt'
   )
-  FONT_BLACK_64_TW = await Jimp.loadFont(
-    resourceDir + 'fonts/BLACK_64/font.fnt'
-  )
-  FONT_BLACK_32 = await Jimp.loadFont(
+  fonts['EN']['FONT_BLACK_32'] = await Jimp.loadFont(
     resourceDir + 'fonts/BLACK_32_EN/font.fnt'
   )
-  FONT_BLACK_32_TW = await Jimp.loadFont(
-    resourceDir + 'fonts/BLACK_32/font.fnt'
+
+  fonts['ZH_TW']['FONT_BLACK_64'] = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_64_ZH_TW/font.fnt'
+  )
+  fonts['ZH_TW']['FONT_BLACK_32'] = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_32_ZH_TW/font.fnt'
+  )
+
+  fonts['ZH_CN']['FONT_BLACK_64'] = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_64_ZH_CN/font.fnt'
+  )
+  fonts['ZH_CN']['FONT_BLACK_32'] = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_32_ZH_CN/font.fnt'
   )
   FONT_WHITE_16 = await Jimp.loadFont(Jimp.FONT_SANS_16_WHITE)
   initialized = true
@@ -79,12 +93,15 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
 
   let lng = challengeData.lng || 'en'
   let isEn = lng === 'en'
+  let isCN = lng === 'zh_CN'
   let translate = translation[lng]
   if (!translate) {
     translate = translation['en']
     lng = 'en'
     isEn = true
   }
+
+  lng = lng.toUpperCase()
 
   const imageName = `/${groupId}/${challenger}/${round}-${lng}.png`
   let hasImage = false
@@ -119,18 +136,18 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
 
   printText(
     cloneSourceTpl,
-    isEn ? FONT_BLACK_32 : FONT_BLACK_32_TW,
+    fonts[lng].FONT_BLACK_32,
     translate[`group.title.${challengeData.groupId}`],
     textConfig
   )
   printText(
     cloneSourceTpl,
-    isEn ? FONT_BLACK_32 : FONT_BLACK_32_TW,
+    fonts[lng].FONT_BLACK_32,
     translate[`group.unit.${challengeData.groupId}`].replace(
       '{goal}',
       challengeData.goal
     ) +
-      (isEn ? ' / ' : '/') +
+      (isEn || isCN ? ' / ' : '/') +
       challengeData.totalDays +
       (isEn ? ' ' : '') +
       translate[`days`],
@@ -140,15 +157,10 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
     }
   )
 
-  printText(
-    cloneSourceTpl,
-    isEn ? FONT_BLACK_64 : FONT_BLACK_64_TW,
-    challengeData.amount,
-    {
-      ...textConfig,
-      placementY: textConfig.placementY + 95
-    }
-  )
+  printText(cloneSourceTpl, fonts[lng].FONT_BLACK_64, challengeData.amount, {
+    ...textConfig,
+    placementY: textConfig.placementY + 95
+  })
 
   const method = isPreview ? 'getBuffer' : 'getBase64'
   cloneSourceTpl.write(`${imageDir}${imageName}`)
