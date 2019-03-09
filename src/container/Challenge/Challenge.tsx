@@ -105,6 +105,9 @@ const deeplinking = (data: RouteParams) => {
       feature: 'deepview',
       $uri_redirect_mode: 2,
       data: {
+        $deeplink_path: `group/${data.groupId}/${data.address}${
+          data.round ? `/${data.round}` : ''
+        }`,
         user_cookie_id: 'coin-challenge',
         ...data
       }
