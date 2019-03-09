@@ -335,7 +335,10 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
             <title>{title}</title>
             <meta property='og:title' content={title} />
             <meta property='og:description' content={shareDesc} />
-            <meta property='og:image' content={groupImage} />
+            <meta
+              property='og:image'
+              content='/share/1/0xCB4b9C9292410007D6FB7a7C061666B298f06ee2'
+            />
             <meta property='og:site_name' content='CoinChallengs' />
             <meta property='twitter:card' content='summary_large_image' />
             <meta property='twitter:site' content='CoinChallengs' />

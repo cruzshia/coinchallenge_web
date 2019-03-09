@@ -143,7 +143,7 @@ app.get('/share/:groupId/:address/:round*?', async (req, res) => {
   })
 })
 
-app.get('/challenge/:groupId/:address/(:round)?', async (req, res) => {
+app.get('/challenge/:groupId/:address/:round*?', async (req, res) => {
   let { groupId, address, round } = req.params
 
   round = round && !isNaN(round) ? Number(round) : undefined
