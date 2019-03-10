@@ -4,7 +4,7 @@ import { ChallengeType } from '@Src/typing/globalTypes'
 
 let networkAddress =
   'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
-let contractAddress = '0x387768B622C0394A7768A13f38DBdAcd8E263cA2'
+let contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945'
 
 export const newContract = (web3Interface: Web3, address?: string) => {
   let newContract = null
@@ -54,7 +54,7 @@ export const detectNetwork = async (web3: Web3 | null) => {
     case 3: //ropsten
       networkAddress =
         'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
-      contractAddress = '0x387768B622C0394A7768A13f38DBdAcd8E263cA2'
+      contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945'
       break
     default:
       networkAddress = 'ws://localhost:7545'
