@@ -42,8 +42,7 @@ export const newChallengesEvents = async ({
 }: GetChallengeEvevntProp) => {
   await contract.events.NewChallenge(
     {
-      filter,
-      fromBlock: 0
+      filter
     },
     function(_error: any, event: any) {
       const {
@@ -137,12 +136,10 @@ export const getPastSponsor = async (
   options?: PastEventProp
 ) => {
   options = options || { fromBlock: 0 }
-  //SponsorChallenge
 
   let response = {
     data: [] as Sponsor[]
   }
-  let data: any[] = []
   let sponsers: any[] = []
 
   if (contract) {

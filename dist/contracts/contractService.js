@@ -67,8 +67,7 @@ function () {
             contract = _ref2.contract, filter = _ref2.filter, callback = _ref2.callback;
             _context2.next = 3;
             return contract.events.NewChallenge({
-              filter: filter,
-              fromBlock: 0
+              filter: filter
             }, function (_error, event) {
               var _event$returnValues = event.returnValues,
                   challenger = _event$returnValues.challenger,
@@ -259,7 +258,6 @@ function () {
     var sponserSize,
         options,
         response,
-        data,
         sponsers,
         sponsor,
         i,
@@ -271,72 +269,70 @@ function () {
             sponserSize = _args6.length > 4 && _args6[4] !== undefined ? _args6[4] : 0;
             options = _args6.length > 5 ? _args6[5] : undefined;
             options = options || {
-              fromBlock: 0 //SponsorChallenge
-
+              fromBlock: 0
             };
             response = {
               data: []
             };
-            data = [];
             sponsers = [];
 
             if (!contract) {
-              _context6.next = 22;
+              _context6.next = 21;
               break;
             }
 
             i = 0;
 
-          case 8:
+          case 7:
             if (!(i === 0 || sponsor._who)) {
-              _context6.next = 22;
+              _context6.next = 21;
               break;
             }
 
-            _context6.prev = 9;
-            _context6.next = 12;
+            _context6.prev = 8;
+            _context6.next = 11;
             return contract.methods.getSponsor(groupId, challenger, round, i).call();
 
-          case 12:
+          case 11:
             sponsor = _context6.sent;
             sponsers.push({
               who: sponsor._who,
               amount: sponsor._amount,
               comment: sponsor._comment
             });
-            _context6.next = 19;
+            _context6.next = 18;
             break;
 
-          case 16:
-            _context6.prev = 16;
-            _context6.t0 = _context6["catch"](9);
+          case 15:
+            _context6.prev = 15;
+            _context6.t0 = _context6["catch"](8);
             sponsor = {};
 
-          case 19:
+          case 18:
             i++;
-            _context6.next = 8;
+            _context6.next = 7;
             break;
 
-          case 22:
+          case 21:
             if (sponsers.length) {
-              _context6.next = 24;
+              _context6.next = 23;
               break;
             }
 
             return _context6.abrupt("return", response);
 
-          case 24:
+          case 23:
             sponserSize = sponserSize || sponsers.length; // data = sponsers.slice(sponserSize * -1).reverse()
 
             response.data = sponsers || [];
             return _context6.abrupt("return", response);
 
-          case 27:
+          case 26:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, this, [[9, 16]]);
+    }, _callee6, this, [[8, 15]]);
   }));
 
   return function getPastSponsor(_x6, _x7, _x8, _x9) {

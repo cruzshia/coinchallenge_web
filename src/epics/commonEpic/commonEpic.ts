@@ -48,17 +48,18 @@ export const initContractEpic = (
     ofType(INIT_CONTRACT),
     filter(() => state$.value.get('common').get('txContract') === null),
     switchMap(async () => {
-      let accounts: string[]
+      let accounts: string[] = []
       let txWeb3: Web3 | null = null
 
       try {
         let injectProvider
         let txContract = null
         let network = await detectNetwork(null)
+        let accountBalance = '0'
 
         if (typeof web3 === 'undefined' || !process.browser) {
           window.web3 = {}
-        } else {
+        } else if (window.ethereum || web3.currentProvider) {
           txWeb3 = new Web3(window.ethereum || web3.currentProvider)
           network = await detectNetwork(txWeb3)
           txContract = newContract(txWeb3)
@@ -70,18 +71,18 @@ export const initContractEpic = (
         injectProvider = new providers.WebsocketProvider(network)
 
         web3 = new Web3(injectProvider)
-        accounts = txWeb3
-          ? await txWeb3.eth.getAccounts()
-          : await web3.eth.getAccounts()
+        try {
+          accounts = txWeb3
+            ? await txWeb3.eth.getAccounts()
+            : await web3.eth.getAccounts()
+          if (txContract) {
+            accountBalance = await txContract.methods
+              .userBalances(accounts[0])
+              .call()
+          }
+        } catch (error) {}
 
         const contract = newContract(web3)
-
-        let accountBalance = '0'
-        if (txContract) {
-          accountBalance = await txContract.methods
-            .userBalances(accounts[0])
-            .call()
-        }
 
         return setContract({
           txContract,

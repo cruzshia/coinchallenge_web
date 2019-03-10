@@ -43,10 +43,7 @@ export const parseChallenge = (response: any): ChallengeType => {
 export const detectNetwork = async (web3: Web3 | null) => {
   let netId = 0
   if (!web3) {
-    netId =
-      typeof location !== undefined && location.host.indexOf('localhost') > -1
-        ? 0
-        : 3
+    netId = 3
   } else {
     netId = await web3.eth.net.getId()
   }

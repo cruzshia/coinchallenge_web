@@ -56,83 +56,98 @@ var initContractEpic = function initContractEpic(action$, state$) {
   _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee() {
-    var accounts, txWeb3, injectProvider, txContract, network, providers, contract, accountBalance;
+    var accounts, txWeb3, injectProvider, txContract, network, accountBalance, providers, contract;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            accounts = [];
             txWeb3 = null;
-            _context.prev = 1;
+            _context.prev = 2;
             txContract = null;
-            _context.next = 5;
+            _context.next = 6;
             return (0, _contractUtils.detectNetwork)(null);
 
-          case 5:
+          case 6:
             network = _context.sent;
+            accountBalance = '0';
 
             if (!(typeof web3 === 'undefined' || !process.browser)) {
-              _context.next = 10;
+              _context.next = 12;
               break;
             }
 
             window.web3 = {};
-            _context.next = 18;
+            _context.next = 21;
             break;
 
-          case 10:
+          case 12:
+            if (!(window.ethereum || web3.currentProvider)) {
+              _context.next = 21;
+              break;
+            }
+
             txWeb3 = new _web.default(window.ethereum || web3.currentProvider);
-            _context.next = 13;
+            _context.next = 16;
             return (0, _contractUtils.detectNetwork)(txWeb3);
 
-          case 13:
+          case 16:
             network = _context.sent;
             txContract = (0, _contractUtils.newContract)(txWeb3);
             window.contract = txContract;
-            _context.next = 18;
+            _context.next = 21;
             return window.ethereum.enable();
 
-          case 18:
+          case 21:
             providers = new _web.default().providers;
             injectProvider = new providers.WebsocketProvider(network);
             web3 = new _web.default(injectProvider);
+            _context.prev = 24;
 
             if (!txWeb3) {
-              _context.next = 27;
+              _context.next = 31;
               break;
             }
 
-            _context.next = 24;
+            _context.next = 28;
             return txWeb3.eth.getAccounts();
 
-          case 24:
+          case 28:
             _context.t0 = _context.sent;
-            _context.next = 30;
+            _context.next = 34;
             break;
 
-          case 27:
-            _context.next = 29;
+          case 31:
+            _context.next = 33;
             return web3.eth.getAccounts();
 
-          case 29:
+          case 33:
             _context.t0 = _context.sent;
 
-          case 30:
+          case 34:
             accounts = _context.t0;
-            contract = (0, _contractUtils.newContract)(web3);
-            accountBalance = '0';
 
             if (!txContract) {
-              _context.next = 37;
+              _context.next = 39;
               break;
             }
 
-            _context.next = 36;
+            _context.next = 38;
             return txContract.methods.userBalances(accounts[0]).call();
 
-          case 36:
+          case 38:
             accountBalance = _context.sent;
 
-          case 37:
+          case 39:
+            _context.next = 43;
+            break;
+
+          case 41:
+            _context.prev = 41;
+            _context.t1 = _context["catch"](24);
+
+          case 43:
+            contract = (0, _contractUtils.newContract)(web3);
             return _context.abrupt("return", (0, _action.setContract)({
               txContract: txContract,
               contract: contract,
@@ -142,20 +157,20 @@ var initContractEpic = function initContractEpic(action$, state$) {
               error: null
             }));
 
-          case 40:
-            _context.prev = 40;
-            _context.t1 = _context["catch"](1);
+          case 47:
+            _context.prev = 47;
+            _context.t2 = _context["catch"](2);
             return _context.abrupt("return", (0, _action.setPopup)({
               showPop: true,
               messageKey: _errorCode.NO_PROVIDER.key
             }));
 
-          case 43:
+          case 50:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, this, [[1, 40]]);
+    }, _callee, this, [[2, 47], [24, 41]]);
   }))));
 };
 
