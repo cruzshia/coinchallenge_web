@@ -11,4 +11,5 @@ input[type='number']::-webkit-outer-spin-button {
 * {
     box-sizing: border-box;
     word-break: break-word;
+    font-family: 'Overpass', 'Noto Sans TC', sans-serif;
 }
