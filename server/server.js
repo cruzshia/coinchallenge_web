@@ -48,7 +48,7 @@ app.use(express.static(path.resolve(__dirname, '../build')))
 let contract = null
 
 const initContract = async () => {
-  if (contract !== null) return
+  // if (contract !== null) return
   const providers = new Web3().providers
   const web3 = new Web3(
     new providers.WebsocketProvider(
@@ -71,24 +71,25 @@ const fetchResChallenge = async ({ groupId, challenger, round }) => {
       round
     })
   } catch (error) {
-    throw 'fetch challenge error'
+    console.log(error)
+    return {}
   }
   return challengeRes
 }
 
 const fetchGroup = async ({ groupId, challenger }) => {
+  let group
   try {
-    const group = await getChallengeGroup({
+    group = await getChallengeGroup({
       contract,
       groupId
     })
-    return group
   } catch (error) {
-    throw 'fetch group error'
+    return {}
   }
+  return group
 }
 
-// app.get('/api/share/:groupId/:address/(:round)?', async (req, res) => {
 app.get('/share/:groupId/:address/:round*?', async (req, res) => {
   let { groupId, address, round } = req.params
   const { l } = req.query
