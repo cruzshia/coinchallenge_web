@@ -102,6 +102,7 @@ var deeplinking = function deeplinking(data) {
     feature: 'deepview',
     $uri_redirect_mode: 2,
     data: _objectSpread({
+      $deeplink_path: "group/".concat(data.groupId, "/").concat(data.address).concat(data.round ? "/".concat(data.round) : ''),
       user_cookie_id: 'coin-challenge'
     }, data)
   }, {
@@ -288,7 +289,7 @@ function (_React$Component) {
                 return _context2.abrupt("return");
 
               case 9:
-                if (typeof window !== 'undefined') {
+                if (typeof window !== 'undefined' && isValid) {
                   deeplinking({
                     address: this.address,
                     groupId: this.groupId,
@@ -412,7 +413,7 @@ function (_React$Component) {
         content: shareDesc
       }), _react.default.createElement("meta", {
         property: "og:image",
-        content: groupImage
+        content: "".concat((0, _common.hostUrl)(), "share/").concat(this.groupId, "/").concat(this.address)
       }), _react.default.createElement("meta", {
         property: "og:site_name",
         content: "CoinChallengs"

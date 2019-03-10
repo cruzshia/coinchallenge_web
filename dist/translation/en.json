@@ -83,5 +83,11 @@
     "group.unit.3": "{goal} Cal",
     "withdraw.error": "Withdraw error, please confirm you balance in CoinChallenges",
     "withdraw.success": "Withdraw success",
-    "min.amount.error": "Can't less then group's min amount {amount}"
+    "min.amount.error": "Can't less then group's min amount {amount}",
+    "error.invalid.group.id": "Invalid groupId, please input number only",
+    "error.invalid.group.name": "Group name can't be empty",
+    "error.empty.min.days": "Please select min challenge days",
+    "error.empty.max.days": "Please select max challenge days",
+    "error.min.amount": "Min challenge {coin} must greater than 0",
+    "error.invalid.url": "Invalid url foramt"
 }

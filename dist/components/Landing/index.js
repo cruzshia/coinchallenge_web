@@ -311,7 +311,7 @@ function (_React$PureComponent) {
       }))), _react.default.createElement("div", {
         className: "wrapper row4 bgded overlay",
         style: {
-          backgroundImage: "url(\"images/demo/backgrounds/04.png\")"
+          backgroundImage: "url(\"".concat(imageDir, "backgrounds/04.jpg\")")
         }
       }, _react.default.createElement("footer", {
         id: "footer",

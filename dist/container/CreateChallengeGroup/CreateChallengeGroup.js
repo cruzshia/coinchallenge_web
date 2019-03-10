@@ -107,6 +107,15 @@ var WaitingBlk = (0, _styledComponents.default)('div')({
   width: '100%',
   textAlign: 'center'
 });
+var ErrorTxt = (0, _styledComponents.default)('div')({
+  fontSize: '12px',
+  color: 'red',
+  width: '100%',
+  maxWidth: '400px',
+  paddingLeft: '5px',
+  margin: '10px 0 -15px',
+  textAlign: 'left'
+});
 var FormStyle = {
   maxWidth: '400px',
   margin: '20px 0 10px',
@@ -135,6 +144,10 @@ var defaultGroupState = {
   maxDays: '0',
   maxDelayDays: '7',
   minAmount: ''
+};
+
+var hasError = function hasError(val) {
+  return val !== undefined && val !== '';
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -190,10 +203,11 @@ function (_React$Component) {
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
       challengeGroup: _objectSpread({}, defaultGroupState),
       error: {
-        minDays: true,
-        maxDays: true
+        minDays: '',
+        maxDays: ''
       },
-      agent: ''
+      agent: '',
+      canSend: false
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onTextChange", function (key) {
@@ -203,12 +217,12 @@ function (_React$Component) {
             challengeGroup = _this$state.challengeGroup,
             error = _this$state.error;
         challengeGroup[key] = val;
-        error[key] = val.length <= 0;
+        error[key] = val.length <= 0 ? "error.invalid.group.".concat(key) : '';
 
         _this.setState({
           challengeGroup: _objectSpread({}, challengeGroup),
           error: _objectSpread({}, error)
-        });
+        }, _this.checkForm);
       };
     });
 
@@ -224,13 +238,13 @@ function (_React$Component) {
           challengeGroup['maxDays'] = challengeGroup['minDays'];
         }
 
-        error['minDays'] = Number(challengeGroup['minDays']) <= 0;
-        error['maxDays'] = Number(challengeGroup['maxDays']) <= 0;
+        error['minDays'] = Number(challengeGroup['minDays']) <= 0 ? 'error.empty.min.days' : '';
+        error['maxDays'] = Number(challengeGroup['maxDays']) <= 0 ? 'error.empty.max.days' : '';
 
         _this.setState({
           challengeGroup: _objectSpread({}, challengeGroup),
           error: _objectSpread({}, error)
-        });
+        }, _this.checkForm);
       };
     });
 
@@ -244,7 +258,7 @@ function (_React$Component) {
       _this.setState({
         challengeGroup: _objectSpread({}, challengeGroup),
         error: _objectSpread({}, error)
-      });
+      }, _this.checkForm);
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onAmountChange", function (field) {
@@ -254,12 +268,12 @@ function (_React$Component) {
             challengeGroup = _this$state4.challengeGroup,
             error = _this$state4.error;
         challengeGroup[field] = val;
-        error[field] = Number(val) <= 0;
+        error[field] = Number(val) <= 0 ? 'error.min.amount' : '';
 
         _this.setState({
           challengeGroup: challengeGroup,
           error: error
-        });
+        }, _this.checkForm);
       };
     });
 
@@ -269,32 +283,56 @@ function (_React$Component) {
           challengeGroup = _this$state5.challengeGroup,
           error = _this$state5.error;
       challengeGroup['url'] = val;
-      error['url'] = !(0, _utils.isUrlValid)(val);
+      error['url'] = !(0, _utils.isUrlValid)(val) ? 'error.invalid.url' : '';
 
       _this.setState({
         challengeGroup: _objectSpread({}, challengeGroup),
         error: _objectSpread({}, error)
-      });
+      }, _this.checkForm);
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onAgentChange", function (e) {
       var val = e.currentTarget.value;
       var isEmpty = val === '';
       var error = _this.state.error;
-      error['agent'] = !isEmpty && !_web.default.utils.isAddress(val);
+      error['agent'] = !isEmpty && !_web.default.utils.isAddress(val) ? 'invalidAddress' : '';
 
       _this.setState({
         agent: val,
         error: _objectSpread({}, error)
+      }, _this.checkForm);
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "checkForm", function () {
+      var hasError = false;
+
+      for (var field in _this.state.challengeGroup) {
+        hasError = hasError || field !== 'maxDelayDays' && _this.state.challengeGroup[field] === defaultGroupState[field];
+
+        if (hasError) {
+          break;
+        }
+      }
+
+      if (!hasError) {
+        for (var _field in _this.state.error) {
+          hasError = hasError || _this.state.error[_field] !== '';
+
+          if (hasError) {
+            break;
+          }
+        }
+      }
+
+      _this.setState({
+        canSend: !hasError
       });
+
+      return hasError;
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onSubmit", function () {
-      var hasError = Object.keys(_this.state.error).length === 0;
-
-      for (var field in _this.state.error) {
-        hasError = hasError || _this.state.error[field];
-      }
+      var hasError = _this.checkForm();
 
       if (hasError) {
         _this.props.setPopup({
@@ -310,6 +348,17 @@ function (_React$Component) {
       _this.props.newChallengeGroup(_objectSpread({}, _this.state.challengeGroup, {
         agent: _this.state.agent
       }));
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "errorTxt", function (key, props) {
+      if (key && hasError(key)) {
+        props = props || [];
+        return _react.default.createElement(ErrorTxt, null, _this.props.intl.formatMessage({
+          id: key
+        }, _objectSpread({}, props)));
+      }
+
+      return null;
     });
 
     return _this;
@@ -364,7 +413,7 @@ function (_React$Component) {
         }
       }, _react.default.createElement(Icon, {
         src: _logo.default
-      }), _react.default.createElement(_TextField.default, {
+      }), this.errorTxt(error.id), _react.default.createElement(_TextField.default, {
         label: _react.default.createElement(Label, {
           text: intl.formatMessage({
             id: 'challengeGroupId'
@@ -377,11 +426,11 @@ function (_React$Component) {
         placeholder: "e.g: 5566",
         value: challengeGroup.id,
         onChange: this.onTextChange('id'),
-        error: error.id,
+        error: hasError(error.id),
         InputLabelProps: CreateChallengeGroup.LabelProp,
         style: Styles,
         required: true
-      }), _react.default.createElement(_TextField.default, {
+      }), this.errorTxt(error.name), _react.default.createElement(_TextField.default, {
         label: _react.default.createElement(Label, {
           text: intl.formatMessage({
             id: 'challengeGroupName'
@@ -392,11 +441,11 @@ function (_React$Component) {
         variant: "outlined",
         value: challengeGroup.name,
         onChange: this.onTextChange('name'),
-        error: error.name,
+        error: hasError(error.name),
         InputLabelProps: CreateChallengeGroup.LabelProp,
         style: Styles,
         required: true
-      }), _react.default.createElement(_TextField.default, {
+      }), this.errorTxt(error.url), _react.default.createElement(_TextField.default, {
         label: _react.default.createElement(Label, {
           text: intl.formatMessage({
             id: 'challengeGroupCover'
@@ -407,7 +456,7 @@ function (_React$Component) {
         variant: "outlined",
         value: challengeGroup.url,
         onChange: this.onUrlChange,
-        error: error.url,
+        error: hasError(error.url),
         InputLabelProps: CreateChallengeGroup.LabelProp,
         style: Styles,
         required: true
@@ -477,7 +526,9 @@ function (_React$Component) {
           key: "option-delay-".concat(index),
           value: index + 1
         }, index + 1);
-      }))), _react.default.createElement(_TextField.default, {
+      }))), this.errorTxt(error.minAmount, {
+        coin: process.env.REACT_APP_COIN
+      }), _react.default.createElement(_TextField.default, {
         label: _react.default.createElement(Label, {
           text: intl.formatMessage({
             id: 'minChallengeAmount'
@@ -488,12 +539,12 @@ function (_React$Component) {
         margin: "normal",
         value: challengeGroup.minAmount,
         onChange: this.onAmountChange('minAmount'),
-        error: error.minAmount,
+        error: hasError(error.minAmount),
         variant: "outlined",
         InputLabelProps: CreateChallengeGroup.LabelProp,
         style: Styles,
         required: true
-      }), _react.default.createElement(_TextField.default, {
+      }), this.errorTxt(error.agent), _react.default.createElement(_TextField.default, {
         label: _react.default.createElement(Label, {
           text: intl.formatMessage({
             id: 'agent'
@@ -505,7 +556,7 @@ function (_React$Component) {
         placeholder: "e.g 0xa99CeB4475670cCDF31a78232bfA585848598cBA",
         value: agent,
         onChange: this.onAgentChange,
-        error: error.agent,
+        error: hasError(error.agent),
         InputLabelProps: CreateChallengeGroup.LabelProp,
         style: Styles
       }), _react.default.createElement("br", null), isConfirming ? _react.default.createElement(WaitingBlk, null, _react.default.createElement(_Transaction.default, {
@@ -514,7 +565,8 @@ function (_React$Component) {
       })) : null, _react.default.createElement(_Button.default, {
         variant: "contained",
         className: "button",
-        onClick: this.onSubmit
+        onClick: this.onSubmit,
+        disabled: !this.state.canSend
       }, intl.formatMessage({
         id: 'create'
       })));
