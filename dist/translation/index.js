@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = _default;
+exports.getLang = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -15,9 +16,9 @@ var _zh = _interopRequireDefault(require("react-intl/locale-data/zh"));
 
 var _en2 = _interopRequireDefault(require("./en.json"));
 
-var _zh_TW = _interopRequireDefault(require("./zh_TW.json"));
+var _zhTW = _interopRequireDefault(require("./zh-TW.json"));
 
-var _zh_CN = _interopRequireDefault(require("./zh_CN.json"));
+var _zhCN = _interopRequireDefault(require("./zh-CN.json"));
 
 var _utils = require("../utils");
 
@@ -53,10 +54,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 (0, _reactIntl.addLocaleData)([].concat(_toConsumableArray(_en.default), _toConsumableArray(_zh.default)));
 var messgaes = {
-  en_US: _en2.default,
-  zh_TW: _zh_TW.default,
-  zh_CN: _zh_CN.default
+  en: _en2.default,
+  'zh-TW': _zhTW.default,
+  'zh-CN': _zhCN.default
 };
+var currentLang = 'en';
+
+var getLang = function getLang() {
+  return currentLang;
+};
+
+exports.getLang = getLang;
 
 function _default(WrappedComponent) {
   return (
@@ -99,6 +107,7 @@ function _default(WrappedComponent) {
         key: "render",
         value: function render() {
           var lang = this.state.lang;
+          currentLang = lang;
           var locale = lang.indexOf('en') > -1 ? 'en' : 'zh';
           return _react.default.createElement(_reactIntl.IntlProvider, {
             locale: locale,

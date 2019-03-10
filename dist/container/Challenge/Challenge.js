@@ -39,6 +39,8 @@ var _utils = require("../../utils");
 
 var _web = _interopRequireDefault(require("web3"));
 
+var _translation = require("../../translation");
+
 var _contractService = require("../../contracts/contractService");
 
 var _moment = _interopRequireDefault(require("moment"));
@@ -389,6 +391,7 @@ function (_React$Component) {
           contract = _this$props6.contract,
           groupName = _this$props6.groupName,
           groupImage = _this$props6.groupImage;
+      intl.locale;
       var goalText = intl.formatMessage({
         id: "group.unit.".concat(this.groupId),
         defaultMessage: ' '
@@ -413,7 +416,7 @@ function (_React$Component) {
         content: shareDesc
       }), _react.default.createElement("meta", {
         property: "og:image",
-        content: "".concat((0, _common.hostUrl)(), "share/").concat(this.groupId, "/").concat(this.address)
+        content: "".concat((0, _common.hostUrl)(), "share/").concat(this.groupId, "/").concat(this.address, "?l=").concat((0, _translation.getLang)())
       }), _react.default.createElement("meta", {
         property: "og:site_name",
         content: "CoinChallengs"

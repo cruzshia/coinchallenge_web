@@ -94,7 +94,7 @@ var parseLangPath = function parseLangPath(search) {
   }
 
   if (_common.supportLang.indexOf(lng) < 0) {
-    lng = 'en_US';
+    lng = 'en';
   }
 
   _jsCookie.default.set('_coin_lng_', lng);
@@ -109,7 +109,7 @@ var changeRoute = function changeRoute(_ref) {
       history = _ref.history;
   var lng = parseLangParams(location.search);
 
-  if (lng === '' || lng !== 'en_US') {
+  if (lng === '' || lng !== 'en') {
     history.replace(location.pathname + "?l=".concat(parseLangPath(location.search)));
   }
 };

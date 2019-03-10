@@ -172,11 +172,11 @@ function (_React$PureComponent) {
         className: "drop",
         href: "#"
       }, _react.default.createElement(_Language.default, null)), _react.default.createElement(StyledUl, null, _react.default.createElement("li", null, _react.default.createElement(_reactRouterDom.Link, {
-        to: "/?l=zh_TW"
+        to: "/?l=zh-TW"
       }, "\u7E41\u9AD4\u4E2D\u6587")), _react.default.createElement("li", null, _react.default.createElement(_reactRouterDom.Link, {
-        to: "/?l=zh_CN"
+        to: "/?l=zh-CN"
       }, "\u7B80\u4F53\u4E2D\u6587")), _react.default.createElement("li", null, _react.default.createElement(_reactRouterDom.Link, {
-        to: "/?l=en_US"
+        to: "/?l=en"
       }, "English")))))))), _react.default.createElement("section", {
         id: "pageintro",
         className: "hoc clear"

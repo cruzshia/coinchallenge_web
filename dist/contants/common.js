@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.hostUrl = exports.supportLang = exports.breakPoint = void 0;
 var breakPoint = '800px';
 exports.breakPoint = breakPoint;
-var supportLang = ['en_US', 'zh_TW', 'zh_CN'];
+var supportLang = ['en', 'zh-TW', 'zh-CN'];
 exports.supportLang = supportLang;
 
 var hostUrl = function hostUrl() {
