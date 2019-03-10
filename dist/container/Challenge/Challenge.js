@@ -43,8 +43,6 @@ var _translation = require("../../translation");
 
 var _contractService = require("../../contracts/contractService");
 
-var _moment = _interopRequireDefault(require("moment"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -136,9 +134,6 @@ var mapDispathToProps = function mapDispathToProps(dispatch) {
         dispatch: dispatch
       })));
     },
-    checkWallet: function checkWallet() {
-      return dispatch((0, _action.checkWallet)());
-    },
     setPopup: function setPopup(payload) {
       return dispatch((0, _action.setPopup)(payload));
     },
@@ -182,20 +177,39 @@ function (_React$Component) {
       });
     });
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "checkWallet", function () {
+      var _this$props = _this.props,
+          setPopup = _this$props.setPopup,
+          txContract = _this$props.txContract,
+          intl = _this$props.intl;
+
+      if (!_this.props.txContract) {
+        setPopup({
+          showPop: true,
+          popMessage: intl.formatMessage({
+            id: 'providerNotFound'
+          })
+        });
+        return false;
+      }
+
+      return true;
+    });
+
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onSponsor",
     /*#__PURE__*/
     function () {
       var _ref2 = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(_ref) {
-        var amount, comment, _this$props, setPopup, checkWallet, minAmount, intl, _this$props2, _txContract, _account, sponserChallenge;
+        var amount, comment, _this$props2, setPopup, minAmount, intl, _this$props3, _txContract, _account, sponserChallenge;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 amount = _ref.amount, comment = _ref.comment;
-                _this$props = _this.props, setPopup = _this$props.setPopup, checkWallet = _this$props.checkWallet, minAmount = _this$props.minAmount, intl = _this$props.intl;
+                _this$props2 = _this.props, setPopup = _this$props2.setPopup, minAmount = _this$props2.minAmount, intl = _this$props2.intl;
 
                 if (amount < minAmount) {
                   setPopup({
@@ -207,8 +221,7 @@ function (_React$Component) {
                     })
                   });
                 } else {
-                  checkWallet();
-                  _this$props2 = _this.props, _txContract = _this$props2.txContract, _account = _this$props2.account, sponserChallenge = _this$props2.sponserChallenge;
+                  _this$props3 = _this.props, _txContract = _this$props3.txContract, _account = _this$props3.account, sponserChallenge = _this$props3.sponserChallenge;
 
                   if (_txContract && _account) {
                     sponserChallenge({
@@ -233,16 +246,39 @@ function (_React$Component) {
       };
     }());
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "canSponsor", function () {
-      var _this$props3 = _this.props,
-          completeDays = _this$props3.completeDays,
-          targetDays = _this$props3.targetDays,
-          totalDays = _this$props3.totalDays,
-          startTimestamp = _this$props3.startTimestamp;
-      var diffDaysFromStart = (0, _moment.default)().diff((0, _moment.default)(startTimestamp), 'd');
-      var failedDays = diffDaysFromStart - completeDays;
-      return failedDays <= totalDays - targetDays;
-    });
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "canSponsor",
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee2() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              res = false;
+
+              if (!_this.props.contract) {
+                _context2.next = 5;
+                break;
+              }
+
+              _context2.next = 4;
+              return (0, _contractService.canSponsor)(_this.props.contract, _this.groupId, _this.address);
+
+            case 4:
+              res = _context2.sent;
+
+            case 5:
+              return _context2.abrupt("return", res);
+
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
 
     var params = _this.props.match.params;
     _this.address = params.address;
@@ -261,22 +297,22 @@ function (_React$Component) {
     value: function () {
       var _checkAndFetch = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
+      regeneratorRuntime.mark(function _callee3() {
         var _this$props4, contract, fetchChallenge, sponserSize, targetDays, setPopup, round, isValid, sponsorData;
 
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 _this$props4 = this.props, contract = _this$props4.contract, fetchChallenge = _this$props4.fetchChallenge, sponserSize = _this$props4.sponserSize, targetDays = _this$props4.targetDays, setPopup = _this$props4.setPopup, round = _this$props4.round;
-                _context2.next = 3;
+                _context3.next = 3;
                 return _web.default.utils.isAddress(this.address);
 
               case 3:
-                isValid = _context2.sent;
+                isValid = _context3.sent;
 
                 if (!(!isValid && !this.fetched)) {
-                  _context2.next = 9;
+                  _context3.next = 9;
                   break;
                 }
 
@@ -288,7 +324,7 @@ function (_React$Component) {
                   invalidAddress: true
                 });
                 this.fetched = true;
-                return _context2.abrupt("return");
+                return _context3.abrupt("return");
 
               case 9:
                 if (typeof window !== 'undefined' && isValid) {
@@ -300,12 +336,12 @@ function (_React$Component) {
                 }
 
                 if (!contract) {
-                  _context2.next = 23;
+                  _context3.next = 23;
                   break;
                 }
 
                 if (this.fetched) {
-                  _context2.next = 16;
+                  _context3.next = 16;
                   break;
                 }
 
@@ -315,21 +351,21 @@ function (_React$Component) {
                   round: this.round
                 });
                 this.fetched = true;
-                _context2.next = 23;
+                _context3.next = 23;
                 break;
 
               case 16:
                 if (!(!this.sponsorFetched && targetDays > 0)) {
-                  _context2.next = 23;
+                  _context3.next = 23;
                   break;
                 }
 
                 this.sponsorFetched = true;
-                _context2.next = 20;
+                _context3.next = 20;
                 return (0, _contractService.getPastSponsor)(contract, round, this.groupId, this.address, sponserSize);
 
               case 20:
-                sponsorData = _context2.sent;
+                sponsorData = _context3.sent;
                 (0, _contractService.sponsorEvents)({
                   contract: contract,
                   challenger: this.address,
@@ -344,10 +380,10 @@ function (_React$Component) {
 
               case 23:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
       function checkAndFetch() {
@@ -446,6 +482,7 @@ function (_React$Component) {
         invalidAddress: this.state.invalidAddress
       }), totalDays && this.canSponsor() ? _react.default.createElement(_SponsorButton.default, {
         onSponsor: this.onSponsor,
+        checkWallet: this.checkWallet,
         intl: intl
       }) : null, isCofirmingSponsor ? _react.default.createElement(LoadingBlk, null, _react.default.createElement(_Transaction.default, {
         txHash: txhash

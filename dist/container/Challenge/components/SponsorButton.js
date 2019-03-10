@@ -118,7 +118,9 @@ function (_React$PureComponent) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleOpen", function () {
-      _this.setState({
+      var open = _this.props.checkWallet();
+
+      open && _this.setState({
         open: true
       });
     });

@@ -21,6 +21,15 @@ export const getChallengeGroup = async (props: GetGroupProp) => {
   }
 }
 
+export const canSponsor = async (
+  contract: Contract,
+  groupId: string,
+  who: string
+) => {
+  const res = await contract.methods.canSponsor(groupId, who).call()
+  return res
+}
+
 interface GetChallengeProp {
   contract: Contract
   groupId: string
