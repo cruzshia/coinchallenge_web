@@ -2,28 +2,26 @@ const Jimp = require('jimp')
 const path = require('path')
 
 const resourceDir = path.join(__dirname, './resource/')
-const imageDir = path.join(__dirname, './share/')
+
 const translation = {
   en: require('../dist/translation/en.json'),
-  zh_TW: require('../dist/translation/zh_TW.json'),
-  zh_CN: require('../dist/translation/zh_CN.json')
+  'zh-TW': require('../dist/translation/zh-TW.json'),
+  'zh-CN': require('../dist/translation/zh-CN.json')
 }
 
 const sourceTpl = {}
 let logoSource
 
 let fonts = {
-  ZH_TW: {},
-  ZH_CN: {},
+  'ZH-TW': {},
+  'ZH-CN': {},
   EN: {}
 }
 let FONT_WHITE_16
-// let FONT_BLACK_64
-// let FONT_BLACK_64_TW
-// let FONT_BLACK_32
-// let FONT_BLACK_32_TW
 
 let initialized = false
+
+export const imageDir = path.join(__dirname, './share/')
 
 const initTpl = async () => {
   if (initialized) {
@@ -40,18 +38,18 @@ const initTpl = async () => {
     resourceDir + 'fonts/BLACK_32_EN/font.fnt'
   )
 
-  fonts['ZH_TW']['FONT_BLACK_64'] = await Jimp.loadFont(
-    resourceDir + 'fonts/BLACK_64_ZH_TW/font.fnt'
+  fonts['ZH-TW']['FONT_BLACK_64'] = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_64_ZH-TW/font.fnt'
   )
-  fonts['ZH_TW']['FONT_BLACK_32'] = await Jimp.loadFont(
-    resourceDir + 'fonts/BLACK_32_ZH_TW/font.fnt'
+  fonts['ZH-TW']['FONT_BLACK_32'] = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_32_ZH-TW/font.fnt'
   )
 
-  fonts['ZH_CN']['FONT_BLACK_64'] = await Jimp.loadFont(
-    resourceDir + 'fonts/BLACK_64_ZH_CN/font.fnt'
+  fonts['ZH-CN']['FONT_BLACK_64'] = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_64_ZH-CN/font.fnt'
   )
-  fonts['ZH_CN']['FONT_BLACK_32'] = await Jimp.loadFont(
-    resourceDir + 'fonts/BLACK_32_ZH_CN/font.fnt'
+  fonts['ZH-CN']['FONT_BLACK_32'] = await Jimp.loadFont(
+    resourceDir + 'fonts/BLACK_32_ZH-CN/font.fnt'
   )
   FONT_WHITE_16 = await Jimp.loadFont(Jimp.FONT_SANS_16_WHITE)
   initialized = true
@@ -93,7 +91,7 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
 
   let lng = challengeData.lng || 'en'
   let isEn = lng === 'en'
-  let isCN = lng === 'zh_CN'
+  let isCN = lng === 'zh-CN'
   let translate = translation[lng]
   if (!translate) {
     translate = translation['en']
@@ -103,7 +101,7 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
 
   lng = lng.toUpperCase()
 
-  const imageName = `/${groupId}/${challenger}/${round}-${lng}.png`
+  const imageName = `${groupId}/${challenger}/${round}-${lng}.png`
   let hasImage = false
   try {
     const image = await Jimp.read(`${imageDir}${imageName}`)
@@ -116,7 +114,7 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
       })
     }
   } catch (error) {
-    console.log('generate share image')
+    console.log('generate share image', imageName)
   }
 
   if (hasImage) return
