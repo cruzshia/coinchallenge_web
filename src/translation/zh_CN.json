@@ -83,5 +83,11 @@
     "group.unit.3": "{goal}千卡路里",
     "withdraw.error": "提领失败，请确认帐号余额",
     "withdraw.success": "提领成功",
-    "min.amount.error": "不可少于最小赞助{amount}"
+    "min.amount.error": "不可少于最小赞助{amount}",
+    "error.invalid.group.id": "挑战群组ID格式错误，请输入数字",
+    "error.invalid.group.name": "挑战群组名声不得为空",
+    "error.empty.min.days": "请选择最少挑战天数",
+    "error.empty.max.days": "请选择最多挑战天数",
+    "error.min.amount": "最少挑战{coin}需为大于0的数字",
+    "error.invalid.url": "不合法的url格式"
 }

@@ -83,6 +83,16 @@ const WaitingBlk = styled('div')({
   textAlign: 'center'
 })
 
+const ErrorTxt = styled('div')({
+  fontSize: '12px',
+  color: 'red',
+  width: '100%',
+  maxWidth: '400px',
+  paddingLeft: '5px',
+  margin: '10px 0 -15px',
+  textAlign: 'left'
+})
+
 const FormStyle = {
   maxWidth: '400px',
   margin: '20px 0 10px',
@@ -130,12 +140,15 @@ interface ErrorKeys extends ChallengeGroupType {
   agent?: any
 }
 
-type ErrorProp = { [s in keyof ErrorKeys]?: boolean }
+type ErrorProp = { [s in keyof ErrorKeys]?: string | undefined }
 type StateProp = {
   challengeGroup: ChallengeGroupType
   error: ErrorProp
   agent: string
+  canSend: boolean
 }
+
+const hasError = (val?: string) => val !== undefined && val !== ''
 
 const mapStateToProps = (state: Map<string, object>) => {
   const commonReducer = state.get('common') as CommonStateType
@@ -173,10 +186,11 @@ class CreateChallengeGroup extends React.Component<
   public state = {
     challengeGroup: { ...defaultGroupState } as ChallengeGroupType,
     error: {
-      minDays: true,
-      maxDays: true
+      minDays: '',
+      maxDays: ''
     } as ErrorProp,
-    agent: ''
+    agent: '',
+    canSend: false
   }
 
   private onTextChange = (key: keyof ChallengeGroupType) => (
@@ -185,11 +199,14 @@ class CreateChallengeGroup extends React.Component<
     let val = e.currentTarget.value as string
     const { challengeGroup, error } = this.state
     challengeGroup[key] = val
-    error[key] = val.length <= 0
-    this.setState({
-      challengeGroup: { ...challengeGroup },
-      error: { ...error }
-    })
+    error[key] = val.length <= 0 ? `error.invalid.group.${key}` : ''
+    this.setState(
+      {
+        challengeGroup: { ...challengeGroup },
+        error: { ...error }
+      },
+      this.checkForm
+    )
   }
 
   private onDayChange = (key: keyof ChallengeGroupType) => (
@@ -203,24 +220,32 @@ class CreateChallengeGroup extends React.Component<
     if (Number(challengeGroup['maxDays']) < Number(challengeGroup['minDays'])) {
       challengeGroup['maxDays'] = challengeGroup['minDays']
     }
-    error['minDays'] = Number(challengeGroup['minDays']) <= 0
-    error['maxDays'] = Number(challengeGroup['maxDays']) <= 0
-    this.setState({
-      challengeGroup: { ...challengeGroup },
-      error: {
-        ...error
-      }
-    })
+    error['minDays'] =
+      Number(challengeGroup['minDays']) <= 0 ? 'error.empty.min.days' : ''
+    error['maxDays'] =
+      Number(challengeGroup['maxDays']) <= 0 ? 'error.empty.max.days' : ''
+    this.setState(
+      {
+        challengeGroup: { ...challengeGroup },
+        error: {
+          ...error
+        }
+      },
+      this.checkForm
+    )
   }
 
   private onDelayDayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     let val = e.target.value as string
     const { challengeGroup, error } = this.state
     challengeGroup.maxDelayDays = val
-    this.setState({
-      challengeGroup: { ...challengeGroup },
-      error: { ...error }
-    })
+    this.setState(
+      {
+        challengeGroup: { ...challengeGroup },
+        error: { ...error }
+      },
+      this.checkForm
+    )
   }
 
   private onAmountChange = (field: keyof ChallengeGroupType) => (
@@ -229,40 +254,77 @@ class CreateChallengeGroup extends React.Component<
     let val = e.currentTarget.value as string
     const { challengeGroup, error } = this.state
     challengeGroup[field] = val
-    error[field] = Number(val) <= 0
-    this.setState({
-      challengeGroup,
-      error
-    })
+    error[field] = Number(val) <= 0 ? 'error.min.amount' : ''
+    this.setState(
+      {
+        challengeGroup,
+        error
+      },
+      this.checkForm
+    )
   }
 
   private onUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.currentTarget.value as string
     const { challengeGroup, error } = this.state
     challengeGroup['url'] = val
-    error['url'] = !isUrlValid(val)
-    this.setState({
-      challengeGroup: { ...challengeGroup },
-      error: { ...error }
-    })
+    error['url'] = !isUrlValid(val) ? 'error.invalid.url' : ''
+    this.setState(
+      {
+        challengeGroup: { ...challengeGroup },
+        error: { ...error }
+      },
+      this.checkForm
+    )
   }
 
   private onAgentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.currentTarget.value as string
     const isEmpty = val === ''
     const { error } = this.state
-    error['agent'] = !isEmpty && !web3.utils.isAddress(val)
+    error['agent'] =
+      !isEmpty && !web3.utils.isAddress(val) ? 'invalidAddress' : ''
+    this.setState(
+      {
+        agent: val,
+        error: { ...error }
+      },
+      this.checkForm
+    )
+  }
+
+  private checkForm = () => {
+    let hasError = false
+
+    for (let field in this.state.challengeGroup) {
+      hasError =
+        hasError ||
+        (field !== 'maxDelayDays' &&
+          this.state.challengeGroup[field] === defaultGroupState[field])
+      if (hasError) {
+        break
+      }
+    }
+
+    if (!hasError) {
+      for (let field in this.state.error) {
+        hasError = hasError || this.state.error[field] !== ''
+        if (hasError) {
+          break
+        }
+      }
+    }
+
     this.setState({
-      agent: val,
-      error: { ...error }
+      canSend: !hasError
     })
+
+    return hasError
   }
 
   private onSubmit = () => {
-    let hasError = Object.keys(this.state.error).length === 0
-    for (let field in this.state.error) {
-      hasError = hasError || this.state.error[field]
-    }
+    let hasError = this.checkForm()
+
     if (hasError) {
       this.props.setPopup({
         showPop: true,
@@ -275,6 +337,18 @@ class CreateChallengeGroup extends React.Component<
       ...this.state.challengeGroup,
       agent: this.state.agent
     })
+  }
+
+  private errorTxt = (key?: string, props?: { [key: string]: any }) => {
+    if (key && hasError(key)) {
+      props = props || []
+      return (
+        <ErrorTxt>
+          {this.props.intl.formatMessage({ id: key }, { ...props })}
+        </ErrorTxt>
+      )
+    }
+    return null
   }
 
   public componentDidUpdate() {
@@ -301,6 +375,7 @@ class CreateChallengeGroup extends React.Component<
     return (
       <Form noValidate autoComplete='off' style={{ padding: '0 10px' }}>
         <Icon src={Logo} />
+        {this.errorTxt(error.id)}
         <TextField
           label={
             <Label text={intl.formatMessage({ id: 'challengeGroupId' })} />
@@ -312,11 +387,12 @@ class CreateChallengeGroup extends React.Component<
           placeholder='e.g: 5566'
           value={challengeGroup.id}
           onChange={this.onTextChange('id')}
-          error={error.id}
+          error={hasError(error.id)}
           InputLabelProps={CreateChallengeGroup.LabelProp}
           style={Styles}
           required
         />
+        {this.errorTxt(error.name)}
         <TextField
           label={
             <Label text={intl.formatMessage({ id: 'challengeGroupName' })} />
@@ -326,11 +402,12 @@ class CreateChallengeGroup extends React.Component<
           variant='outlined'
           value={challengeGroup.name}
           onChange={this.onTextChange('name')}
-          error={error.name}
+          error={hasError(error.name)}
           InputLabelProps={CreateChallengeGroup.LabelProp}
           style={Styles}
           required
         />
+        {this.errorTxt(error.url)}
         <TextField
           label={
             <Label text={intl.formatMessage({ id: 'challengeGroupCover' })} />
@@ -340,7 +417,7 @@ class CreateChallengeGroup extends React.Component<
           variant='outlined'
           value={challengeGroup.url}
           onChange={this.onUrlChange}
-          error={error.url}
+          error={hasError(error.url)}
           InputLabelProps={CreateChallengeGroup.LabelProp}
           style={Styles}
           required
@@ -422,7 +499,7 @@ class CreateChallengeGroup extends React.Component<
             ))}
           </Select>
         </FormControl>
-
+        {this.errorTxt(error.minAmount, { coin: process.env.REACT_APP_COIN })}
         <TextField
           label={
             <Label text={intl.formatMessage({ id: 'minChallengeAmount' })} />
@@ -432,13 +509,13 @@ class CreateChallengeGroup extends React.Component<
           margin='normal'
           value={challengeGroup.minAmount}
           onChange={this.onAmountChange('minAmount')}
-          error={error.minAmount}
+          error={hasError(error.minAmount)}
           variant='outlined'
           InputLabelProps={CreateChallengeGroup.LabelProp}
           style={Styles}
           required
         />
-
+        {this.errorTxt(error.agent)}
         <TextField
           label={<Label text={intl.formatMessage({ id: 'agent' })} />}
           className='textField'
@@ -447,7 +524,7 @@ class CreateChallengeGroup extends React.Component<
           placeholder='e.g 0xa99CeB4475670cCDF31a78232bfA585848598cBA'
           value={agent}
           onChange={this.onAgentChange}
-          error={error.agent}
+          error={hasError(error.agent)}
           InputLabelProps={CreateChallengeGroup.LabelProp}
           style={Styles}
         />
@@ -458,7 +535,12 @@ class CreateChallengeGroup extends React.Component<
             <Transaction txHash={txHash} classNames='progress' />
           </WaitingBlk>
         ) : null}
-        <Button variant='contained' className='button' onClick={this.onSubmit}>
+        <Button
+          variant='contained'
+          className='button'
+          onClick={this.onSubmit}
+          disabled={!this.state.canSend}
+        >
           {intl.formatMessage({ id: 'create' })}
         </Button>
       </Form>

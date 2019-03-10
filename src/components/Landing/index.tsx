@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
-import SnapImg from '@Src/images/habbits.jpg'
 import Language from '@material-ui/icons/Language'
 import { Helmet } from 'react-helmet'
 
@@ -286,7 +285,7 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
             <div
               className='wrapper row4 bgded overlay'
               style={{
-                backgroundImage: `url("images/demo/backgrounds/04.png")`
+                backgroundImage: `url("${imageDir}backgrounds/04.jpg")`
               }}
             >
               <footer id='footer' className='hoc clear'>

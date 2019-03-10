@@ -12,7 +12,7 @@ import { ChallengeStateType } from '@Reducers/challengeReducer'
 import { CommonStateType } from '@Reducers/commonReducer'
 import HistoryTimeline from './components/HistoryTimeline'
 import Notifier from './components/Notifier'
-import { breakPoint } from '@Src/contants/common'
+import { breakPoint, hostUrl } from '@Src/contants/common'
 
 import Contract from 'web3/eth/contract'
 import {
@@ -202,7 +202,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       return
     }
 
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && isValid) {
       deeplinking({
         address: this.address,
         groupId: this.groupId,
@@ -337,7 +337,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
             <meta property='og:description' content={shareDesc} />
             <meta
               property='og:image'
-              content='/share/1/0xCB4b9C9292410007D6FB7a7C061666B298f06ee2'
+              content={`${hostUrl()}share/${this.groupId}/${this.address}`}
             />
             <meta property='og:site_name' content='CoinChallengs' />
             <meta property='twitter:card' content='summary_large_image' />
