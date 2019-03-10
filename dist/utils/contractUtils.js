@@ -16,7 +16,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var networkAddress = 'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
-var contractAddress = '0xADED855550796DDA123f13d236dFEA12aa102D0B';
+var contractAddress = '0x387768B622C0394A7768A13f38DBdAcd8E263cA2';
 
 var newContract = function newContract(web3Interface, address) {
   var newContract = null;
@@ -91,7 +91,7 @@ function () {
           case 12:
             //ropsten
             networkAddress = 'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
-            contractAddress = '0xADED855550796DDA123f13d236dFEA12aa102D0B';
+            contractAddress = '0x387768B622C0394A7768A13f38DBdAcd8E263cA2';
             return _context.abrupt("break", 17);
 
           case 15:

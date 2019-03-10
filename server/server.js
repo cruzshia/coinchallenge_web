@@ -58,7 +58,7 @@ const initContract = async () => {
       'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
     )
   )
-  contract = newContract(web3, '0xADED855550796DDA123f13d236dFEA12aa102D0B')
+  contract = newContract(web3, '0x387768B622C0394A7768A13f38DBdAcd8E263cA2')
 }
 
 initContract()
