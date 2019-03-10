@@ -15,12 +15,7 @@ import Notifier from './components/Notifier'
 import { breakPoint, hostUrl } from '@Src/contants/common'
 
 import Contract from 'web3/eth/contract'
-import {
-  checkWallet,
-  setPopup,
-  SetPopProps,
-  initContract
-} from '@Epics/commonEpic/action'
+import { setPopup, SetPopProps, initContract } from '@Epics/commonEpic/action'
 import {
   getChallenge,
   sponserChallenge,
@@ -34,8 +29,11 @@ import { changeRoute } from '@Utils/index'
 import web3 from 'web3'
 
 import { getLang } from '@Src/translation'
-import { sponsorEvents, getPastSponsor } from '@Src/contracts/contractService'
-import moment from 'moment'
+import {
+  sponsorEvents,
+  getPastSponsor,
+  canSponsor
+} from '@Src/contracts/contractService'
 
 const ChallengeContainer = styled('div')({
   display: 'flex',
@@ -83,7 +81,6 @@ interface ChallengeProp
   fetchChallenge: (data: RouteParams) => void
   sponserChallenge: (payload: SponserProp) => void
   setChallengeSponsersAction: (sponsors: Sponsor[]) => void
-  checkWallet: () => void
   setPopup: (payload: SetPopProps) => void
   initContract: () => void
 }
@@ -146,7 +143,6 @@ const mapDispathToProps = (dispatch: Dispatch) => ({
         dispatch
       })
     ),
-  checkWallet: () => dispatch(checkWallet()),
   setPopup: (payload: SetPopProps) => dispatch(setPopup(payload)),
   initContract: () => dispatch(initContract())
 })
@@ -244,6 +240,18 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     }
   }
 
+  private checkWallet = () => {
+    const { setPopup, txContract, intl } = this.props
+    if (!this.props.txContract) {
+      setPopup({
+        showPop: true,
+        popMessage: intl.formatMessage({ id: 'providerNotFound' })
+      })
+      return false
+    }
+    return true
+  }
+
   private onSponsor = async ({
     amount,
     comment
@@ -251,7 +259,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     amount: number
     comment: string
   }) => {
-    const { setPopup, checkWallet, minAmount, intl } = this.props
+    const { setPopup, minAmount, intl } = this.props
     if (amount < minAmount) {
       setPopup({
         showPop: true,
@@ -263,7 +271,6 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
         )
       })
     } else {
-      checkWallet()
       const { txContract, account, sponserChallenge } = this.props
       if (txContract && account) {
         sponserChallenge({
@@ -276,11 +283,13 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     }
   }
 
-  private canSponsor = () => {
-    const { completeDays, targetDays, totalDays, startTimestamp } = this.props
-    const diffDaysFromStart = moment().diff(moment(startTimestamp), 'd')
-    const failedDays = diffDaysFromStart - completeDays
-    return failedDays <= totalDays - targetDays
+  private canSponsor = async () => {
+    let res = false
+    if (this.props.contract) {
+      res = await canSponsor(this.props.contract, this.groupId, this.address)
+    }
+
+    return res
   }
 
   public componentDidUpdate() {
@@ -366,7 +375,11 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
               invalidAddress={this.state.invalidAddress}
             />
             {totalDays && this.canSponsor() ? (
-              <SponsorButton onSponsor={this.onSponsor} intl={intl} />
+              <SponsorButton
+                onSponsor={this.onSponsor}
+                checkWallet={this.checkWallet}
+                intl={intl}
+              />
             ) : null}
             {isCofirmingSponsor ? (
               <LoadingBlk>
