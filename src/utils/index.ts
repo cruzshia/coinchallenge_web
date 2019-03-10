@@ -74,7 +74,7 @@ export const parseLangPath = (search: string): string => {
   }
 
   if (supportLang.indexOf(lng) < 0) {
-    lng = 'en_US'
+    lng = 'en'
   }
 
   Cookies.set('_coin_lng_', lng)
@@ -86,7 +86,7 @@ interface ChangeRoute extends RouteComponentProps {
 }
 export const changeRoute = ({ location, history }: ChangeRoute) => {
   const lng = parseLangParams(location.search)
-  if (lng === '' || lng !== 'en_US') {
+  if (lng === '' || lng !== 'en') {
     history.replace(location.pathname + `?l=${parseLangPath(location.search)}`)
   }
 }

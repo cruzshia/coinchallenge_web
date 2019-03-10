@@ -33,6 +33,7 @@ import Transaction from '@Components/Transaction'
 import { changeRoute } from '@Utils/index'
 import web3 from 'web3'
 
+import { getLang } from '@Src/translation'
 import { sponsorEvents, getPastSponsor } from '@Src/contracts/contractService'
 import moment from 'moment'
 
@@ -308,6 +309,8 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       groupImage
     } = this.props
 
+    intl.locale
+
     const goalText = intl.formatMessage(
       { id: `group.unit.${this.groupId}`, defaultMessage: ' ' },
       { goal }
@@ -337,7 +340,9 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
             <meta property='og:description' content={shareDesc} />
             <meta
               property='og:image'
-              content={`${hostUrl()}share/${this.groupId}/${this.address}`}
+              content={`${hostUrl()}share/${this.groupId}/${
+                this.address
+              }?l=${getLang()}`}
             />
             <meta property='og:site_name' content='CoinChallengs' />
             <meta property='twitter:card' content='summary_large_image' />

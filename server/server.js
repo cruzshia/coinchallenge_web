@@ -31,7 +31,10 @@ import {
   getChallengeGroup
 } from '../dist/contracts/contractService'
 
-import { generateImage } from './imageService'
+import { supportLang } from '../dist/contants/common'
+
+import { generateImage, imageDir } from './imageService'
+import Jimp from 'jimp'
 
 let filePath = path.resolve(__dirname, '../build', 'index.html')
 
@@ -94,6 +97,33 @@ app.get('/share/:groupId/:address/:round*?', async (req, res) => {
   let { groupId, address, round } = req.params
   const { l } = req.query
   await initContract()
+
+  let exists = false
+  let imageName = ''
+  try {
+    const lang = supportLang.indexOf(l) === -1 ? 'en' : l
+    imageName = `${imageDir}${groupId}/${address}/${round}-${lang.toUpperCase()}.png`
+    const image = await Jimp.read(imageName)
+    if (image) {
+      image.quality(100)['getBuffer'](Jimp.MIME_PNG, (err, data) => {
+        if (!err) {
+          res.writeHead(200, {
+            'Content-Type': 'image/png',
+            'Content-Length': data.length
+          })
+          res.end(data)
+          exists = true
+        }
+      })
+    }
+  } catch (err) {
+    console.error(`image: ${imageName} did not exist`)
+  }
+
+  if (exists) {
+    return
+  }
+
   let challengeRes
   let group
   try {

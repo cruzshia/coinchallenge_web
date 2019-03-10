@@ -107,13 +107,13 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                         </a>
                         <StyledUl>
                           <li>
-                            <Link to='/?l=zh_TW'>繁體中文</Link>
+                            <Link to='/?l=zh-TW'>繁體中文</Link>
                           </li>
                           <li>
-                            <Link to='/?l=zh_CN'>简体中文</Link>
+                            <Link to='/?l=zh-CN'>简体中文</Link>
                           </li>
                           <li>
-                            <Link to='/?l=en_US'>English</Link>
+                            <Link to='/?l=en'>English</Link>
                           </li>
                         </StyledUl>
                       </li>
