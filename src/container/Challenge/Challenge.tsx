@@ -226,6 +226,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
         )
         sponsorEvents({
           contract,
+          groupId: this.groupId,
           challenger: this.address,
           callback: this.onNewSponsor
         })

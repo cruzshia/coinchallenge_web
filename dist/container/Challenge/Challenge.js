@@ -368,6 +368,7 @@ function (_React$Component) {
                 sponsorData = _context3.sent;
                 (0, _contractService.sponsorEvents)({
                   contract: contract,
+                  groupId: this.groupId,
                   challenger: this.address,
                   callback: this.onNewSponsor
                 });

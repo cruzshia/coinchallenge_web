@@ -186,6 +186,7 @@ export const getPastSponsor = async (
 
 interface SponsorEventProp {
   contract: Contract
+  groupId: string
   challenger: string
   fromBlock?: number
   callback?: (sponser: Sponsor) => void
@@ -193,12 +194,13 @@ interface SponsorEventProp {
 
 export const sponsorEvents = async ({
   contract,
+  groupId,
   challenger,
   callback
 }: SponsorEventProp) => {
   contract.events
     .SponsorChallenge({
-      filter: { challenger }
+      filter: { groupId, challenger }
     })
     .on('data', function(event) {
       if (callback) {

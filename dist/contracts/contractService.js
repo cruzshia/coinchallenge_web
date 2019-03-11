@@ -381,14 +381,15 @@ function () {
   var _ref11 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee8(_ref10) {
-    var contract, challenger, callback;
+    var contract, groupId, challenger, callback;
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
-            contract = _ref10.contract, challenger = _ref10.challenger, callback = _ref10.callback;
+            contract = _ref10.contract, groupId = _ref10.groupId, challenger = _ref10.challenger, callback = _ref10.callback;
             contract.events.SponsorChallenge({
               filter: {
+                groupId: groupId,
                 challenger: challenger
               }
             }).on('data', function (event) {
