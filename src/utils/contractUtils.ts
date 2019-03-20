@@ -50,6 +50,9 @@ export const detectNetwork = async (web3: Web3 | null) => {
 
   switch (netId) {
     case 1: //main net
+      networkAddress =
+        'wss://mainnet.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
+      contractAddress = '0xeEe43e9258D59F118F700aae73a91765A0BD2bcC'
       break
     case 3: //ropsten
       networkAddress =

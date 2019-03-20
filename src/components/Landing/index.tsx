@@ -1,21 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import Language from '@material-ui/icons/Language'
 import { Helmet } from 'react-helmet'
-
-const imageDir = '/landing/images/'
-
-const LandingCtr = styled('div')<{ show: boolean }>`
-  margin-top: -60px;
-  opacity: ${props => (props.show ? 1 : 0)};
-`
-
-const StyledUl = styled('ul')({
-  right: 0,
-  transform: 'translateX(50%)'
-})
 
 const StyleId = 'landing-link'
 
@@ -77,344 +64,259 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
   public render() {
     const { intl } = this.props
     return (
-      <LandingCtr show={this.state.show}>
-        {/* ################################################################################################ */}
-        {/* ################################################################################################ */}
-        {/* ################################################################################################ */}
-        {/* Top Background Image Wrapper */}
-        {this.state.show ? (
-          <React.Fragment>
-            <div
-              className='bgded'
-              style={{
-                backgroundImage: `url("${imageDir}backgrounds/walk.jpg")`
-              }}
-            >
-              {/* ################################################################################################ */}
-              <div className='wrapper row1'>
-                <header id='header' className='hoc clear'>
-                  {/* ################################################################################################ */}
-                  <div id='logo' className='fl_left'>
-                    <h1>
-                      <a href='/'>CoinChallenges</a>
-                    </h1>
-                  </div>
-                  <nav id='mainav' className='fl_right'>
-                    <ul className='clear'>
-                      <li>
-                        <a className='drop' href='#'>
-                          <Language />
-                        </a>
-                        <StyledUl>
-                          <li>
-                            <Link to='/?l=zh-TW'>繁體中文</Link>
-                          </li>
-                          <li>
-                            <Link to='/?l=zh-CN'>简体中文</Link>
-                          </li>
-                          <li>
-                            <Link to='/?l=en'>English</Link>
-                          </li>
-                        </StyledUl>
-                      </li>
-                    </ul>
-                  </nav>
-                  {/* ################################################################################################ */}
-                </header>
+      <div className='imageWrapper'>
+        <div className='headerBackground'>
+          <div className='container'>
+            <header>
+              <div className='logo'>
+                <div className='appIconShadow'>
+                  <svg width={0} height={0}>
+                    <defs>
+                      <clipPath id='shape'>
+                        <path
+                          id='shape'
+                          className='cls-1'
+                          d='M6181.23,233.709v-1.792c0-.5-0.02-1-0.02-1.523a24.257,24.257,0,0,0-.28-3.3,11.207,11.207,0,0,0-1.04-3.132,10.683,10.683,0,0,0-1.95-2.679,10.384,10.384,0,0,0-2.68-1.943,10.806,10.806,0,0,0-3.13-1.038,19.588,19.588,0,0,0-3.3-.285c-0.5-.017-1-0.017-1.52-0.017h-22.39c-0.51,0-1.01.017-1.53,0.017a24.041,24.041,0,0,0-3.3.285,11.009,11.009,0,0,0-3.13,1.038,10.491,10.491,0,0,0-4.62,4.622,10.893,10.893,0,0,0-1.04,3.132,19.2,19.2,0,0,0-.28,3.3c-0.02.5-.02,1-0.02,1.523v22.392c0,0.5.02,1,.02,1.524a24.257,24.257,0,0,0,.28,3.3,10.9,10.9,0,0,0,1.04,3.132,10.491,10.491,0,0,0,4.62,4.622,11.04,11.04,0,0,0,3.13,1.038,19.891,19.891,0,0,0,3.3.285c0.51,0.017,1.01.017,1.53,0.017h22.39c0.5,0,1-.017,1.52-0.017a24.221,24.221,0,0,0,3.3-.285,10.836,10.836,0,0,0,3.13-1.038,10.408,10.408,0,0,0,2.68-1.943,10.683,10.683,0,0,0,1.95-2.679,11.217,11.217,0,0,0,1.04-3.132,20.257,20.257,0,0,0,.28-3.3c0.02-.5.02-1,0.02-1.524v-20.6h0Z'
+                          transform='translate(-6131 -218)'
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                  <img className='headerIcon' src='landing/assets/logo.png' />
+                </div>
+                <p className='headerName'>1SecMoney</p>
               </div>
-              {/* ################################################################################################ */}
-              {/* ################################################################################################ */}
-              {/* ################################################################################################ */}
-              <section id='pageintro' className='hoc clear'>
-                <div>
-                  {/* ################################################################################################ */}
-                  <h2 className='heading'>
-                    {intl.formatMessage({ id: 'landing.start.title' })}
-                    <br />
-                    <strong>
-                      {intl.formatMessage({ id: 'landing.start.subtitle' })}
-                    </strong>
-                  </h2>
-                  <p>{intl.formatMessage({ id: 'landing.start.desc' })}</p>
-                  <footer>
-                    <ul className='nospace inline pushright'>
-                      <li>
-                        <a className='btn' href='#'>
-                          {intl.formatMessage({ id: 'download.app' })}
-                        </a>
-                      </li>
-                    </ul>
-                  </footer>
-                  {/* ################################################################################################ */}
-                </div>
-              </section>
-              {/* ################################################################################################ */}
-            </div>
-            {/* End Top Background Image Wrapper */}
-            {/* ################################################################################################ */}
-            {/* ################################################################################################ */}
-            {/* ################################################################################################ */}
-            <div className='wrapper row3'>
-              <main className='hoc container clear btmpad-none'>
-                {/* main body */}
-                {/* ################################################################################################ */}
-                <div className='sectiontitle center'>
-                  <h6 className='heading'>
-                    {intl.formatMessage({ id: 'landing.blocks.title' })}
-                  </h6>
-                  <p>{intl.formatMessage({ id: 'landing.blocks.desc' })}</p>
-                </div>
-                <ul className='nospace group center btmspace-80'>
-                  <li className='one_third first'>
-                    <article>
-                      <i className='btmspace-30 fa fa-3x fa-apple' />
-                      <h6 className='heading font-x1'>
-                        {intl.formatMessage({ id: 'landing.block1.title' })}
-                      </h6>
-                      <p className='btmspace-30'>
-                        {intl.formatMessage({ id: 'landing.block1.desc' })}
-                      </p>
-                    </article>
-                  </li>
-                  <li className='one_third'>
-                    <article>
-                      <i className='btmspace-30 fa fa-3x fa-code' />
-                      <h6 className='heading font-x1'>
-                        {intl.formatMessage({ id: 'landing.block2.title' })}
-                      </h6>
-                      <p className='btmspace-30'>
-                        {intl.formatMessage({ id: 'landing.block2.desc' })}
-                      </p>
-                    </article>
-                  </li>
-                  <li className='one_third'>
-                    <article>
-                      <i className='btmspace-30 fa fa-3x fa-calendar-check-o' />
-                      <h6 className='heading font-x1'>
-                        {intl.formatMessage({ id: 'landing.block3.title' })}
-                      </h6>
-                      <p className='btmspace-30'>
-                        {intl.formatMessage({ id: 'landing.block3.desc' })}
-                      </p>
-                    </article>
-                  </li>
-                </ul>
-                {/* <figure>
-                  <img src={SnapImg} alt='' />
-                </figure> */}
-                {/* ################################################################################################ */}
-                {/* / main body */}
-                <div className='clear' />
-              </main>
-            </div>
-            {/* ################################################################################################ */}
-            {/* ################################################################################################ */}
-            {/* ################################################################################################ */}
-            <div
-              className='wrapper bgded overlay coloured'
-              style={{
-                backgroundImage: `url("${imageDir}backgrounds/02.jpg")`
-              }}
-            >
-              <section className='hoc container clear'>
-                {/* ################################################################################################ */}
-                <div className='sectiontitle center'>
-                  <h6 className='heading'>
-                    {intl.formatMessage({ id: 'section.tips' })}
-                  </h6>
-                  <p>{intl.formatMessage({ id: 'section.tips.desc' })}</p>
-                </div>
-                <ul className='nospace group infoboxes'>
-                  <li className='one_third first'>
-                    <article className='infobox'>
-                      <i className='fa fa-codepen' />
-                      <p>
-                        <a>
-                          {intl.formatMessage({ id: 'section.social.network' })}
-                        </a>
-                      </p>
-                      <h6
-                        dangerouslySetInnerHTML={{
-                          __html: intl.formatMessage({
-                            id: 'section.social.network.desc'
-                          })
-                        }}
-                      />
-                    </article>
-                  </li>
-                  <li className='one_third'>
-                    <article className='infobox'>
-                      <i className='fa fa-scissors' />
-                      <p>
-                        <a>{intl.formatMessage({ id: 'section.paid.off' })}</a>
-                      </p>
-                      <h6
-                        dangerouslySetInnerHTML={{
-                          __html: intl.formatMessage({
-                            id: 'section.paid.off.desc'
-                          })
-                        }}
-                      />
-                    </article>
-                  </li>
-                  <li className='one_third'>
-                    <article className='infobox'>
-                      <i className='fa fa-crosshairs' />
-                      <p>
-                        <a>
-                          {intl.formatMessage({ id: 'section.invite.friend' })}
-                        </a>
-                      </p>
-                      <h6
-                        dangerouslySetInnerHTML={{
-                          __html: intl.formatMessage({
-                            id: 'section.invite.friend.desc'
-                          })
-                        }}
-                      />
-                    </article>
-                  </li>
-                </ul>
-                {/* ################################################################################################ */}
-                <div className='clear' />
-              </section>
-            </div>
-            {/* ################################################################################################ */}
-            {/* ################################################################################################ */}
-            {/* ################################################################################################ */}
-            <div
-              className='wrapper row4 bgded overlay'
-              style={{
-                backgroundImage: `url("${imageDir}backgrounds/04.jpg")`
-              }}
-            >
-              <footer id='footer' className='hoc clear'>
-                {/* ################################################################################################ */}
-                <div className='one_third first'>
-                  <h6 className='heading'>
-                    {intl.formatMessage({ id: 'about.us' })}
-                  </h6>
-                  <p>{intl.formatMessage({ id: 'about.desc' })}</p>
-                  {/* <nav>
-                    <ul className='nospace'>
-                      <li>
-                        <a href='index.html'>
-                          <i className='fa fa-lg fa-home' />
-                        </a>
-                      </li>
-                      <li>
-                        <a href='#'>About</a>
-                      </li>
-                      <li>
-                        <a href='#'>Contact</a>
-                      </li>
-                      <li>
-                        <a href='#'>Terms</a>
-                      </li>
-                      <li>
-                        <a href='#'>Privacy</a>
-                      </li>
-                    </ul>
-                  </nav> */}
-                </div>
-                <div className='one_third'>
-                  <h6 className='heading'>
-                    {intl.formatMessage({ id: 'contact.info' })}
-                  </h6>
-                  <ul className='nospace btmspace-30 linklist contact'>
-                    <li>
-                      <i className='fa fa-facebook-square' />
-                      <address>Coin Challenges</address>
-                    </li>
-                    <li>
-                      <i className='fa fa-envelope-o' />{' '}
-                      coin.challenge.hi@gmail.com
-                    </li>
-                  </ul>
-                  <ul className='faico clear'>
-                    <li>
-                      <a className='faicon-facebook' href='#'>
-                        <i className='fa fa-facebook' />
-                      </a>
-                    </li>
-                    <li>
-                      <a className='faicon-twitter' href='#'>
-                        <i className='fa fa-twitter' />
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className='one_third'>
-                  <h6 className='heading'>Non lacus vivamus quis</h6>
-                  <article>
-                    <a href='#'>
-                      <img
-                        className='btmspace-15'
-                        src={`${imageDir}/320x140.png`}
-                        alt=''
-                      />
-                    </a>
-                    <h6 className='nospace font-x1'>
-                      <a href='#'>Sed congue vel gravida</a>
-                    </h6>
-                    <time
-                      className='font-xs block btmspace-10'
-                      dateTime='2045-04-05'
-                    >
-                      Thursday, 5<sup>th</sup> April 2045
-                    </time>
-                    <p className='nospace'>
-                      Viverra interdum quam in hac habitasse platea dictumst sed
-                      pede volutpat […]
-                    </p>
-                  </article>
-                </div>
-                {/* ################################################################################################ */}
-              </footer>
-            </div>
-            {/* ################################################################################################ */}
-            {/* ################################################################################################ */}
-            {/* ################################################################################################ */}
-            <div className='wrapper row5'>
-              <div id='copyright' className='hoc clear'>
-                {/* ################################################################################################ */}
-                <p className='fl_left'>
-                  Copyright © 2019 - All Rights Reserved -{' '}
-                  <a href='#'>coin.walk.com</a>
-                </p>
-                <p className='fl_right'>
-                  Template by{' '}
-                  <a
-                    target='_blank'
-                    href='http://www.os-templates.com/'
-                    title='Free Website Templates'
-                  >
-                    OS Templates
-                  </a>
-                </p>
-                {/* ################################################################################################ */}
-              </div>
-            </div>
-            {/* ################################################################################################ */}
-            {/* ################################################################################################ */}
-            {/* ################################################################################################ */}
-            <a id='backtotop' href='#top'>
-              <i className='fa fa-chevron-up' />
-            </a>
-            <Helmet>
-              <script
-                src='/landing/jquery.mobilemenu.js'
-                defer
-                ref={this.scriptRef2}
+              <nav>
+                <ul />
+              </nav>
+            </header>
+            <div className='iphonePreview'>
+              <svg
+                version='1.1'
+                xmlns='http://www.w3.org/2000/svg'
+                xmlnsXlink='http://www.w3.org/1999/xlink'
+                viewBox='0 0 0 0'
+                style={{ position: 'absolute' }}
+              >
+                <clipPath
+                  id='screenMask'
+                  clipPathUnits='objectBoundingBox'
+                  transform='scale(0.00257, 0.00119)'
+                >
+                  <path
+                    d='M6490.24,1234.36H6216.28c-2.57,0-10.55-.07-12.07-0.07a87.524,87.524,0,0,1-12-1.03,40.051,40.051,0,0,1-11.4-3.79,38.315,38.315,0,0,1-16.82-16.84,39.948,39.948,0,0,1-3.78-11.42,72.257,72.257,0,0,1-1.04-12.02c-0.06-1.83-.06-5.56-0.06-5.56V452.125h0s0.06-11.391.06-12.086a87.9,87.9,0,0,1,1.04-12.025,39.843,39.843,0,0,1,3.78-11.413,38.283,38.283,0,0,1,16.82-16.847,39.762,39.762,0,0,1,11.4-3.785,71.909,71.909,0,0,1,12-1.037c16.99-.567,36.32-0.061,34.51-0.061,5.02,0,6.5,3.439,6.63,6.962a35.611,35.611,0,0,0,1.2,8.156,21.326,21.326,0,0,0,19.18,15.592c2.28,0.192,6.78.355,6.78,0.355H6433.7s4.5-.059,6.79-0.251a21.348,21.348,0,0,0,19.18-15.591,35.582,35.582,0,0,0,1.19-8.154c0.13-3.523,1.61-6.962,6.64-6.962-1.81,0,17.52-.5,34.5.061a71.923,71.923,0,0,1,12.01,1.038,39.832,39.832,0,0,1,11.4,3.784,38.283,38.283,0,0,1,16.82,16.844,40.153,40.153,0,0,1,3.78,11.413,87.844,87.844,0,0,1,1.03,12.023c0,0.695.06,12.084,0.06,12.084h0V1183.64s0,3.72-.06,5.55a72.366,72.366,0,0,1-1.03,12.03,40.2,40.2,0,0,1-3.78,11.41,38.315,38.315,0,0,1-16.82,16.84,40.155,40.155,0,0,1-11.4,3.79,87.669,87.669,0,0,1-12.01,1.03c-1.52,0-9.5.07-12.07,0.07'
+                    transform='translate(-6159.12 -394.656)'
+                  />
+                </clipPath>
+              </svg>
+
+              <img
+                className='iphoneScreen'
+                src='landing/assets/screenshot/en.png'
+                alt=''
               />
-            </Helmet>
-          </React.Fragment>
-        ) : (
-          <Helmet>
-            <script src='/landing/jquery.min.js' defer ref={this.scriptRef} />
-          </Helmet>
-        )}
-      </LandingCtr>
+            </div>
+            <div className='appInfo'>
+              <div className='appIconShadow'>
+                <svg width={0} height={0}>
+                  <defs>
+                    <clipPath id='shape120'>
+                      <path
+                        id='shape'
+                        className='cls-1'
+                        d='M6821,495.533v-4.281c0-1.2-.04-2.4-0.04-3.642a57.7,57.7,0,0,0-.68-7.882,26.144,26.144,0,0,0-2.48-7.483,25.115,25.115,0,0,0-11.04-11.044,26.118,26.118,0,0,0-7.49-2.481,47.28,47.28,0,0,0-7.88-.68c-1.2-.04-2.4-0.04-3.64-0.04h-53.5c-1.2,0-2.4.04-3.64,0.04a57.813,57.813,0,0,0-7.88.68,26.323,26.323,0,0,0-7.49,2.481,25.115,25.115,0,0,0-11.04,11.044,26.144,26.144,0,0,0-2.48,7.483,47.313,47.313,0,0,0-.68,7.882c-0.04,1.2-.04,2.4-0.04,3.642v53.5c0,1.2.04,2.4,0.04,3.641a57.7,57.7,0,0,0,.68,7.883,26.137,26.137,0,0,0,2.48,7.482,25.115,25.115,0,0,0,11.04,11.044,26.261,26.261,0,0,0,7.49,2.481,47.28,47.28,0,0,0,7.88.68c1.2,0.04,2.4.04,3.64,0.04h53.5c1.2,0,2.4-.04,3.64-0.04a57.654,57.654,0,0,0,7.88-.68,26.057,26.057,0,0,0,7.49-2.481,25.115,25.115,0,0,0,11.04-11.044,26.137,26.137,0,0,0,2.48-7.482,47.316,47.316,0,0,0,.68-7.883c0.04-1.2.04-2.4,0.04-3.641V495.533h0Z'
+                        transform='translate(-6701 -458)'
+                        filter='url(#f1)'
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <img className='appIconLarge' src='landing/assets/logo.png' />
+              </div>
+              <div className='appNamePriceContainer'>
+                <h1 className='appName'>1SecMoney</h1>
+                <h2 className='appPrice'>$1.99</h2>
+              </div>
+              <div className='appDescriptionContainer'>
+                <p className='appDescription'>
+                  {intl.formatMessage({ id: 'landing.start.desc' })}
+                </p>
+              </div>
+              <div className='downloadButtonsContainer'>
+                <a
+                  className='appStoreLink'
+                  href='https://itunes.apple.com/us/app/1secmoney/id926076608?mt=8&uo=4'
+                >
+                  <img
+                    className='appStore'
+                    src='/landing/assets/appstore.png'
+                  />
+                </a>
+              </div>
+            </div>
+            <div className='features'>
+              <div className='feature'>
+                <div>
+                  <span className='fa-stack fa-1x'>
+                    <i className='iconBack fas fa-circle fa-stack-2x' />
+                    <i className='iconTop fas fa-magic fa-stack-1x' />
+                  </span>
+                </div>
+                <div className='featureText'>
+                  <h3>GitHub Pages Jekyll Theme</h3>
+                  <p>
+                    Designed for GitHub Pages. Fork. Edit _config.yml. Upload
+                    screenshot/video. Push to gh-pages branch. Voilá!
+                  </p>
+                </div>
+              </div>
+              <div className='feature'>
+                <div>
+                  <span className='fa-stack fa-1x'>
+                    <i className='iconBack fas fa-circle fa-stack-2x' />
+                    <i className='iconTop fas fa-mobile fa-stack-1x' />
+                  </span>
+                </div>
+                <div className='featureText'>
+                  <h3>iPhone Device Preview</h3>
+                  <p>
+                    Preview your app in the context of an iPhone device. Five
+                    different device colors included.
+                  </p>
+                </div>
+              </div>
+              <div className='feature'>
+                <div>
+                  <span className='fa-stack fa-1x'>
+                    <i className='iconBack fas fa-circle fa-stack-2x' />
+                    <i className='iconTop fas fa-play-circle fa-stack-1x' />
+                  </span>
+                </div>
+                <div className='featureText'>
+                  <h3>Video Support</h3>
+                  <p>
+                    Preview app video on the iPhone device simply by placing
+                    your video files in the videos folder.
+                  </p>
+                </div>
+              </div>
+              <div className='feature'>
+                <div>
+                  <span className='fa-stack fa-1x'>
+                    <i className='iconBack fas fa-circle fa-stack-2x' />
+                    <i className='iconTop fas fa-sync fa-stack-1x' />
+                  </span>
+                </div>
+                <div className='featureText'>
+                  <h3>Automatic Icon and Metadata</h3>
+                  <p>
+                    Enter iOS app ID in the _config.yml file to automatically
+                    fetch app icon, price and App Store Link.
+                  </p>
+                </div>
+              </div>
+              <div className='feature'>
+                <div>
+                  <span className='fa-stack fa-1x'>
+                    <i className='iconBack fas fa-circle fa-stack-2x' />
+                    <i className='iconTop fas fa-adjust fa-stack-1x' />
+                  </span>
+                </div>
+                <div className='featureText'>
+                  <h3>Easy to Tweak</h3>
+                  <p>
+                    Tweak accent color, images, icons and transparency via the
+                    _config.yml file. No HTML/CSS needed.
+                  </p>
+                </div>
+              </div>
+              <div className='feature'>
+                <div>
+                  <span className='fa-stack fa-1x'>
+                    <i className='iconBack fas fa-circle fa-stack-2x' />
+                    <i className='iconTop fas fa-star fa-stack-1x' />
+                  </span>
+                </div>
+                <div className='featureText'>
+                  <h3>Feature List</h3>
+                  <p>
+                    Add features (like this one) to your site via the
+                    _config.yml file. No HTML/CSS needed.
+                  </p>
+                </div>
+              </div>
+              <div className='feature'>
+                <div>
+                  <span className='fa-stack fa-1x'>
+                    <i className='iconBack fas fa-circle fa-stack-2x' />
+                    <i className='iconTop fas fa-arrow-alt-circle-down fa-stack-1x' />
+                  </span>
+                </div>
+                <div className='featureText'>
+                  <h3>Smart App Banner</h3>
+                  <p>Display a smart app banner on iOS devices.</p>
+                </div>
+              </div>
+              <div className='feature'>
+                <div>
+                  <span className='fa-stack fa-1x'>
+                    <i className='iconBack fas fa-circle fa-stack-2x' />
+                    <i className='iconTop fas fa-link fa-stack-1x' />
+                  </span>
+                </div>
+                <div className='featureText'>
+                  <h3>Social Links</h3>
+                  <p>
+                    Easily add social media accounts and contact info in the
+                    footer via the _config.yml file. No HTML/CSS needed.
+                  </p>
+                </div>
+              </div>
+              <div className='feature'>
+                <div>
+                  <span className='fa-stack fa-1x'>
+                    <i className='iconBack fas fa-circle fa-stack-2x' />
+                    <i className='iconTop fas fa-info-circle fa-stack-1x' />
+                  </span>
+                </div>
+                <div className='featureText'>
+                  <h3>FontAwesome Support</h3>
+                  <p>
+                    Pick custom Font Awesome icons for the feature list via the
+                    _config.yml file. No HTML/CSS needed.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <footer>
+              <p className='footerText'>
+                Made by <a href='https://coinchallenges.app/'>Emil Baehr</a> in
+                Copenhagen
+              </p>
+              <div className='footerIcons'>
+                <a href='https://twitter.com/coin_challenges'>
+                  <span className='fa-stack fa-1x'>
+                    <i className='socialIconBack fas fa-circle fa-stack-2x' />
+                    <i className='socialIconTop fab fa-twitter fa-stack-1x' />
+                  </span>
+                </a>
+                <a href='https://github.com/emilbaehr'>
+                  <span className='fa-stack fa-1x'>
+                    <i className='socialIconBack fas fa-circle fa-stack-2x' />
+                    <i className='socialIconTop fab fa-github fa-stack-1x' />
+                  </span>
+                </a>
+                <a href='mailto:coin.challenge.hi@gmail.com'>
+                  <span className='fa-stack fa-1x'>
+                    <i className='socialIconBack fas fa-circle fa-stack-2x' />
+                    <i className='socialIconTop fas fa-envelope fa-stack-1x' />
+                  </span>
+                </a>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </div>
     )
   }
 }
