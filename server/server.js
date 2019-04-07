@@ -49,26 +49,46 @@ app.use(morgan('dev'))
 app.use(express.static(path.resolve(__dirname, '../build')))
 
 let contract = null
+let contractDexon = null
 
-const initContract = async () => {
+const isProd = process.env.NETWORK === 'PROD'
+
+const initContract = async chain => {
   // if (contract !== null) return
   const providers = new Web3().providers
-  const web3 = new Web3(
-    new providers.WebsocketProvider(
-      'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
+
+  if (chain && chain === 'dexon') {
+    const web3 = new Web3(
+      new providers.WebsocketProvider('ws://testnet.dexon.org:8546')
     )
-  )
-  contract = newContract(web3, '0x093240763E9227B30DA751A743B52c0aADC7E945')
+    contractDexon = newContract(
+      web3,
+      '0x093240763E9227B30DA751A743B52c0aADC7E945'
+    )
+  } else {
+    const web3 = new Web3(
+      new providers.WebsocketProvider(
+        isProd
+          ? 'wss://mainnet.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
+          : 'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
+      )
+    )
+    contract = newContract(
+      web3,
+      isProd
+        ? '0xeEe43e9258D59F118F700aae73a91765A0BD2bcC'
+        : '0x093240763E9227B30DA751A743B52c0aADC7E945'
+    )
+  }
 }
 
-initContract()
-
-const fetchResChallenge = async ({ groupId, challenger, round }) => {
-  await initContract()
+const fetchResChallenge = async ({ groupId, challenger, round, chain }) => {
+  await initContract(chain)
+  const chosenContract = chain && chain === 'dexon' ? contractDexon : contract
   let challengeRes
   try {
     challengeRes = await getChallenge({
-      contract,
+      contract: chosenContract,
       groupId,
       challenger,
       round
@@ -94,7 +114,7 @@ const fetchGroup = async ({ groupId, challenger }) => {
 }
 
 app.get('/share/:groupId/:address/:round*?', async (req, res) => {
-  let { groupId, address, round } = req.params
+  let { groupId, address, round, chain } = req.params
   const { l } = req.query
   await initContract()
 
@@ -130,7 +150,8 @@ app.get('/share/:groupId/:address/:round*?', async (req, res) => {
     challengeRes = await fetchResChallenge({
       groupId,
       challenger: address,
-      round
+      round,
+      chain
     })
 
     group = await fetchGroup({
@@ -175,14 +196,15 @@ app.get('/share/:groupId/:address/:round*?', async (req, res) => {
 })
 
 app.get('/challenge/:groupId/:address/:round*?', async (req, res) => {
-  let { groupId, address, round } = req.params
+  let { groupId, address, round, chain } = req.params
 
   round = round && !isNaN(round) ? Number(round) : undefined
 
   let challengeRes = await fetchResChallenge({
     groupId,
     challenger: address,
-    round
+    round,
+    chain
   })
   store.dispatch(setChallenge(challengeRes))
 

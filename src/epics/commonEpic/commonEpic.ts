@@ -59,8 +59,10 @@ export const initContractEpic = (
 
         if (typeof web3 === 'undefined' || !process.browser) {
           window.web3 = {}
-        } else if (window.ethereum || web3.currentProvider) {
-          txWeb3 = new Web3(window.ethereum || web3.currentProvider)
+        } else if (window.ethereum || window.dexon || web3.currentProvider) {
+          txWeb3 = new Web3(
+            window.ethereum || window.dexon || web3.currentProvider
+          )
           network = await detectNetwork(txWeb3)
           txContract = newContract(txWeb3)
           window.contract = txContract
