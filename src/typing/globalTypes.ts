@@ -1,5 +1,3 @@
-import { type } from 'os'
-
 export interface ChallengeGroupType {
   id: string
   name: string
@@ -36,3 +34,10 @@ export interface Sponsor {
 }
 
 export type ChainType = 'ethereum' | 'dexon'
+
+export interface RouteParams {
+  address: string
+  groupId: string
+  chain: ChainType
+  round?: number
+}

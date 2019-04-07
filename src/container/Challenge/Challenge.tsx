@@ -21,7 +21,12 @@ import {
   sponserChallenge,
   SponserProp
 } from '@Epics/challengeEpic/action'
-import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
+import {
+  ChallengeType,
+  Sponsor,
+  ChainType,
+  RouteParams
+} from '@Src/typing/globalTypes'
 
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import Transaction from '@Components/Transaction'
@@ -92,11 +97,6 @@ interface ChallengeState {
   sponsorAmount: number
   invalidAddress: boolean
 }
-export interface RouteParams {
-  address: string
-  groupId: string
-  round?: number
-}
 
 const deeplinking = (data: RouteParams) => {
   branch.deepview(
@@ -105,7 +105,7 @@ const deeplinking = (data: RouteParams) => {
       feature: 'deepview',
       $uri_redirect_mode: 2,
       data: {
-        $deeplink_path: `group/${data.groupId}/${data.address}${
+        $deeplink_path: `${data.chain}/group/${data.groupId}/${data.address}${
           data.round ? `/${data.round}` : ''
         }`,
         user_cookie_id: 'coin-challenge',
@@ -155,13 +155,15 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   public fetched: boolean = false
   public sponsorFetched: boolean = false
   public coin: string = 'ETH'
+  public chain: ChainType = 'ethereum'
 
   constructor(props: ChallengeProp) {
     super(props)
     const params = this.props.match.params as RouteParams
     this.address = params.address
     this.groupId = params.groupId
-    this.coin = APP_COIN()
+    this.chain = params.chain
+    this.coin = APP_COIN(this.chain)
     this.round = params.round ? Number(params.round) : undefined
     this.state = {
       sponsors: [],
@@ -203,6 +205,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
 
     if (typeof window !== 'undefined' && isValid) {
       deeplinking({
+        chain: this.chain,
         address: this.address,
         groupId: this.groupId,
         round: this.round
@@ -212,6 +215,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     if (contract) {
       if (!this.fetched) {
         fetchChallenge({
+          chain: this.chain,
           address: this.address,
           groupId: this.groupId,
           round: this.round
@@ -352,7 +356,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
             <meta property='og:description' content={shareDesc} />
             <meta
               property='og:image'
-              content={`${hostUrl()}share/${this.groupId}/${
+              content={`${hostUrl()}${this.chain}/share/${this.groupId}/${
                 this.address
               }?l=${getLang()}`}
             />

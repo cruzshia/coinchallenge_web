@@ -55,12 +55,12 @@ class App extends Component {
             <Switch>
               <Route path='/' exact component={Landing} />
               <Route
-                path='/group/create'
+                path='/:chain/group/create'
                 exact
                 component={CreateChallengeGroup}
               />
               <Route
-                path='/challenge/:groupId/:address/:round?'
+                path='/:chain/challenge/:groupId/:address/:round?'
                 component={Challenge}
               />
               <Route component={() => <Redirect to='/' />} />

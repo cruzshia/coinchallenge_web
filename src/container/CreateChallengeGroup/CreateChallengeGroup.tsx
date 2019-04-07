@@ -4,7 +4,11 @@ import TextField from '@material-ui/core/TextField'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import Contract from 'web3/eth/contract'
-import { ChallengeGroupType } from '@Src/typing/globalTypes'
+import {
+  ChallengeGroupType,
+  ChainType,
+  RouteParams
+} from '@Src/typing/globalTypes'
 import Logo from '@Src/images/logo.png'
 
 import { connect } from 'react-redux'
@@ -125,7 +129,9 @@ const defaultGroupState = {
   minAmount: ''
 }
 
-type CreateChallengeGroupProp = {
+interface CreateChallengeGroupProp
+  extends InjectedIntlProps,
+    RouteComponentProps {
   contract: Contract | null
   isConfirming: boolean
   txHash?: string
@@ -176,13 +182,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     )
   }
 })
+
 class CreateChallengeGroup extends React.Component<
-  CreateChallengeGroupProp & InjectedIntlProps & RouteComponentProps,
+  CreateChallengeGroupProp,
   StateProp
 > {
   static LabelProp = {
     shrink: true
   }
+
+  public chain: ChainType = 'ethereum'
 
   public state = {
     challengeGroup: { ...defaultGroupState } as ChallengeGroupType,
@@ -192,6 +201,12 @@ class CreateChallengeGroup extends React.Component<
     } as ErrorProp,
     agent: '',
     canSend: false
+  }
+
+  constructor(props: CreateChallengeGroupProp) {
+    super(props)
+    const params = this.props.match.params as RouteParams
+    this.chain = params.chain
   }
 
   private onTextChange = (key: keyof ChallengeGroupType) => (
@@ -500,7 +515,7 @@ class CreateChallengeGroup extends React.Component<
             ))}
           </Select>
         </FormControl>
-        {this.errorTxt(error.minAmount, { coin: APP_COIN() })}
+        {this.errorTxt(error.minAmount, { coin: APP_COIN(this.chain) })}
         <TextField
           label={
             <Label text={intl.formatMessage({ id: 'minChallengeAmount' })} />

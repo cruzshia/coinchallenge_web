@@ -113,7 +113,7 @@ const fetchGroup = async ({ groupId, challenger }) => {
   return group
 }
 
-app.get('/share/:groupId/:address/:round*?', async (req, res) => {
+app.get('/:chain/share/:groupId/:address/:round*?', async (req, res) => {
   let { groupId, address, round, chain } = req.params
   const { l } = req.query
   await initContract()
@@ -175,7 +175,7 @@ app.get('/share/:groupId/:address/:round*?', async (req, res) => {
     totalDays: challengeRes.totalDays,
     challenger: address,
     goal: challengeRes.goal,
-    amount: challengeRes.amount + ' ' + APP_COIN()
+    amount: challengeRes.amount + ' ' + APP_COIN(chain)
   }
 
   generateImage({
@@ -195,7 +195,7 @@ app.get('/share/:groupId/:address/:round*?', async (req, res) => {
   })
 })
 
-app.get('/challenge/:groupId/:address/:round*?', async (req, res) => {
+app.get('/:chain/challenge/:groupId/:address/:round*?', async (req, res) => {
   let { groupId, address, round, chain } = req.params
 
   round = round && !isNaN(round) ? Number(round) : undefined
