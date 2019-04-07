@@ -56,6 +56,10 @@ export const detectNetwork = async (web3: Web3 | null) => {
         'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
       contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945'
       break
+    case 238: //'DEXON Test Network'
+      networkAddress = 'ws://testnet.dexon.org:8546'
+      contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945'
+      break
     default:
       networkAddress = 'ws://localhost:7545'
       contractAddress = '0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c'

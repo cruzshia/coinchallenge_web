@@ -35,6 +35,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import web3 from 'web3'
+import { APP_COIN } from '@Src/contants/common'
 
 const Form = styled('form')({
   display: 'flex',
@@ -499,7 +500,7 @@ class CreateChallengeGroup extends React.Component<
             ))}
           </Select>
         </FormControl>
-        {this.errorTxt(error.minAmount, { coin: process.env.REACT_APP_COIN })}
+        {this.errorTxt(error.minAmount, { coin: APP_COIN() })}
         <TextField
           label={
             <Label text={intl.formatMessage({ id: 'minChallengeAmount' })} />

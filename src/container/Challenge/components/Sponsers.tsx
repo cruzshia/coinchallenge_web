@@ -57,7 +57,7 @@ const SponsorTitle = styled('div')({
   }
 })
 
-function Sponsers({ sponsors }: { sponsors: Sponsor[] }) {
+function Sponsers({ sponsors, coin }: { sponsors: Sponsor[]; coin: string }) {
   return (
     <SponserCtr>
       {sponsors.map((sponsor: any, idx: number) => (
@@ -65,8 +65,7 @@ function Sponsers({ sponsors }: { sponsors: Sponsor[] }) {
           <SponsorTitle>
             <Address>{sponsor.who}</Address>
             <CoinTxt>
-              +{Number(web3.utils.fromWei(sponsor.amount))}{' '}
-              {process.env.REACT_APP_COIN}
+              +{Number(web3.utils.fromWei(sponsor.amount))} {coin}
             </CoinTxt>
           </SponsorTitle>
           <div>

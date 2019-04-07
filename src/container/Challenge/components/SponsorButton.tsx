@@ -8,6 +8,8 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import styled from 'styled-components'
 import { InjectedIntl } from 'react-intl'
+import { APP_COIN } from '@Src/contants/common'
+import { ChainType } from '@Src/typing/globalTypes'
 
 const FabCtr = styled('span')({
   display: 'block',
@@ -28,12 +30,11 @@ interface SponsorButtonState {
 }
 
 interface SponsorButtonProp {
+  chain?: ChainType
   onSponsor: Function
   checkWallet: () => boolean
   intl: InjectedIntl
 }
-
-const { REACT_APP_COIN } = process.env
 
 class SponsorButton extends React.PureComponent<
   SponsorButtonProp,
@@ -82,7 +83,7 @@ class SponsorButton extends React.PureComponent<
   }
 
   public render() {
-    const { intl } = this.props
+    const { intl, chain } = this.props
     return (
       <React.Fragment>
         <FabCtr onClick={this.handleOpen}>
@@ -112,7 +113,7 @@ class SponsorButton extends React.PureComponent<
               id='amount'
               label={`${intl.formatMessage({
                 id: 'amount'
-              })} (${REACT_APP_COIN})`}
+              })} (${APP_COIN(chain)})`}
               type='number'
               inputRef={this.amountRef}
               fullWidth

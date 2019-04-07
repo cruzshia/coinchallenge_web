@@ -1,3 +1,5 @@
+import { type } from 'os'
+
 export interface ChallengeGroupType {
   id: string
   name: string
@@ -32,3 +34,5 @@ export interface Sponsor {
   amount: number
   comment: string
 }
+
+export type ChainType = 'ethereum' | 'dexon'

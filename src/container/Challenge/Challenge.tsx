@@ -35,6 +35,8 @@ import {
   canSponsor
 } from '@Src/contracts/contractService'
 
+import { APP_COIN } from '@Src/contants/common'
+
 const ChallengeContainer = styled('div')({
   display: 'flex',
   justifyContent: 'center',
@@ -146,20 +148,20 @@ const mapDispathToProps = (dispatch: Dispatch) => ({
   setPopup: (payload: SetPopProps) => dispatch(setPopup(payload)),
   initContract: () => dispatch(initContract())
 })
-
-const { REACT_APP_COIN = 'ETH' } = process.env
 class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   public address: string = ''
   public groupId: string = ''
   public round: number | undefined = undefined
   public fetched: boolean = false
   public sponsorFetched: boolean = false
+  public coin: string = 'ETH'
 
   constructor(props: ChallengeProp) {
     super(props)
     const params = this.props.match.params as RouteParams
     this.address = params.address
     this.groupId = params.groupId
+    this.coin = APP_COIN()
     this.round = params.round ? Number(params.round) : undefined
     this.state = {
       sponsors: [],
@@ -267,7 +269,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
         popMessage: intl.formatMessage(
           { id: 'min.amount.error' },
           {
-            amount: minAmount + ' ' + REACT_APP_COIN
+            amount: minAmount + ' ' + this.coin
           }
         )
       })
@@ -338,7 +340,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       {
         id: 'shareDesc'
       },
-      { amount: `${amount} ${REACT_APP_COIN}`, totalDays }
+      { amount: `${amount} ${this.coin}`, totalDays }
     )
 
     return (
@@ -374,6 +376,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
               totalDays={totalDays}
               amount={amount}
               invalidAddress={this.state.invalidAddress}
+              coin={this.coin}
             />
             {totalDays && this.canSponsor() ? (
               <SponsorButton
@@ -387,15 +390,16 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
                 <Transaction txHash={txhash} />
               </LoadingBlk>
             ) : null}
-            <Sponsers sponsors={this.state.sponsors} />
+            <Sponsers sponsors={this.state.sponsors} coin={this.coin} />
             <HistoryTimeline
               contract={contract}
               groupId={this.groupId}
               challenger={this.address}
+              coin={this.coin}
             />
           </StyledGridList>
         </ChallengeContainer>
-        <Notifier contract={contract} />
+        <Notifier contract={contract} coin={this.coin} />
       </React.Fragment>
     )
   }

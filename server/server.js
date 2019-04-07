@@ -31,7 +31,7 @@ import {
   getChallengeGroup
 } from '../dist/contracts/contractService'
 
-import { supportLang } from '../dist/contants/common'
+import { supportLang, APP_COIN } from '../dist/contants/common'
 
 import { generateImage, imageDir } from './imageService'
 import Jimp from 'jimp'
@@ -154,7 +154,7 @@ app.get('/share/:groupId/:address/:round*?', async (req, res) => {
     totalDays: challengeRes.totalDays,
     challenger: address,
     goal: challengeRes.goal,
-    amount: challengeRes.amount + ' ' + process.env.REACT_APP_COIN
+    amount: challengeRes.amount + ' ' + APP_COIN()
   }
 
   generateImage({
