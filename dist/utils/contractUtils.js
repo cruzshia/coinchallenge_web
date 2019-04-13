@@ -56,7 +56,7 @@ var detectNetwork =
 function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(web3) {
+  regeneratorRuntime.mark(function _callee(web3, chain) {
     var netId;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -69,7 +69,7 @@ function () {
               break;
             }
 
-            netId = 3;
+            netId = chain === 'dexon' ? 238 : 3;
             _context.next = 8;
             break;
 
@@ -118,7 +118,7 @@ function () {
     }, _callee, this);
   }));
 
-  return function detectNetwork(_x) {
+  return function detectNetwork(_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }();

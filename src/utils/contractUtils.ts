@@ -40,10 +40,10 @@ export const parseChallenge = (response: any): ChallengeType => {
   return challenge
 }
 
-export const detectNetwork = async (web3: Web3 | null) => {
+export const detectNetwork = async (web3: Web3 | null, chain?: string) => {
   let netId = 0
   if (!web3) {
-    netId = 3
+    netId = chain === 'dexon' ? 238 : 3
   } else {
     netId = await web3.eth.net.getId()
   }

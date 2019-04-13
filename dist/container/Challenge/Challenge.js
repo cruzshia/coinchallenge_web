@@ -139,8 +139,8 @@ var mapDispathToProps = function mapDispathToProps(dispatch) {
     setPopup: function setPopup(payload) {
       return dispatch((0, _action.setPopup)(payload));
     },
-    initContract: function initContract() {
-      return dispatch((0, _action.initContract)());
+    initContract: function initContract(chain) {
+      return dispatch((0, _action.initContract)(chain));
     }
   };
 };
@@ -417,7 +417,7 @@ function (_React$Component) {
         location: location,
         match: {}
       });
-      initContract();
+      initContract(this.chain);
       this.checkAndFetch();
     }
   }, {

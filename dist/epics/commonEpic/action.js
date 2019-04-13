@@ -23,9 +23,12 @@ exports.WITHDRAW_BALANCE = WITHDRAW_BALANCE;
 var SET_WITHRAW_RESULT = '@COMMON/SET_WITHRAW_RESULT';
 exports.SET_WITHRAW_RESULT = SET_WITHRAW_RESULT;
 
-var initContract = function initContract() {
+var initContract = function initContract(chain) {
   return {
-    type: INIT_CONTRACT
+    type: INIT_CONTRACT,
+    payload: {
+      chain: chain
+    }
   };
 };
 

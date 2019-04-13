@@ -47,14 +47,16 @@ export const initContractEpic = (
   action$.pipe(
     ofType(INIT_CONTRACT),
     filter(() => state$.value.get('common').get('txContract') === null),
-    switchMap(async () => {
+    switchMap(async (action: Action) => {
       let accounts: string[] = []
       let txWeb3: Web3 | null = null
+
+      const chain = action.payload ? action.payload.chain : 'ethereum'
 
       try {
         let injectProvider
         let txContract = null
-        let network = await detectNetwork(null)
+        let network = await detectNetwork(null, chain)
         let accountBalance = '0'
 
         if (
@@ -67,7 +69,7 @@ export const initContractEpic = (
           txWeb3 = new Web3(
             window.ethereum || window.dexon || web3.currentProvider
           )
-          network = await detectNetwork(txWeb3)
+          network = await detectNetwork(txWeb3, chain)
           txContract = newContract(txWeb3)
           window.contract = txContract
           window.ethereum && (await window.ethereum.enable())

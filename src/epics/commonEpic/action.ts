@@ -14,7 +14,10 @@ export const SET_BALANCE = '@COMMON/SET_BALANCE'
 export const WITHDRAW_BALANCE = '@COMMON/WITHDRAW_BALANCE'
 export const SET_WITHRAW_RESULT = '@COMMON/SET_WITHRAW_RESULT'
 
-export const initContract = () => ({ type: INIT_CONTRACT })
+export const initContract = (chain?: string) => ({
+  type: INIT_CONTRACT,
+  payload: { chain }
+})
 
 export const setContract = (payload: {
   txContract: Contract | null

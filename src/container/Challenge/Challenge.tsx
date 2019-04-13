@@ -89,7 +89,7 @@ interface ChallengeProp
   sponserChallenge: (payload: SponserProp) => void
   setChallengeSponsersAction: (sponsors: Sponsor[]) => void
   setPopup: (payload: SetPopProps) => void
-  initContract: () => void
+  initContract: (chain?: string) => void
 }
 
 interface ChallengeState {
@@ -147,7 +147,7 @@ const mapDispathToProps = (dispatch: Dispatch) => ({
       })
     ),
   setPopup: (payload: SetPopProps) => dispatch(setPopup(payload)),
-  initContract: () => dispatch(initContract())
+  initContract: (chain?: string) => dispatch(initContract(chain))
 })
 class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   public address: string = ''
@@ -307,7 +307,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   public componentDidMount() {
     const { history, location, initContract } = this.props
     changeRoute({ history, location, match: {} })
-    initContract()
+    initContract(this.chain)
     this.checkAndFetch()
   }
 
