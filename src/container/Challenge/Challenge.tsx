@@ -105,11 +105,12 @@ const deeplinking = (data: RouteParams) => {
       feature: 'deepview',
       $uri_redirect_mode: 2,
       data: {
-        $deeplink_path: `${data.chain}/group/${data.groupId}/${data.address}${
-          data.round ? `/${data.round}` : ''
-        }`,
+        $deeplink_path: `challenge/${data.chain}/${data.groupId}/${
+          data.address
+        }${data.round ? `/${data.round}` : ''}`,
         user_cookie_id: 'coin-challenge',
-        ...data
+        ...data,
+        blockchain: data.chain
       }
     },
     {
@@ -356,7 +357,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
             <meta property='og:description' content={shareDesc} />
             <meta
               property='og:image'
-              content={`${hostUrl()}${this.chain}/share/${this.groupId}/${
+              content={`${hostUrl()}share/${this.chain}/${this.groupId}/${
                 this.address
               }?l=${getLang()}`}
             />

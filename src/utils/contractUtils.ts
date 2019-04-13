@@ -61,7 +61,7 @@ export const detectNetwork = async (web3: Web3 | null) => {
       break
     case 238: //'DEXON Test Network'
       networkAddress = 'wss://testnet-rpc.dexon.org/ws'
-      contractAddress = '0xa6EC86ad17f216999E84a7CB3e5109cA1CD99393'
+      contractAddress = '0xF1A996ddb41a2BEFA1459EF0482421f3F2295682'
       break
     default:
       networkAddress = 'ws://localhost:7545'

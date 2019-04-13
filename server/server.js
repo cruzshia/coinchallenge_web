@@ -59,11 +59,11 @@ const initContract = async chain => {
 
   if (chain && chain === 'dexon') {
     const web3 = new Web3(
-      new providers.WebsocketProvider('ws://testnet.dexon.org:8546')
+      new providers.WebsocketProvider('wss://testnet-rpc.dexon.org/ws')
     )
     contractDexon = newContract(
       web3,
-      '0xa6EC86ad17f216999E84a7CB3e5109cA1CD99393'
+      '0xF1A996ddb41a2BEFA1459EF0482421f3F2295682'
     )
   } else {
     const web3 = new Web3(
@@ -100,11 +100,12 @@ const fetchResChallenge = async ({ groupId, challenger, round, chain }) => {
   return challengeRes
 }
 
-const fetchGroup = async ({ groupId, challenger }) => {
+const fetchGroup = async ({ groupId, chain }) => {
   let group
+  const chosenContract = chain && chain === 'dexon' ? contractDexon : contract
   try {
     group = await getChallengeGroup({
-      contract,
+      contract: chosenContract,
       groupId
     })
   } catch (error) {
@@ -113,10 +114,10 @@ const fetchGroup = async ({ groupId, challenger }) => {
   return group
 }
 
-app.get('/:chain/share/:groupId/:address/:round*?', async (req, res) => {
+app.get('/share/:chain/:groupId/:address/:round*?', async (req, res) => {
   let { groupId, address, round, chain } = req.params
   const { l } = req.query
-  await initContract()
+  await initContract(chain)
 
   let exists = false
   let imageName = ''
@@ -155,7 +156,8 @@ app.get('/:chain/share/:groupId/:address/:round*?', async (req, res) => {
     })
 
     group = await fetchGroup({
-      groupId
+      groupId,
+      chain
     })
   } catch (error) {
     res.status(400).send({ error: 'error challenge data' })
@@ -195,7 +197,7 @@ app.get('/:chain/share/:groupId/:address/:round*?', async (req, res) => {
   })
 })
 
-app.get('/:chain/challenge/:groupId/:address/:round*?', async (req, res) => {
+app.get('/challenge/:chain/:groupId/:address/:round*?', async (req, res) => {
   let { groupId, address, round, chain } = req.params
 
   round = round && !isNaN(round) ? Number(round) : undefined
@@ -209,7 +211,8 @@ app.get('/:chain/challenge/:groupId/:address/:round*?', async (req, res) => {
   store.dispatch(setChallenge(challengeRes))
 
   const { name, url, minAmount } = await fetchGroup({
-    groupId
+    groupId,
+    chain
   })
   store.dispatch(
     setChallengeGroup({ groupImage: url, groupName: name, minAmount })
