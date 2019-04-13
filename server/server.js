@@ -31,7 +31,7 @@ import {
   getChallengeGroup
 } from '../dist/contracts/contractService'
 
-import { supportLang } from '../dist/contants/common'
+import { supportLang, APP_COIN } from '../dist/contants/common'
 
 import { generateImage, imageDir } from './imageService'
 import Jimp from 'jimp'
@@ -49,26 +49,46 @@ app.use(morgan('dev'))
 app.use(express.static(path.resolve(__dirname, '../build')))
 
 let contract = null
+let contractDexon = null
 
-const initContract = async () => {
+const isProd = process.env.NETWORK === 'PROD'
+
+const initContract = async chain => {
   // if (contract !== null) return
   const providers = new Web3().providers
-  const web3 = new Web3(
-    new providers.WebsocketProvider(
-      'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
+
+  if (chain && chain === 'dexon') {
+    const web3 = new Web3(
+      new providers.WebsocketProvider('wss://testnet-rpc.dexon.org/ws')
     )
-  )
-  contract = newContract(web3, '0x093240763E9227B30DA751A743B52c0aADC7E945')
+    contractDexon = newContract(
+      web3,
+      '0xF1A996ddb41a2BEFA1459EF0482421f3F2295682'
+    )
+  } else {
+    const web3 = new Web3(
+      new providers.WebsocketProvider(
+        isProd
+          ? 'wss://mainnet.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
+          : 'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
+      )
+    )
+    contract = newContract(
+      web3,
+      isProd
+        ? '0xeEe43e9258D59F118F700aae73a91765A0BD2bcC'
+        : '0x093240763E9227B30DA751A743B52c0aADC7E945'
+    )
+  }
 }
 
-initContract()
-
-const fetchResChallenge = async ({ groupId, challenger, round }) => {
-  await initContract()
+const fetchResChallenge = async ({ groupId, challenger, round, chain }) => {
+  await initContract(chain)
+  const chosenContract = chain && chain === 'dexon' ? contractDexon : contract
   let challengeRes
   try {
     challengeRes = await getChallenge({
-      contract,
+      contract: chosenContract,
       groupId,
       challenger,
       round
@@ -80,11 +100,12 @@ const fetchResChallenge = async ({ groupId, challenger, round }) => {
   return challengeRes
 }
 
-const fetchGroup = async ({ groupId, challenger }) => {
+const fetchGroup = async ({ groupId, chain }) => {
   let group
+  const chosenContract = chain && chain === 'dexon' ? contractDexon : contract
   try {
     group = await getChallengeGroup({
-      contract,
+      contract: chosenContract,
       groupId
     })
   } catch (error) {
@@ -93,10 +114,10 @@ const fetchGroup = async ({ groupId, challenger }) => {
   return group
 }
 
-app.get('/share/:groupId/:address/:round*?', async (req, res) => {
-  let { groupId, address, round } = req.params
+app.get('/share/:chain/:groupId/:address/:round*?', async (req, res) => {
+  let { groupId, address, round, chain } = req.params
   const { l } = req.query
-  await initContract()
+  await initContract(chain)
 
   let exists = false
   let imageName = ''
@@ -130,11 +151,13 @@ app.get('/share/:groupId/:address/:round*?', async (req, res) => {
     challengeRes = await fetchResChallenge({
       groupId,
       challenger: address,
-      round
+      round,
+      chain
     })
 
     group = await fetchGroup({
-      groupId
+      groupId,
+      chain
     })
   } catch (error) {
     res.status(400).send({ error: 'error challenge data' })
@@ -154,7 +177,7 @@ app.get('/share/:groupId/:address/:round*?', async (req, res) => {
     totalDays: challengeRes.totalDays,
     challenger: address,
     goal: challengeRes.goal,
-    amount: challengeRes.amount + ' ' + process.env.REACT_APP_COIN
+    amount: challengeRes.amount + ' ' + APP_COIN(chain)
   }
 
   generateImage({
@@ -174,20 +197,22 @@ app.get('/share/:groupId/:address/:round*?', async (req, res) => {
   })
 })
 
-app.get('/challenge/:groupId/:address/:round*?', async (req, res) => {
-  let { groupId, address, round } = req.params
+app.get('/challenge/:chain/:groupId/:address/:round*?', async (req, res) => {
+  let { groupId, address, round, chain } = req.params
 
   round = round && !isNaN(round) ? Number(round) : undefined
 
   let challengeRes = await fetchResChallenge({
     groupId,
     challenger: address,
-    round
+    round,
+    chain
   })
   store.dispatch(setChallenge(challengeRes))
 
   const { name, url, minAmount } = await fetchGroup({
-    groupId
+    groupId,
+    chain
   })
   store.dispatch(
     setChallengeGroup({ groupImage: url, groupName: name, minAmount })

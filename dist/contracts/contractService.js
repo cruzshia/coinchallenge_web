@@ -455,32 +455,7 @@ function () {
   return function getChallenge(_x14) {
     return _ref13.apply(this, arguments);
   };
-}(); // interface GetSponsorProp {
-//   contract: Contract
-//   groupId: string
-//   address: string
-//   sponsorSize: number
-// }
-// export const getChellengeSponsors = async ({
-//   contract,
-//   groupId,
-//   address,
-//   sponsorSize
-// }: GetSponsorProp) => {
-//   let sponsors: Sponsor[] = []
-//   for (let i = 0; i < sponsorSize; i++) {
-//     const sponsor = await contract.methods
-//       .getSponsor(groupId, address, i)
-//       .call()
-//     sponsors.push({
-//       who: sponsor._who,
-//       amount: sponsor._amount,
-//       comment: sponsor._comment
-//     })
-//   }
-//   return sponsors
-// }
-
+}();
 
 exports.getChallenge = getChallenge;
 

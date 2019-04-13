@@ -64,11 +64,12 @@ var SponsorTitle = (0, _styledComponents.default)('div')(_defineProperty({
 }), _mediaMaxWidth$)));
 
 function Sponsers(_ref) {
-  var sponsors = _ref.sponsors;
+  var sponsors = _ref.sponsors,
+      coin = _ref.coin;
   return _react.default.createElement(SponserCtr, null, sponsors.map(function (sponsor, idx) {
     return _react.default.createElement(BarCtr, {
       key: idx
-    }, _react.default.createElement(SponsorTitle, null, _react.default.createElement(Address, null, sponsor.who), _react.default.createElement(CoinTxt, null, "+", Number(_web.default.utils.fromWei(sponsor.amount)), ' ', process.env.REACT_APP_COIN)), _react.default.createElement("div", null, _react.default.createElement(Comment, null, sponsor.comment)));
+    }, _react.default.createElement(SponsorTitle, null, _react.default.createElement(Address, null, sponsor.who), _react.default.createElement(CoinTxt, null, "+", Number(_web.default.utils.fromWei(sponsor.amount)), " ", coin)), _react.default.createElement("div", null, _react.default.createElement(Comment, null, sponsor.comment)));
   }));
 }
 

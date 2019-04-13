@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.hostUrl = exports.supportLang = exports.breakPoint = void 0;
+exports.APP_COIN = exports.hostUrl = exports.supportLang = exports.breakPoint = void 0;
 var breakPoint = '800px';
 exports.breakPoint = breakPoint;
 var supportLang = ['en', 'zh-TW', 'zh-CN'];
@@ -18,3 +18,9 @@ var hostUrl = function hostUrl() {
 };
 
 exports.hostUrl = hostUrl;
+
+var APP_COIN = function APP_COIN(chain) {
+  return chain && chain === 'dexon' ? 'DXN' : 'ETH';
+};
+
+exports.APP_COIN = APP_COIN;

@@ -106,11 +106,11 @@ function (_Component) {
         exact: true,
         component: _Landing.default
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/group/create",
+        path: "/group/:chain/create",
         exact: true,
         component: _CreateChallengeGroup.default
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/challenge/:groupId/:address/:round?",
+        path: "/challenge/:chain/:groupId/:address/:round?",
         component: _Challenge.default
       }), _react.default.createElement(_reactRouterDom.Route, {
         component: function component() {

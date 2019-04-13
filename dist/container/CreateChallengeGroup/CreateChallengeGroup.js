@@ -41,6 +41,8 @@ var _OutlinedInput = _interopRequireDefault(require("@material-ui/core/OutlinedI
 
 var _web = _interopRequireDefault(require("web3"));
 
+var _common = require("../../contants/common");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -187,18 +189,14 @@ var CreateChallengeGroup =
 function (_React$Component) {
   _inherits(CreateChallengeGroup, _React$Component);
 
-  function CreateChallengeGroup() {
-    var _getPrototypeOf2;
-
+  function CreateChallengeGroup(_props) {
     var _this;
 
     _classCallCheck(this, CreateChallengeGroup);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CreateChallengeGroup).call(this, _props));
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(CreateChallengeGroup)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "chain", 'ethereum');
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
       challengeGroup: _objectSpread({}, defaultGroupState),
@@ -361,6 +359,8 @@ function (_React$Component) {
       return null;
     });
 
+    var params = _this.props.match.params;
+    _this.chain = params.chain;
     return _this;
   }
 
@@ -527,7 +527,7 @@ function (_React$Component) {
           value: index + 1
         }, index + 1);
       }))), this.errorTxt(error.minAmount, {
-        coin: process.env.REACT_APP_COIN
+        coin: (0, _common.APP_COIN)(this.chain)
       }), _react.default.createElement(_TextField.default, {
         label: _react.default.createElement(Label, {
           text: intl.formatMessage({

@@ -102,9 +102,11 @@ var deeplinking = function deeplinking(data) {
     feature: 'deepview',
     $uri_redirect_mode: 2,
     data: _objectSpread({
-      $deeplink_path: "group/".concat(data.groupId, "/").concat(data.address).concat(data.round ? "/".concat(data.round) : ''),
+      $deeplink_path: "challenge/".concat(data.chain, "/").concat(data.groupId, "/").concat(data.address).concat(data.round ? "/".concat(data.round) : ''),
       user_cookie_id: 'coin-challenge'
-    }, data)
+    }, data, {
+      blockchain: data.chain
+    })
   }, {
     open_app: true
   });
@@ -143,9 +145,6 @@ var mapDispathToProps = function mapDispathToProps(dispatch) {
   };
 };
 
-var _process$env$REACT_AP = process.env.REACT_APP_COIN,
-    REACT_APP_COIN = _process$env$REACT_AP === void 0 ? 'ETH' : _process$env$REACT_AP;
-
 var Challenge =
 /*#__PURE__*/
 function (_React$Component) {
@@ -167,6 +166,10 @@ function (_React$Component) {
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "fetched", false);
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "sponsorFetched", false);
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "coin", 'ETH');
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "chain", 'ethereum');
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onNewSponsor", function (sponsor) {
       var sponsors = _this.state.sponsors;
@@ -217,7 +220,7 @@ function (_React$Component) {
                     popMessage: intl.formatMessage({
                       id: 'min.amount.error'
                     }, {
-                      amount: minAmount + ' ' + REACT_APP_COIN
+                      amount: minAmount + ' ' + _this.coin
                     })
                   });
                 } else {
@@ -283,6 +286,8 @@ function (_React$Component) {
     var params = _this.props.match.params;
     _this.address = params.address;
     _this.groupId = params.groupId;
+    _this.chain = params.chain;
+    _this.coin = (0, _common.APP_COIN)(_this.chain);
     _this.round = params.round ? Number(params.round) : undefined;
     _this.state = {
       sponsors: [],
@@ -329,6 +334,7 @@ function (_React$Component) {
               case 9:
                 if (typeof window !== 'undefined' && isValid) {
                   deeplinking({
+                    chain: this.chain,
                     address: this.address,
                     groupId: this.groupId,
                     round: this.round
@@ -346,6 +352,7 @@ function (_React$Component) {
                 }
 
                 fetchChallenge({
+                  chain: this.chain,
                   address: this.address,
                   groupId: this.groupId,
                   round: this.round
@@ -442,7 +449,7 @@ function (_React$Component) {
       var shareDesc = intl.formatMessage({
         id: 'shareDesc'
       }, {
-        amount: "".concat(amount, " ").concat(REACT_APP_COIN),
+        amount: "".concat(amount, " ").concat(this.coin),
         totalDays: totalDays
       });
       return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(ChallengeContainer, null, _react.default.createElement(_reactHelmet.Helmet, null, _react.default.createElement("title", null, title), _react.default.createElement("meta", {
@@ -453,7 +460,7 @@ function (_React$Component) {
         content: shareDesc
       }), _react.default.createElement("meta", {
         property: "og:image",
-        content: "".concat((0, _common.hostUrl)(), "share/").concat(this.groupId, "/").concat(this.address, "?l=").concat((0, _translation.getLang)())
+        content: "".concat((0, _common.hostUrl)(), "share/").concat(this.chain, "/").concat(this.groupId, "/").concat(this.address, "?l=").concat((0, _translation.getLang)())
       }), _react.default.createElement("meta", {
         property: "og:site_name",
         content: "CoinChallengs"
@@ -480,7 +487,8 @@ function (_React$Component) {
         targetDays: targetDays,
         totalDays: totalDays,
         amount: amount,
-        invalidAddress: this.state.invalidAddress
+        invalidAddress: this.state.invalidAddress,
+        coin: this.coin
       }), totalDays && this.canSponsor() ? _react.default.createElement(_SponsorButton.default, {
         onSponsor: this.onSponsor,
         checkWallet: this.checkWallet,
@@ -488,13 +496,16 @@ function (_React$Component) {
       }) : null, isCofirmingSponsor ? _react.default.createElement(LoadingBlk, null, _react.default.createElement(_Transaction.default, {
         txHash: txhash
       })) : null, _react.default.createElement(_Sponsers.default, {
-        sponsors: this.state.sponsors
+        sponsors: this.state.sponsors,
+        coin: this.coin
       }), _react.default.createElement(_HistoryTimeline.default, {
         contract: contract,
         groupId: this.groupId,
-        challenger: this.address
+        challenger: this.address,
+        coin: this.coin
       }))), _react.default.createElement(_Notifier.default, {
-        contract: contract
+        contract: contract,
+        coin: this.coin
       }));
     }
   }]);

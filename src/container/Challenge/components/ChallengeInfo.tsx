@@ -100,9 +100,8 @@ interface ChallengeInfoProp extends InjectedIntlProps, WithStyles {
   totalDays: number
   amount: number
   invalidAddress: boolean
+  coin: string
 }
-
-const { REACT_APP_COIN } = process.env
 
 function ChallengeInfo({
   address,
@@ -111,13 +110,14 @@ function ChallengeInfo({
   targetDays,
   amount,
   intl,
-  invalidAddress
+  invalidAddress,
+  coin
 }: ChallengeInfoProp) {
   return (
     <InfoBlk>
       <Address>{invalidAddress ? '--' : address}</Address>
       <Amount>
-        {Number(amount)} {REACT_APP_COIN}
+        {Number(amount)} {coin}
       </Amount>
       <StyledInfoCtr>
         <Grid>

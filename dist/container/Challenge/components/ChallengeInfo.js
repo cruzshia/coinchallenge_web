@@ -98,7 +98,6 @@ var Amount = (0, _styledComponents.default)('div')({
 var StyledInfoCtr = (0, _styledComponents.default)('div')(_templateObject(), function (props) {
   return props.bgcolor ? props.bgcolor : _themeColor.APP_LIGHT_BG;
 }, _common.breakPoint, StyledFont);
-var REACT_APP_COIN = process.env.REACT_APP_COIN;
 
 function ChallengeInfo(_ref) {
   var address = _ref.address,
@@ -107,8 +106,9 @@ function ChallengeInfo(_ref) {
       targetDays = _ref.targetDays,
       amount = _ref.amount,
       intl = _ref.intl,
-      invalidAddress = _ref.invalidAddress;
-  return _react.default.createElement(InfoBlk, null, _react.default.createElement(Address, null, invalidAddress ? '--' : address), _react.default.createElement(Amount, null, Number(amount), " ", REACT_APP_COIN), _react.default.createElement(StyledInfoCtr, null, _react.default.createElement(Grid, null, _react.default.createElement(StyledFont, null, completeDays, "/", totalDays), _react.default.createElement(StyledUnitFont, null, " ", intl.formatMessage({
+      invalidAddress = _ref.invalidAddress,
+      coin = _ref.coin;
+  return _react.default.createElement(InfoBlk, null, _react.default.createElement(Address, null, invalidAddress ? '--' : address), _react.default.createElement(Amount, null, Number(amount), " ", coin), _react.default.createElement(StyledInfoCtr, null, _react.default.createElement(Grid, null, _react.default.createElement(StyledFont, null, completeDays, "/", totalDays), _react.default.createElement(StyledUnitFont, null, " ", intl.formatMessage({
     id: 'days'
   }))), _react.default.createElement(Grid, null, _react.default.createElement(CrowdCtr, null, _react.default.createElement(StyledUnitFont, null, intl.formatMessage({
     id: 'achieve'

@@ -115,8 +115,6 @@ var LangMenu = [{
   value: _common.supportLang[2],
   title: '简体中文'
 }];
-var _process$env$REACT_AP = process.env.REACT_APP_COIN,
-    REACT_APP_COIN = _process$env$REACT_AP === void 0 ? 'ETH' : _process$env$REACT_AP;
 
 var ButtonAppBar =
 /*#__PURE__*/
@@ -135,6 +133,8 @@ function (_PureComponent) {
     }
 
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ButtonAppBar)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "chain", _this.props.location.pathname.indexOf('dexon') > -1 ? 'dexon' : 'ethereum');
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
       anchorEl: null,
@@ -204,7 +204,7 @@ function (_PureComponent) {
         id: "project-header"
       }, _react.default.createElement("h1", null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
-      }, this.props.title), Number(balance) > 0 && !isWithrawing ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(Balance, null, formatBalance, " ", REACT_APP_COIN), _react.default.createElement(MonetizationOnIcon, {
+      }, this.props.title), Number(balance) > 0 && !isWithrawing ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(Balance, null, formatBalance, " ", (0, _common.APP_COIN)(this.chain)), _react.default.createElement(MonetizationOnIcon, {
         onClick: this.onOpenWithdraw
       })) : null, _react.default.createElement(LangIcon, {
         onClick: this.handeClick
@@ -237,7 +237,7 @@ function (_PureComponent) {
       }, intl.formatMessage({
         id: 'withdraw.confirm.desc'
       }, {
-        balance: "".concat(formatBalance, " ").concat(REACT_APP_COIN)
+        balance: "".concat(formatBalance, " ").concat((0, _common.APP_COIN)(this.chain))
       }))), _react.default.createElement(_DialogActions.default, null, _react.default.createElement(_Button.default, {
         onClick: this.onCloseWithraw,
         color: "primary"

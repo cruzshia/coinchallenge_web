@@ -112,7 +112,10 @@
         "webpack": "4.19.1",
         "webpack-dev-server": "3.1.9",
         "webpack-manifest-plugin": "2.0.4",
-        "workbox-webpack-plugin": "3.6.3"
+        "workbox-webpack-plugin": "3.6.3",
+        "@babel/cli": "^7.2.3",
+        "babel-plugin-module-alias": "^1.6.0",
+        "babel-plugin-styled-components": "^1.10.0"
     },
     "scripts": {
         "start": "PORT=4000 node scripts/start.js",
@@ -120,6 +123,7 @@
         "test": "node scripts/test.js",
         "build-prod": "npm run build && npm run compile",
         "serve": "cross-env NODE_ENV=production REACT_APP_COIN=ETH node ./server/index.js",
+        "serve-prod": "NETWORK=PROD npm run serve",
         "clean": "rm -rf ./dist",
         "compile": "npm run clean && ./node_modules/.bin/babel -d ./dist ./src --copy-files --extensions '.ts','.tsx','.js'"
     },
@@ -172,10 +176,5 @@
             "jsx",
             "node"
         ]
-    },
-    "devDependencies": {
-        "@babel/cli": "^7.2.3",
-        "babel-plugin-module-alias": "^1.6.0",
-        "babel-plugin-styled-components": "^1.10.0"
     }
 }

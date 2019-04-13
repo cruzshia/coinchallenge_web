@@ -164,7 +164,9 @@ function (_React$PureComponent) {
   }, {
     key: "render",
     value: function render() {
-      var intl = this.props.intl;
+      var _this$props2 = this.props,
+          intl = _this$props2.intl,
+          coin = _this$props2.coin;
       var challenges = this.state.challenges;
 
       if (!challenges.length) {
@@ -179,7 +181,7 @@ function (_React$PureComponent) {
           key: "history-".concat(idx)
         }, _react.default.createElement("div", null, (0, _moment.default)(challenge.startTimestamp * 1000).format(intl.formatMessage({
           id: 'challenge.history.date.formate'
-        })), _react.default.createElement("br", null), _react.default.createElement(Amount, null, Number((0, _utils.formatNumber)(Number(_web.default.utils.fromWei(challenge.amount)))), ' ', process.env.REACT_APP_COIN)), _react.default.createElement(ResultText, {
+        })), _react.default.createElement("br", null), _react.default.createElement(Amount, null, Number((0, _utils.formatNumber)(Number(_web.default.utils.fromWei(challenge.amount)))), ' ', coin)), _react.default.createElement(ResultText, {
           style: {
             color: STATUS_COLOR[status]
           }

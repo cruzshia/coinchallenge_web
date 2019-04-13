@@ -51,7 +51,6 @@ var style = {
     maxWidth: '85%'
   }
 };
-var REACT_APP_COIN = process.env.REACT_APP_COIN;
 
 var Notifier =
 /*#__PURE__*/
@@ -103,12 +102,13 @@ function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "insertEvent", function (props) {
+      var coin = _this.props.coin;
       var proposer = props.proposer,
           amount = props.amount;
 
       _this.queue.push({
         key: Math.random(),
-        message: _react.default.createElement("span", null, proposer, " has created a challenge with", ' ', _react.default.createElement(StyledTxt, null, Number(_web.default.utils.fromWei(amount))), REACT_APP_COIN)
+        message: _react.default.createElement("span", null, proposer, " has created a challenge with", ' ', _react.default.createElement(StyledTxt, null, Number(_web.default.utils.fromWei(amount))), coin)
       });
 
       _this.processQueue();

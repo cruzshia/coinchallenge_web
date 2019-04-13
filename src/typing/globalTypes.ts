@@ -32,3 +32,12 @@ export interface Sponsor {
   amount: number
   comment: string
 }
+
+export type ChainType = 'ethereum' | 'dexon'
+
+export interface RouteParams {
+  address: string
+  groupId: string
+  chain: ChainType
+  round?: number
+}

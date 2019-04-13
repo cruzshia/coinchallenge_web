@@ -57,20 +57,27 @@ export const initContractEpic = (
         let network = await detectNetwork(null)
         let accountBalance = '0'
 
-        if (typeof web3 === 'undefined' || !process.browser) {
+        if (
+          (typeof web3 === 'undefined' || !process.browser) &&
+          !window.dexon
+        ) {
           window.web3 = {}
-        } else if (window.ethereum || web3.currentProvider) {
-          txWeb3 = new Web3(window.ethereum || web3.currentProvider)
+        } else if (window.ethereum || window.dexon || web3.currentProvider) {
+          window.web3 = window.web3 || {}
+          txWeb3 = new Web3(
+            window.ethereum || window.dexon || web3.currentProvider
+          )
           network = await detectNetwork(txWeb3)
           txContract = newContract(txWeb3)
           window.contract = txContract
-          await window.ethereum.enable()
+          window.ethereum && (await window.ethereum.enable())
+          window.dexon && (await window.dexon.enable())
         }
 
         const providers = new Web3().providers
         injectProvider = new providers.WebsocketProvider(network)
-
         web3 = new Web3(injectProvider)
+
         try {
           accounts = txWeb3
             ? await txWeb3.eth.getAccounts()

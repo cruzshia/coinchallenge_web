@@ -32,12 +32,12 @@ const style = {
   }
 }
 
-const { REACT_APP_COIN } = process.env
+interface NotifierProps extends WithStyles {
+  contract: Contract | null
+  coin: string
+}
 
-class Notifier extends React.Component<
-  { contract: Contract | null } & WithStyles,
-  NotifierState
-> {
+class Notifier extends React.Component<NotifierProps, NotifierState> {
   private queue: Array<MessageProp> = []
   private registered: boolean = false
 
@@ -67,6 +67,7 @@ class Notifier extends React.Component<
   }
 
   private insertEvent = (props: ChallengeEvent) => {
+    const { coin } = this.props
     const { proposer, amount } = props
     this.queue.push({
       key: Math.random(),
@@ -74,7 +75,7 @@ class Notifier extends React.Component<
         <span>
           {proposer} has created a challenge with{' '}
           <StyledTxt>{Number(web3.utils.fromWei(amount))}</StyledTxt>
-          {REACT_APP_COIN}
+          {coin}
         </span>
       )
     })

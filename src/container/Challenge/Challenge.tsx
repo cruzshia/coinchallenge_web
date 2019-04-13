@@ -21,7 +21,12 @@ import {
   sponserChallenge,
   SponserProp
 } from '@Epics/challengeEpic/action'
-import { ChallengeType, Sponsor } from '@Src/typing/globalTypes'
+import {
+  ChallengeType,
+  Sponsor,
+  ChainType,
+  RouteParams
+} from '@Src/typing/globalTypes'
 
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import Transaction from '@Components/Transaction'
@@ -34,6 +39,8 @@ import {
   getPastSponsor,
   canSponsor
 } from '@Src/contracts/contractService'
+
+import { APP_COIN } from '@Src/contants/common'
 
 const ChallengeContainer = styled('div')({
   display: 'flex',
@@ -90,11 +97,6 @@ interface ChallengeState {
   sponsorAmount: number
   invalidAddress: boolean
 }
-export interface RouteParams {
-  address: string
-  groupId: string
-  round?: number
-}
 
 const deeplinking = (data: RouteParams) => {
   branch.deepview(
@@ -103,11 +105,12 @@ const deeplinking = (data: RouteParams) => {
       feature: 'deepview',
       $uri_redirect_mode: 2,
       data: {
-        $deeplink_path: `group/${data.groupId}/${data.address}${
-          data.round ? `/${data.round}` : ''
-        }`,
+        $deeplink_path: `challenge/${data.chain}/${data.groupId}/${
+          data.address
+        }${data.round ? `/${data.round}` : ''}`,
         user_cookie_id: 'coin-challenge',
-        ...data
+        ...data,
+        blockchain: data.chain
       }
     },
     {
@@ -146,20 +149,22 @@ const mapDispathToProps = (dispatch: Dispatch) => ({
   setPopup: (payload: SetPopProps) => dispatch(setPopup(payload)),
   initContract: () => dispatch(initContract())
 })
-
-const { REACT_APP_COIN = 'ETH' } = process.env
 class Challenge extends React.Component<ChallengeProp, ChallengeState> {
   public address: string = ''
   public groupId: string = ''
   public round: number | undefined = undefined
   public fetched: boolean = false
   public sponsorFetched: boolean = false
+  public coin: string = 'ETH'
+  public chain: ChainType = 'ethereum'
 
   constructor(props: ChallengeProp) {
     super(props)
     const params = this.props.match.params as RouteParams
     this.address = params.address
     this.groupId = params.groupId
+    this.chain = params.chain
+    this.coin = APP_COIN(this.chain)
     this.round = params.round ? Number(params.round) : undefined
     this.state = {
       sponsors: [],
@@ -201,6 +206,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
 
     if (typeof window !== 'undefined' && isValid) {
       deeplinking({
+        chain: this.chain,
         address: this.address,
         groupId: this.groupId,
         round: this.round
@@ -210,6 +216,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     if (contract) {
       if (!this.fetched) {
         fetchChallenge({
+          chain: this.chain,
           address: this.address,
           groupId: this.groupId,
           round: this.round
@@ -267,7 +274,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
         popMessage: intl.formatMessage(
           { id: 'min.amount.error' },
           {
-            amount: minAmount + ' ' + REACT_APP_COIN
+            amount: minAmount + ' ' + this.coin
           }
         )
       })
@@ -338,7 +345,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
       {
         id: 'shareDesc'
       },
-      { amount: `${amount} ${REACT_APP_COIN}`, totalDays }
+      { amount: `${amount} ${this.coin}`, totalDays }
     )
 
     return (
@@ -350,7 +357,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
             <meta property='og:description' content={shareDesc} />
             <meta
               property='og:image'
-              content={`${hostUrl()}share/${this.groupId}/${
+              content={`${hostUrl()}share/${this.chain}/${this.groupId}/${
                 this.address
               }?l=${getLang()}`}
             />
@@ -374,6 +381,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
               totalDays={totalDays}
               amount={amount}
               invalidAddress={this.state.invalidAddress}
+              coin={this.coin}
             />
             {totalDays && this.canSponsor() ? (
               <SponsorButton
@@ -387,15 +395,16 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
                 <Transaction txHash={txhash} />
               </LoadingBlk>
             ) : null}
-            <Sponsers sponsors={this.state.sponsors} />
+            <Sponsers sponsors={this.state.sponsors} coin={this.coin} />
             <HistoryTimeline
               contract={contract}
               groupId={this.groupId}
               challenger={this.address}
+              coin={this.coin}
             />
           </StyledGridList>
         </ChallengeContainer>
-        <Notifier contract={contract} />
+        <Notifier contract={contract} coin={this.coin} />
       </React.Fragment>
     )
   }

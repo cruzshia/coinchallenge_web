@@ -22,6 +22,7 @@ interface HistoryProp extends InjectedIntlProps {
   contract: Contract | null
   challenger: string
   groupId: string
+  coin: string
 }
 
 interface HistoryState {
@@ -89,7 +90,7 @@ class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
     }
   }
   public render() {
-    const { intl } = this.props
+    const { intl, coin } = this.props
     const { challenges } = this.state
     if (!challenges.length) {
       return null
@@ -116,7 +117,7 @@ class HistoryTimeline extends React.PureComponent<HistoryProp, HistoryState> {
                   {Number(
                     formatNumber(Number(web3.utils.fromWei(challenge.amount)))
                   )}{' '}
-                  {process.env.REACT_APP_COIN}
+                  {coin}
                 </Amount>
               </div>
               <ResultText style={{ color: STATUS_COLOR[status] }}>

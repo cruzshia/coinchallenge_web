@@ -23,6 +23,8 @@ var _DialogTitle = _interopRequireDefault(require("@material-ui/core/DialogTitle
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
+var _common = require("../../../contants/common");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -56,7 +58,6 @@ var FabCtr = (0, _styledComponents.default)('span')({
     lineHeight: '45px'
   }
 });
-var REACT_APP_COIN = process.env.REACT_APP_COIN;
 
 var SponsorButton =
 /*#__PURE__*/
@@ -131,7 +132,9 @@ function (_React$PureComponent) {
   _createClass(SponsorButton, [{
     key: "render",
     value: function render() {
-      var intl = this.props.intl;
+      var _this$props = this.props,
+          intl = _this$props.intl,
+          chain = _this$props.chain;
       return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(FabCtr, {
         onClick: this.handleOpen
       }, _react.default.createElement(_Button.default, {
@@ -160,7 +163,7 @@ function (_React$PureComponent) {
         id: "amount",
         label: "".concat(intl.formatMessage({
           id: 'amount'
-        }), " (").concat(REACT_APP_COIN, ")"),
+        }), " (").concat((0, _common.APP_COIN)(chain), ")"),
         type: "number",
         inputRef: this.amountRef,
         fullWidth: true

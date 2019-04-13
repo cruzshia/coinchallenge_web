@@ -24,6 +24,8 @@ import { injectIntl, InjectedIntlProps } from 'react-intl'
 import { Dispatch } from 'redux'
 import { withdrawBalance } from '@Epics/commonEpic/action'
 import Web3 from 'web3'
+import { APP_COIN } from '@Src/contants/common'
+import { ChainType } from '@Src/typing/globalTypes'
 
 const StyledAppBar = styled(AppBar)({
   width: '100vw',
@@ -91,8 +93,9 @@ const LangMenu = [
   }
 ]
 
-const { REACT_APP_COIN = 'ETH' } = process.env
 class ButtonAppBar extends PureComponent<BarProp, BarState> {
+  public chain: ChainType =
+    this.props.location.pathname.indexOf('dexon') > -1 ? 'dexon' : 'ethereum'
   public state = {
     anchorEl: null,
     openWithdraw: false,
@@ -150,7 +153,7 @@ class ButtonAppBar extends PureComponent<BarProp, BarState> {
           {Number(balance) > 0 && !isWithrawing ? (
             <React.Fragment>
               <Balance>
-                {formatBalance} {REACT_APP_COIN}
+                {formatBalance} {APP_COIN(this.chain)}
               </Balance>
               <MonetizationOnIcon onClick={this.onOpenWithdraw} />
             </React.Fragment>
@@ -190,7 +193,7 @@ class ButtonAppBar extends PureComponent<BarProp, BarState> {
               {intl.formatMessage(
                 { id: 'withdraw.confirm.desc' },
                 {
-                  balance: `${formatBalance} ${REACT_APP_COIN}`
+                  balance: `${formatBalance} ${APP_COIN(this.chain)}`
                 }
               )}
             </DialogContentText>
