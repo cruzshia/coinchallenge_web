@@ -57,6 +57,7 @@ export const initContractEpic = (
         let injectProvider
         let txContract = null
         let network = await detectNetwork(null, chain)
+        let txNetwork = network
         let accountBalance = '0'
 
         if (
@@ -69,7 +70,7 @@ export const initContractEpic = (
           txWeb3 = new Web3(
             window.ethereum || window.dexon || web3.currentProvider
           )
-          network = await detectNetwork(txWeb3, chain)
+          txNetwork = await detectNetwork(txWeb3, chain)
           txContract = newContract(txWeb3)
           window.contract = txContract
           window.ethereum && (await window.ethereum.enable())
