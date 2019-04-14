@@ -57,60 +57,62 @@ function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(web3, chain) {
-    var netId;
+    var netId, isDexon;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             netId = 0;
+            chain = chain || 'ethereum';
+            isDexon = chain === 'dexon';
 
             if (web3) {
-              _context.next = 5;
+              _context.next = 7;
               break;
             }
 
-            netId = chain === 'dexon' ? 238 : 3;
-            _context.next = 8;
+            netId = isDexon ? 238 : 3;
+            _context.next = 10;
             break;
-
-          case 5:
-            _context.next = 7;
-            return web3.eth.net.getId();
 
           case 7:
+            _context.next = 9;
+            return web3.eth.net.getId();
+
+          case 9:
             netId = _context.sent;
 
-          case 8:
+          case 10:
             _context.t0 = netId;
-            _context.next = _context.t0 === 1 ? 11 : _context.t0 === 3 ? 14 : _context.t0 === 238 ? 17 : 20;
+            _context.next = _context.t0 === 1 ? 13 : _context.t0 === 3 ? 16 : _context.t0 === 238 ? 19 : 22;
             break;
 
-          case 11:
+          case 13:
             //main net
             networkAddress = 'wss://mainnet.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
-            contractAddress = '0xeEe43e9258D59F118F700aae73a91765A0BD2bcC';
-            return _context.abrupt("break", 22);
+            CHAIN_ADDRESS[chain]('PROD');
+            return _context.abrupt("break", 24);
 
-          case 14:
+          case 16:
             //ropsten
             networkAddress = 'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
-            contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945';
-            return _context.abrupt("break", 22);
+            CHAIN_ADDRESS[chain]('TEST');
+            return _context.abrupt("break", 24);
 
-          case 17:
+          case 19:
             //'DEXON Test Network'
             networkAddress = 'wss://testnet-rpc.dexon.org/ws';
-            contractAddress = '0xF1A996ddb41a2BEFA1459EF0482421f3F2295682';
-            return _context.abrupt("break", 22);
-
-          case 20:
-            networkAddress = 'ws://localhost:7545';
-            contractAddress = '0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c';
+            CHAIN_ADDRESS[chain]('TEST');
+            return _context.abrupt("break", 24);
 
           case 22:
+            networkAddress = 'ws://localhost:7545';
+            CHAIN_ADDRESS[chain]('LOCAL');
+
+          case 24:
             return _context.abrupt("return", networkAddress);
 
-          case 23:
+          case 25:
           case "end":
             return _context.stop();
         }
@@ -124,3 +126,38 @@ function () {
 }();
 
 exports.detectNetwork = detectNetwork;
+
+var getContract = function getContract(env) {
+  switch (env) {
+    case 'PROD':
+      contractAddress = '0xeEe43e9258D59F118F700aae73a91765A0BD2bcC';
+      break;
+
+    case 'TEST':
+      contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945';
+      break;
+
+    default:
+      contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945';
+  }
+};
+
+var getDexonContract = function getDexonContract(env) {
+  switch (env) {
+    case 'PROD':
+      contractAddress = '';
+      break;
+
+    case 'TEST':
+      contractAddress = '0xF1A996ddb41a2BEFA1459EF0482421f3F2295682';
+      break;
+
+    default:
+      contractAddress = '0xF1A996ddb41a2BEFA1459EF0482421f3F2295682';
+  }
+};
+
+var CHAIN_ADDRESS = {
+  ethereum: getContract,
+  dexon: getDexonContract
+};
