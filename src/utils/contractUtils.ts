@@ -1,6 +1,7 @@
 import Web3 from 'web3'
 import CoinChallengs from '@Src/contracts/CoinChallenges.json'
 import { ChallengeType } from '@Src/typing/globalTypes'
+import { isDexon } from '@Src/utils'
 
 let networkAddress =
   'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
@@ -43,9 +44,8 @@ export const parseChallenge = (response: any): ChallengeType => {
 export const detectNetwork = async (web3: Web3 | null, chain?: string) => {
   let netId = 0
   chain = chain || 'ethereum'
-  const isDexon = chain === 'dexon'
   if (!web3) {
-    netId = isDexon ? 238 : 3
+    netId = isDexon(chain) ? 238 : 3
   } else {
     netId = await web3.eth.net.getId()
   }

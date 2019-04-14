@@ -79,7 +79,7 @@ var commonReducer = function commonReducer() {
 
     case _action.CHECK_WALLET:
       if (state.get('txContract') === null) {
-        var url = (0, _utils.getMetmaskUrl)();
+        var url = (0, _utils.isDexon)(action.payload && action.payload.chain) ? 'https://dexon.org/faucet' : (0, _utils.getMetmaskUrl)();
 
         if (state.get('accounts').length === 0) {
           return state.merge({

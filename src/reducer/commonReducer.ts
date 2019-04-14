@@ -12,7 +12,7 @@ import {
   SET_CREATE_RESULT
 } from '@Epics/challengeGroupEpic/action'
 import Contract from 'web3/eth/contract'
-import { getMetmaskUrl } from '@Src/utils'
+import { getMetmaskUrl, isDexon } from '@Src/utils'
 import { Record, RecordOf } from 'immutable'
 
 export type CommonState = {
@@ -107,7 +107,9 @@ const commonReducer = (state = initialState, action: Action) => {
       })
     case CHECK_WALLET:
       if (state.get('txContract') === null) {
-        const url = getMetmaskUrl()
+        const url = isDexon(action.payload && action.payload.chain)
+          ? 'https://dexon.org/faucet'
+          : getMetmaskUrl()
         if (state.get('accounts').length === 0) {
           return state.merge({
             showPop: true,

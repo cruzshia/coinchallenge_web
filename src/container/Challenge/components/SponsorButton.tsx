@@ -32,7 +32,7 @@ interface SponsorButtonState {
 interface SponsorButtonProp {
   chain?: ChainType
   onSponsor: Function
-  checkWallet: () => boolean
+  checkWallet: (chain?: string) => boolean
   intl: InjectedIntl
 }
 
@@ -75,7 +75,7 @@ class SponsorButton extends React.PureComponent<
   }
 
   private handleOpen = () => {
-    const open = this.props.checkWallet()
+    const open = this.props.checkWallet(this.props.chain)
     open &&
       this.setState({
         open: true

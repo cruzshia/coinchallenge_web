@@ -90,3 +90,5 @@ export const changeRoute = ({ location, history }: ChangeRoute) => {
     history.replace(location.pathname + `?l=${parseLangPath(location.search)}`)
   }
 }
+
+export const isDexon = (chain?: string) => chain === 'dexon'

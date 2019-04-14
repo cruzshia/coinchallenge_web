@@ -46,7 +46,10 @@ export const setPopup = (payload: SetPopProps) => ({
   }
 })
 
-export const checkWallet = () => ({ type: CHECK_WALLET })
+export const checkWallet = (chain?: string) => ({
+  type: CHECK_WALLET,
+  payload: chain
+})
 
 export interface SetConfirmProp {
   isConfirming: boolean

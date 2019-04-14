@@ -56,9 +56,10 @@ var setPopup = function setPopup(payload) {
 
 exports.setPopup = setPopup;
 
-var checkWallet = function checkWallet() {
+var checkWallet = function checkWallet(chain) {
   return {
-    type: CHECK_WALLET
+    type: CHECK_WALLET,
+    payload: chain
   };
 };
 

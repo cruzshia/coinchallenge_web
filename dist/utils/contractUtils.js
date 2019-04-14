@@ -9,6 +9,8 @@ var _web = _interopRequireDefault(require("web3"));
 
 var _CoinChallenges = _interopRequireDefault(require("../contracts/CoinChallenges.json"));
 
+var _ = require("./");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -57,62 +59,61 @@ function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(web3, chain) {
-    var netId, isDexon;
+    var netId;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             netId = 0;
             chain = chain || 'ethereum';
-            isDexon = chain === 'dexon';
 
             if (web3) {
-              _context.next = 7;
+              _context.next = 6;
               break;
             }
 
-            netId = isDexon ? 238 : 3;
-            _context.next = 10;
+            netId = (0, _.isDexon)(chain) ? 238 : 3;
+            _context.next = 9;
             break;
 
-          case 7:
-            _context.next = 9;
+          case 6:
+            _context.next = 8;
             return web3.eth.net.getId();
 
-          case 9:
+          case 8:
             netId = _context.sent;
 
-          case 10:
+          case 9:
             _context.t0 = netId;
-            _context.next = _context.t0 === 1 ? 13 : _context.t0 === 3 ? 16 : _context.t0 === 238 ? 19 : 22;
+            _context.next = _context.t0 === 1 ? 12 : _context.t0 === 3 ? 15 : _context.t0 === 238 ? 18 : 21;
             break;
 
-          case 13:
+          case 12:
             //main net
             networkAddress = 'wss://mainnet.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
             CHAIN_ADDRESS[chain]('PROD');
-            return _context.abrupt("break", 24);
+            return _context.abrupt("break", 23);
 
-          case 16:
+          case 15:
             //ropsten
             networkAddress = 'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
             CHAIN_ADDRESS[chain]('TEST');
-            return _context.abrupt("break", 24);
+            return _context.abrupt("break", 23);
 
-          case 19:
+          case 18:
             //'DEXON Test Network'
             networkAddress = 'wss://testnet-rpc.dexon.org/ws';
             CHAIN_ADDRESS[chain]('TEST');
-            return _context.abrupt("break", 24);
+            return _context.abrupt("break", 23);
 
-          case 22:
+          case 21:
             networkAddress = 'ws://localhost:7545';
             CHAIN_ADDRESS[chain]('LOCAL');
 
-          case 24:
+          case 23:
             return _context.abrupt("return", networkAddress);
 
-          case 25:
+          case 24:
           case "end":
             return _context.stop();
         }

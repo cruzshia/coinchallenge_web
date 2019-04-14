@@ -167,8 +167,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     initContract: function initContract(chain) {
       return dispatch((0, _action2.initContract)(chain));
     },
-    checkWallet: function checkWallet() {
-      return dispatch((0, _action2.checkWallet)());
+    checkWallet: function checkWallet(chain) {
+      return dispatch((0, _action2.checkWallet)(chain));
     },
     setPopup: function setPopup(payload) {
       return dispatch((0, _action2.setPopup)(payload));
@@ -341,7 +341,7 @@ function (_React$Component) {
         return;
       }
 
-      _this.props.checkWallet();
+      _this.props.checkWallet(_this.chain);
 
       _this.props.newChallengeGroup(_objectSpread({}, _this.state.challengeGroup, {
         agent: _this.state.agent

@@ -15,9 +15,9 @@ var _rxjs = require("rxjs");
 
 var _web = _interopRequireDefault(require("web3"));
 
-var _errorCode = require("../../contants/errorCode");
-
 var _contractUtils = require("../../utils/contractUtils");
+
+var _utils = require("../../utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57,7 +57,7 @@ var initContractEpic = function initContractEpic(action$, state$) {
     var _ref2 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee(action) {
-      var accounts, txWeb3, chain, injectProvider, txContract, network, txNetwork, accountBalance, providers, contract;
+      var accounts, txWeb3, chain, isDexon, injectProvider, txContract, network, txNetwork, accountBalance, providers, contract;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -65,110 +65,111 @@ var initContractEpic = function initContractEpic(action$, state$) {
               accounts = [];
               txWeb3 = null;
               chain = action.payload ? action.payload.chain : 'ethereum';
-              _context.prev = 3;
+              isDexon = (0, _utils.isDexon)(chain);
+              _context.prev = 4;
               txContract = null;
-              _context.next = 7;
+              _context.next = 8;
               return (0, _contractUtils.detectNetwork)(null, chain);
 
-            case 7:
+            case 8:
               network = _context.sent;
               txNetwork = network;
               accountBalance = '0';
 
               if (!((typeof web3 === 'undefined' || !process.browser) && !window.dexon)) {
-                _context.next = 14;
+                _context.next = 15;
                 break;
               }
 
               window.web3 = {};
-              _context.next = 30;
+              _context.next = 31;
               break;
 
-            case 14:
-              if (!(window.ethereum || window.dexon || web3.currentProvider)) {
-                _context.next = 30;
+            case 15:
+              if (!(!isDexon && window.ethereum || isDexon && window.dexon)) {
+                _context.next = 31;
                 break;
               }
 
               window.web3 = window.web3 || {};
-              txWeb3 = new _web.default(window.ethereum || window.dexon || web3.currentProvider);
-              _context.next = 19;
+              txWeb3 = new _web.default(isDexon ? window.dexon : window.ethereum);
+              _context.next = 20;
               return (0, _contractUtils.detectNetwork)(txWeb3, chain);
 
-            case 19:
+            case 20:
               txNetwork = _context.sent;
               txContract = (0, _contractUtils.newContract)(txWeb3);
               window.contract = txContract;
               _context.t0 = window.ethereum;
 
               if (!_context.t0) {
-                _context.next = 26;
+                _context.next = 27;
                 break;
               }
 
-              _context.next = 26;
+              _context.next = 27;
               return window.ethereum.enable();
 
-            case 26:
+            case 27:
               _context.t1 = window.dexon;
 
               if (!_context.t1) {
-                _context.next = 30;
+                _context.next = 31;
                 break;
               }
 
-              _context.next = 30;
+              _context.next = 31;
               return window.dexon.enable();
 
-            case 30:
+            case 31:
               providers = new _web.default().providers;
               injectProvider = new providers.WebsocketProvider(network);
               web3 = new _web.default(injectProvider);
-              _context.prev = 33;
+              _context.prev = 34;
 
               if (!txWeb3) {
-                _context.next = 40;
+                _context.next = 41;
                 break;
               }
 
-              _context.next = 37;
+              _context.next = 38;
               return txWeb3.eth.getAccounts();
 
-            case 37:
+            case 38:
               _context.t2 = _context.sent;
-              _context.next = 43;
+              _context.next = 44;
               break;
 
-            case 40:
-              _context.next = 42;
+            case 41:
+              _context.next = 43;
               return web3.eth.getAccounts();
 
-            case 42:
+            case 43:
               _context.t2 = _context.sent;
 
-            case 43:
+            case 44:
               accounts = _context.t2;
 
               if (!txContract) {
-                _context.next = 48;
+                _context.next = 49;
                 break;
               }
 
-              _context.next = 47;
+              _context.next = 48;
               return txContract.methods.userBalances(accounts[0]).call();
 
-            case 47:
+            case 48:
               accountBalance = _context.sent;
 
-            case 48:
-              _context.next = 52;
+            case 49:
+              _context.next = 53;
               break;
 
-            case 50:
-              _context.prev = 50;
-              _context.t3 = _context["catch"](33);
+            case 51:
+              _context.prev = 51;
+              _context.t3 = _context["catch"](34);
 
-            case 52:
+            case 53:
               contract = (0, _contractUtils.newContract)(web3);
               return _context.abrupt("return", (0, _action.setContract)({
                 txContract: txContract,
@@ -179,20 +180,20 @@ var initContractEpic = function initContractEpic(action$, state$) {
                 error: null
               }));
 
-            case 56:
-              _context.prev = 56;
-              _context.t4 = _context["catch"](3);
+            case 57:
+              _context.prev = 57;
+              _context.t4 = _context["catch"](4);
               return _context.abrupt("return", (0, _action.setPopup)({
                 showPop: true,
-                messageKey: _errorCode.NO_PROVIDER.key
+                messageKey: "".concat(isDexon ? 'dexonP' : 'p', "roviderNotFound")
               }));
 
-            case 59:
+            case 60:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, this, [[3, 56], [33, 50]]);
+      }, _callee, this, [[4, 57], [34, 51]]);
     }));
 
     return function (_x) {

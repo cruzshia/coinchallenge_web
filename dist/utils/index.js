@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.changeRoute = exports.parseLangPath = exports.parseLangParams = exports.matchPathFunc = exports.formatNumber = exports.isUrlValid = exports.formatPercent = exports.getMetmaskUrl = void 0;
+exports.isDexon = exports.changeRoute = exports.parseLangPath = exports.parseLangParams = exports.matchPathFunc = exports.formatNumber = exports.isUrlValid = exports.formatPercent = exports.getMetmaskUrl = void 0;
 
 var _detectBrowser = require("detect-browser");
 
@@ -115,3 +115,9 @@ var changeRoute = function changeRoute(_ref) {
 };
 
 exports.changeRoute = changeRoute;
+
+var isDexon = function isDexon(chain) {
+  return chain === 'dexon';
+};
+
+exports.isDexon = isDexon;

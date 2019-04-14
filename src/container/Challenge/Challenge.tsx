@@ -27,6 +27,7 @@ import {
   ChainType,
   RouteParams
 } from '@Src/typing/globalTypes'
+import { isDexon } from '@Src/utils'
 
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import Transaction from '@Components/Transaction'
@@ -253,7 +254,9 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
     if (!this.props.txContract) {
       setPopup({
         showPop: true,
-        popMessage: intl.formatMessage({ id: 'providerNotFound' })
+        popMessage: intl.formatMessage({
+          id: isDexon(this.chain) ? 'dexonProviderNotFound' : 'providerNotFound'
+        })
       })
       return false
     }

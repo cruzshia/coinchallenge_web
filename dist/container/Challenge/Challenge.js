@@ -31,11 +31,11 @@ var _action = require("../../epics/commonEpic/action");
 
 var _action2 = require("../../epics/challengeEpic/action");
 
+var _utils = require("../../utils");
+
 var _reactIntl = require("react-intl");
 
 var _Transaction = _interopRequireDefault(require("../../components/Transaction"));
-
-var _utils = require("../../utils");
 
 var _web = _interopRequireDefault(require("web3"));
 
@@ -190,7 +190,7 @@ function (_React$Component) {
         setPopup({
           showPop: true,
           popMessage: intl.formatMessage({
-            id: 'providerNotFound'
+            id: (0, _utils.isDexon)(_this.chain) ? 'dexonProviderNotFound' : 'providerNotFound'
           })
         });
         return false;

@@ -119,7 +119,7 @@ function (_React$PureComponent) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleOpen", function () {
-      var open = _this.props.checkWallet();
+      var open = _this.props.checkWallet(_this.props.chain);
 
       open && _this.setState({
         open: true
