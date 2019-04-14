@@ -11,6 +11,7 @@
     "withdraw": "提款",
     "withdraw.confirm.desc": "确认从CoinChallenges提款 {balance}？",
     "providerNotFound": "未侦测到钱包插件，请先安装扩充套件(metamask)",
+    "dexonProviderNotFound": "未侦测到钱包插件，请先安装扩充套件(Dekusan)",
     "browserNotSupport": "你的浏览器不支援钱包插件，请改使用chrome/firefox或者opera浏览器",
     "accountNotFound": "未侦测到帐户，请先登入钱包插件",
     "donateSuccess": "赞助硬币发送成功！",

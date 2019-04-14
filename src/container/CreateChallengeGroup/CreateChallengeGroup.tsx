@@ -137,7 +137,7 @@ interface CreateChallengeGroupProp
   txHash?: string
   createResult: ChallengeGroupStateType
   newChallengeGroup: (payload: ChallengeGroupType) => void
-  checkWallet: () => void
+  checkWallet: (chain?: string) => void
   setCreateResult: (payload: SetResultProp) => void
   setPopup: (payload: SetPopProps) => void
   initContract: (chain?: string) => void
@@ -169,7 +169,7 @@ const mapStateToProps = (state: Map<string, object>) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   initContract: (chain?: string) => dispatch(initContract(chain)),
-  checkWallet: () => dispatch(checkWallet()),
+  checkWallet: (chain?: string) => dispatch(checkWallet(chain)),
   setPopup: (payload: SetPopProps) => dispatch(setPopup(payload)),
   setCreateResult: (payload: SetResultProp) =>
     dispatch(setCreateResult(payload)),
@@ -348,7 +348,7 @@ class CreateChallengeGroup extends React.Component<
       })
       return
     }
-    this.props.checkWallet()
+    this.props.checkWallet(this.chain)
     this.props.newChallengeGroup({
       ...this.state.challengeGroup,
       agent: this.state.agent

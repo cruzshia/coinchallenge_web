@@ -12,8 +12,8 @@ import { ofType, ActionsObservable, StateObservable } from 'redux-observable'
 import { switchMap, filter, mergeMap, catchError } from 'rxjs/operators'
 import { from, of } from 'rxjs'
 import Web3 from 'web3'
-import { NO_PROVIDER } from '@Src/contants/errorCode'
 import { newContract, detectNetwork } from '@Utils/contractUtils'
+import { isDexon as isDexonChain } from '@Src/utils'
 
 // async function transfer(account: string | null) {
 //   if (
@@ -52,6 +52,7 @@ export const initContractEpic = (
       let txWeb3: Web3 | null = null
 
       const chain = action.payload ? action.payload.chain : 'ethereum'
+      const isDexon = isDexonChain(chain)
 
       try {
         let injectProvider
@@ -65,11 +66,9 @@ export const initContractEpic = (
           !window.dexon
         ) {
           window.web3 = {}
-        } else if (window.ethereum || window.dexon || web3.currentProvider) {
+        } else if ((!isDexon && window.ethereum) || (isDexon && window.dexon)) {
           window.web3 = window.web3 || {}
-          txWeb3 = new Web3(
-            window.ethereum || window.dexon || web3.currentProvider
-          )
+          txWeb3 = new Web3(isDexon ? window.dexon : window.ethereum)
           txNetwork = await detectNetwork(txWeb3, chain)
           txContract = newContract(txWeb3)
           window.contract = txContract
@@ -105,7 +104,7 @@ export const initContractEpic = (
       } catch (e) {
         return setPopup({
           showPop: true,
-          messageKey: NO_PROVIDER.key
+          messageKey: `${isDexon ? 'dexonP' : 'p'}roviderNotFound`
         })
       }
     })
