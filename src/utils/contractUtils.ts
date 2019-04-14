@@ -91,10 +91,10 @@ const getDexonContract = (env: 'PROD' | 'TEST' | 'LOCAL') => {
       contractAddress = ''
       break
     case 'TEST':
-      contractAddress = '0xF1A996ddb41a2BEFA1459EF0482421f3F2295682'
+      contractAddress = '0x0785F83781C5e77a4Ec9C39b289788B94a986f20'
       break
     default:
-      contractAddress = '0xF1A996ddb41a2BEFA1459EF0482421f3F2295682'
+      contractAddress = '0x0785F83781C5e77a4Ec9C39b289788B94a986f20'
   }
 }
 

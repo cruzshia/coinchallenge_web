@@ -164,8 +164,8 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    initContract: function initContract() {
-      return dispatch((0, _action2.initContract)());
+    initContract: function initContract(chain) {
+      return dispatch((0, _action2.initContract)(chain));
     },
     checkWallet: function checkWallet() {
       return dispatch((0, _action2.checkWallet)());
@@ -375,7 +375,7 @@ function (_React$Component) {
           error: false
         });
         this.setState({
-          challengeGroup: defaultGroupState,
+          challengeGroup: _objectSpread({}, defaultGroupState),
           agent: ''
         });
       }
@@ -392,7 +392,7 @@ function (_React$Component) {
         location: location,
         match: {}
       });
-      initContract();
+      initContract(this.chain);
     }
   }, {
     key: "render",

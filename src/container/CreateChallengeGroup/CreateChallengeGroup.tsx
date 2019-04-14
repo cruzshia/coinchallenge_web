@@ -140,7 +140,7 @@ interface CreateChallengeGroupProp
   checkWallet: () => void
   setCreateResult: (payload: SetResultProp) => void
   setPopup: (payload: SetPopProps) => void
-  initContract: () => void
+  initContract: (chain?: string) => void
 }
 
 interface ErrorKeys extends ChallengeGroupType {
@@ -168,7 +168,7 @@ const mapStateToProps = (state: Map<string, object>) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  initContract: () => dispatch(initContract()),
+  initContract: (chain?: string) => dispatch(initContract(chain)),
   checkWallet: () => dispatch(checkWallet()),
   setPopup: (payload: SetPopProps) => dispatch(setPopup(payload)),
   setCreateResult: (payload: SetResultProp) =>
@@ -374,14 +374,14 @@ class CreateChallengeGroup extends React.Component<
         response: {},
         error: false
       })
-      this.setState({ challengeGroup: defaultGroupState, agent: '' })
+      this.setState({ challengeGroup: { ...defaultGroupState }, agent: '' })
     }
   }
 
   public componentDidMount() {
     const { history, location, initContract } = this.props
     changeRoute({ history, location, match: {} })
-    initContract()
+    initContract(this.chain)
   }
 
   public render() {
