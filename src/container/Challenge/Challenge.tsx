@@ -388,6 +388,7 @@ class Challenge extends React.Component<ChallengeProp, ChallengeState> {
             />
             {totalDays && this.canSponsor() ? (
               <SponsorButton
+                chain={this.chain}
                 onSponsor={this.onSponsor}
                 checkWallet={this.checkWallet}
                 intl={intl}

@@ -490,6 +490,7 @@ function (_React$Component) {
         invalidAddress: this.state.invalidAddress,
         coin: this.coin
       }), totalDays && this.canSponsor() ? _react.default.createElement(_SponsorButton.default, {
+        chain: this.chain,
         onSponsor: this.onSponsor,
         checkWallet: this.checkWallet,
         intl: intl
