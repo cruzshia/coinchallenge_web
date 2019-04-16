@@ -150,11 +150,11 @@ var getDexonContract = function getDexonContract(env) {
       break;
 
     case 'TEST':
-      contractAddress = '0x0785F83781C5e77a4Ec9C39b289788B94a986f20';
+      contractAddress = '0xF2B2e9F706E4DCa4C4BC0E5f54E4923C09eF2fd4';
       break;
 
     default:
-      contractAddress = '0x0785F83781C5e77a4Ec9C39b289788B94a986f20';
+      contractAddress = '0xF2B2e9F706E4DCa4C4BC0E5f54E4923C09eF2fd4';
   }
 };
 

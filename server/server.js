@@ -63,7 +63,7 @@ const initContract = async chain => {
     )
     contractDexon = newContract(
       web3,
-      '0x0785F83781C5e77a4Ec9C39b289788B94a986f20'
+      '0xF2B2e9F706E4DCa4C4BC0E5f54E4923C09eF2fd4'
     )
   } else {
     const web3 = new Web3(
