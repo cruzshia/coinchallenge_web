@@ -63,7 +63,7 @@ const initContract = async chain => {
     )
     contractDexon = newContract(
       web3,
-      '0xF2B2e9F706E4DCa4C4BC0E5f54E4923C09eF2fd4'
+      '0x0fc4f5c56299FF58019623c3d7daF6D1c78d7d57'
     )
   } else {
     const web3 = new Web3(
@@ -77,7 +77,7 @@ const initContract = async chain => {
       web3,
       isProd
         ? '0xeEe43e9258D59F118F700aae73a91765A0BD2bcC'
-        : '0x093240763E9227B30DA751A743B52c0aADC7E945'
+        : '0x26965fB7d9F93CA5D45042C3a0364932f9B1a111'
     )
   }
 }

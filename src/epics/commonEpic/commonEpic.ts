@@ -72,8 +72,8 @@ export const initContractEpic = (
           txNetwork = await detectNetwork(txWeb3, chain)
           txContract = newContract(txWeb3)
           window.contract = txContract
-          window.ethereum && (await window.ethereum.enable())
-          window.dexon && (await window.dexon.enable())
+          !isDexon && window.ethereum && (await window.ethereum.enable())
+          isDexon && window.dexon && (await window.dexon.enable())
         }
 
         const providers = new Web3().providers
