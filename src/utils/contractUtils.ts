@@ -5,7 +5,7 @@ import { isDexon } from '@Src/utils'
 
 let networkAddress =
   'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
-let contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945'
+let contractAddress = '0x26965fB7d9F93CA5D45042C3a0364932f9B1a111'
 
 export const newContract = (web3Interface: Web3, address?: string) => {
   let newContract = null
@@ -78,10 +78,10 @@ const getContract = (env: 'PROD' | 'TEST' | 'LOCAL') => {
       contractAddress = '0xeEe43e9258D59F118F700aae73a91765A0BD2bcC'
       break
     case 'TEST':
-      contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945'
+      contractAddress = '0x26965fB7d9F93CA5D45042C3a0364932f9B1a111'
       break
     default:
-      contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945'
+      contractAddress = '0x26965fB7d9F93CA5D45042C3a0364932f9B1a111'
   }
 }
 
@@ -91,10 +91,10 @@ const getDexonContract = (env: 'PROD' | 'TEST' | 'LOCAL') => {
       contractAddress = ''
       break
     case 'TEST':
-      contractAddress = '0xF2B2e9F706E4DCa4C4BC0E5f54E4923C09eF2fd4'
+      contractAddress = '0x0fc4f5c56299FF58019623c3d7daF6D1c78d7d57'
       break
     default:
-      contractAddress = '0xF2B2e9F706E4DCa4C4BC0E5f54E4923C09eF2fd4'
+      contractAddress = '0x0fc4f5c56299FF58019623c3d7daF6D1c78d7d57'
   }
 }
 

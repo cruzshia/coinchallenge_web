@@ -100,7 +100,7 @@ var initContractEpic = function initContractEpic(action$, state$) {
               txNetwork = _context.sent;
               txContract = (0, _contractUtils.newContract)(txWeb3);
               window.contract = txContract;
-              _context.t0 = window.ethereum;
+              _context.t0 = !isDexon && window.ethereum;
 
               if (!_context.t0) {
                 _context.next = 27;
@@ -111,7 +111,7 @@ var initContractEpic = function initContractEpic(action$, state$) {
               return window.ethereum.enable();
 
             case 27:
-              _context.t1 = window.dexon;
+              _context.t1 = isDexon && window.dexon;
 
               if (!_context.t1) {
                 _context.next = 31;

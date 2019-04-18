@@ -18,7 +18,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var networkAddress = 'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
-var contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945';
+var contractAddress = '0x26965fB7d9F93CA5D45042C3a0364932f9B1a111';
 
 var newContract = function newContract(web3Interface, address) {
   var newContract = null;
@@ -135,11 +135,11 @@ var getContract = function getContract(env) {
       break;
 
     case 'TEST':
-      contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945';
+      contractAddress = '0x26965fB7d9F93CA5D45042C3a0364932f9B1a111';
       break;
 
     default:
-      contractAddress = '0x093240763E9227B30DA751A743B52c0aADC7E945';
+      contractAddress = '0x26965fB7d9F93CA5D45042C3a0364932f9B1a111';
   }
 };
 
@@ -150,11 +150,11 @@ var getDexonContract = function getDexonContract(env) {
       break;
 
     case 'TEST':
-      contractAddress = '0xF2B2e9F706E4DCa4C4BC0E5f54E4923C09eF2fd4';
+      contractAddress = '0x0fc4f5c56299FF58019623c3d7daF6D1c78d7d57';
       break;
 
     default:
-      contractAddress = '0xF2B2e9F706E4DCa4C4BC0E5f54E4923C09eF2fd4';
+      contractAddress = '0x0fc4f5c56299FF58019623c3d7daF6D1c78d7d57';
   }
 };
 
