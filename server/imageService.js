@@ -101,7 +101,7 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
 
   lng = lng.toUpperCase()
 
-  const imageName = `${groupId}/${challenger}/${round}-${lng}.png`
+  const imageName = `${chain}/${groupId}/${challenger}/${round}-${lng}.png`
   let hasImage = false
   try {
     const image = await Jimp.read(`${imageDir}${imageName}`)
