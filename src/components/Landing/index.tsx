@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import Language from '@material-ui/icons/Language'
 import { Helmet } from 'react-helmet'
@@ -84,7 +83,7 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                   </svg>
                   <img className='headerIcon' src='landing/assets/logo.png' />
                 </div>
-                <p className='headerName'>1SecMoney</p>
+                <p className='headerName'>CoinChallenges</p>
               </div>
               <nav>
                 <ul />
@@ -112,7 +111,7 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
 
               <img
                 className='iphoneScreen'
-                src='landing/assets/screenshot/en.png'
+                src='landing/assets/screenshot/1.png'
                 alt=''
               />
             </div>
@@ -134,18 +133,21 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                 <img className='appIconLarge' src='landing/assets/logo.png' />
               </div>
               <div className='appNamePriceContainer'>
-                <h1 className='appName'>1SecMoney</h1>
-                <h2 className='appPrice'>$1.99</h2>
+                <h1 className='appName'>CoinChallenges</h1>
+                <h2 className='appPrice'>$Free</h2>
               </div>
               <div className='appDescriptionContainer'>
                 <p className='appDescription'>
-                  {intl.formatMessage({ id: 'landing.start.desc' })}
+                  According to behavioral psychology, it takes 21 ~ 90 days to
+                  form a new habit. CoinChallenges let you form habits
+                  effortlessly by using cryptocurrency.
                 </p>
               </div>
               <div className='downloadButtonsContainer'>
                 <a
                   className='appStoreLink'
-                  href='https://itunes.apple.com/us/app/1secmoney/id926076608?mt=8&uo=4'
+                  href='https://itunes.apple.com/app/coinchallenges/id1452171308'
+                  target='_blank'
                 >
                   <img
                     className='appStore'
@@ -159,14 +161,27 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                 <div>
                   <span className='fa-stack fa-1x'>
                     <i className='iconBack fas fa-circle fa-stack-2x' />
-                    <i className='iconTop fas fa-magic fa-stack-1x' />
+                    <i className='iconTop fas fa-dumbbell fa-stack-1x' />
                   </span>
                 </div>
                 <div className='featureText'>
-                  <h3>GitHub Pages Jekyll Theme</h3>
+                  <h3>Form Habits</h3>
+                  <p>Set up how many days do you want to form a habit.</p>
+                </div>
+              </div>
+              <div className='feature'>
+                <div>
+                  <span className='fa-stack fa-1x'>
+                    <i className='iconBack fas fa-circle fa-stack-2x' />
+                    <i className='iconTop fab fa-bitcoin fa-stack-1x' />
+                  </span>
+                </div>
+                <div className='featureText'>
+                  <h3>Gamification</h3>
                   <p>
-                    Designed for GitHub Pages. Fork. Edit _config.yml. Upload
-                    screenshot/video. Push to gh-pages branch. Voilá!
+                    Put your cryptocurrency into smart contract. The more
+                    cryptocurrency you put in, the more likely you will be to
+                    achieve the goal!
                   </p>
                 </div>
               </div>
@@ -174,14 +189,14 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                 <div>
                   <span className='fa-stack fa-1x'>
                     <i className='iconBack fas fa-circle fa-stack-2x' />
-                    <i className='iconTop fas fa-mobile fa-stack-1x' />
+                    <i className='iconTop far fa-gem fa-stack-1x' />
                   </span>
                 </div>
                 <div className='featureText'>
-                  <h3>iPhone Device Preview</h3>
+                  <h3>Earn Cryptocurrency</h3>
                   <p>
-                    Preview your app in the context of an iPhone device. Five
-                    different device colors included.
+                    After you succeed, you can get back all of your
+                    cryptocurrency and also can get sponsors from your friends.
                   </p>
                 </div>
               </div>
@@ -189,14 +204,14 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                 <div>
                   <span className='fa-stack fa-1x'>
                     <i className='iconBack fas fa-circle fa-stack-2x' />
-                    <i className='iconTop fas fa-play-circle fa-stack-1x' />
+                    <i className='iconTop fas fa-reply fa-stack-1x' />
                   </span>
                 </div>
                 <div className='featureText'>
-                  <h3>Video Support</h3>
+                  <h3>Social Sharing</h3>
                   <p>
-                    Preview app video on the iPhone device simply by placing
-                    your video files in the videos folder.
+                    Share your challenge via social media and let friends
+                    encourage you.
                   </p>
                 </div>
               </div>
@@ -204,95 +219,31 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                 <div>
                   <span className='fa-stack fa-1x'>
                     <i className='iconBack fas fa-circle fa-stack-2x' />
-                    <i className='iconTop fas fa-sync fa-stack-1x' />
+                    <i className='iconTop fas fa-child fa-stack-1x' />
                   </span>
                 </div>
                 <div className='featureText'>
-                  <h3>Automatic Icon and Metadata</h3>
-                  <p>
-                    Enter iOS app ID in the _config.yml file to automatically
-                    fetch app icon, price and App Store Link.
-                  </p>
+                  <h3>Sponsor</h3>
+                  <p>Sponsor friends' challenges. Change together.</p>
                 </div>
               </div>
               <div className='feature'>
                 <div>
                   <span className='fa-stack fa-1x'>
                     <i className='iconBack fas fa-circle fa-stack-2x' />
-                    <i className='iconTop fas fa-adjust fa-stack-1x' />
+                    <i className='iconTop fas fa-check-circle fa-stack-1x' />
                   </span>
                 </div>
                 <div className='featureText'>
-                  <h3>Easy to Tweak</h3>
+                  <h3>Secure</h3>
                   <p>
-                    Tweak accent color, images, icons and transparency via the
-                    _config.yml file. No HTML/CSS needed.
-                  </p>
-                </div>
-              </div>
-              <div className='feature'>
-                <div>
-                  <span className='fa-stack fa-1x'>
-                    <i className='iconBack fas fa-circle fa-stack-2x' />
-                    <i className='iconTop fas fa-star fa-stack-1x' />
-                  </span>
-                </div>
-                <div className='featureText'>
-                  <h3>Feature List</h3>
-                  <p>
-                    Add features (like this one) to your site via the
-                    _config.yml file. No HTML/CSS needed.
-                  </p>
-                </div>
-              </div>
-              <div className='feature'>
-                <div>
-                  <span className='fa-stack fa-1x'>
-                    <i className='iconBack fas fa-circle fa-stack-2x' />
-                    <i className='iconTop fas fa-arrow-alt-circle-down fa-stack-1x' />
-                  </span>
-                </div>
-                <div className='featureText'>
-                  <h3>Smart App Banner</h3>
-                  <p>Display a smart app banner on iOS devices.</p>
-                </div>
-              </div>
-              <div className='feature'>
-                <div>
-                  <span className='fa-stack fa-1x'>
-                    <i className='iconBack fas fa-circle fa-stack-2x' />
-                    <i className='iconTop fas fa-link fa-stack-1x' />
-                  </span>
-                </div>
-                <div className='featureText'>
-                  <h3>Social Links</h3>
-                  <p>
-                    Easily add social media accounts and contact info in the
-                    footer via the _config.yml file. No HTML/CSS needed.
-                  </p>
-                </div>
-              </div>
-              <div className='feature'>
-                <div>
-                  <span className='fa-stack fa-1x'>
-                    <i className='iconBack fas fa-circle fa-stack-2x' />
-                    <i className='iconTop fas fa-info-circle fa-stack-1x' />
-                  </span>
-                </div>
-                <div className='featureText'>
-                  <h3>FontAwesome Support</h3>
-                  <p>
-                    Pick custom Font Awesome icons for the feature list via the
-                    _config.yml file. No HTML/CSS needed.
+                    Verified trusted smart contract ensures your cryptocurrency
+                    is secure.
                   </p>
                 </div>
               </div>
             </div>
             <footer>
-              <p className='footerText'>
-                Made by <a href='https://coinchallenges.app/'>Emil Baehr</a> in
-                Copenhagen
-              </p>
               <div className='footerIcons'>
                 <a href='https://twitter.com/coin_challenges'>
                   <span className='fa-stack fa-1x'>
@@ -300,13 +251,19 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                     <i className='socialIconTop fab fa-twitter fa-stack-1x' />
                   </span>
                 </a>
-                <a href='https://github.com/emilbaehr'>
+                <a href='https://t.me/CoinChallenges'>
                   <span className='fa-stack fa-1x'>
                     <i className='socialIconBack fas fa-circle fa-stack-2x' />
-                    <i className='socialIconTop fab fa-github fa-stack-1x' />
+                    <i className='socialIconTop fab fa-telegram fa-stack-1x' />
                   </span>
                 </a>
-                <a href='mailto:coin.challenge.hi@gmail.com'>
+                <a href='https://line.me/R/ti/p/%40xny8263g'>
+                  <span className='fa-stack fa-1x'>
+                    <i className='socialIconBack fas fa-circle fa-stack-2x' />
+                    <i className='socialIconTop fab fa-line fa-stack-1x' />
+                  </span>
+                </a>
+                <a href='mailto:hello@coinchallenges.app'>
                   <span className='fa-stack fa-1x'>
                     <i className='socialIconBack fas fa-circle fa-stack-2x' />
                     <i className='socialIconTop fas fa-envelope fa-stack-1x' />
