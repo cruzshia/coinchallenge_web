@@ -47,7 +47,8 @@ a:active {
 
 .imageWrapper {
     height: 714px;
-    background: linear-gradient(rgba(54, 59, 61, 0.8), rgba(54, 59, 61, 0.8)), url("assets/headerimage.png");
+    /* background: linear-gradient(rgba(54, 59, 61, 0.8), rgba(54, 59, 61, 0.8)), url("assets/headerimage.png"); */
+    background: linear-gradient(rgba(54, 59, 61, 0.6), rgba(54, 59, 61, 0.6)), url("assets/1.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top;
