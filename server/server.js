@@ -1,40 +1,39 @@
-import bodyParser from 'body-parser'
-import compression from 'compression'
-import express from 'express'
-import morgan from 'morgan'
-import path from 'path'
-import React from 'react'
-import { renderToString } from 'react-dom/server'
-import { StaticRouter } from 'react-router'
-import Helmet from 'react-helmet'
-import fs from 'fs'
-import App from '../dist/components/App/index.js'
-import { APP_THEME } from '../dist/contants/themeColor.js'
-import { ServerStyleSheet } from 'styled-components'
-import { Provider } from 'react-redux'
-import { SheetsRegistry } from 'jss'
-import JssProvider from 'react-jss/lib/JssProvider'
+import { APP_COIN, supportLang } from '../dist/contants/common'
 import {
   MuiThemeProvider,
-  createMuiTheme,
-  createGenerateClassName
+  createGenerateClassName,
+  createMuiTheme
 } from '@material-ui/core/styles'
-import store from '../dist/store'
-import Web3 from 'web3'
-import {
-  setChallenge,
-  setChallengeGroup
-} from '../dist/epics/challengeEpic/action'
-import { newContract } from '../dist/utils/contractUtils'
+import { generateImage, imageDir } from './imageService'
 import {
   getChallenge,
   getChallengeGroup
 } from '../dist/contracts/contractService'
+import {
+  setChallenge,
+  setChallengeGroup
+} from '../dist/epics/challengeEpic/action'
 
-import { supportLang, APP_COIN } from '../dist/contants/common'
-
-import { generateImage, imageDir } from './imageService'
+import { APP_THEME } from '../dist/contants/themeColor.js'
+import App from '../dist/components/App/index.js'
+import Helmet from 'react-helmet'
 import Jimp from 'jimp'
+import JssProvider from 'react-jss/lib/JssProvider'
+import { Provider } from 'react-redux'
+import React from 'react'
+import { ServerStyleSheet } from 'styled-components'
+import { SheetsRegistry } from 'jss'
+import { StaticRouter } from 'react-router'
+import Web3 from 'web3'
+import bodyParser from 'body-parser'
+import compression from 'compression'
+import express from 'express'
+import fs from 'fs'
+import morgan from 'morgan'
+import { newContract } from '../dist/utils/contractUtils'
+import path from 'path'
+import { renderToString } from 'react-dom/server'
+import store from '../dist/store'
 
 let filePath = path.resolve(__dirname, '../build', 'index.html')
 
@@ -54,12 +53,12 @@ let contractDexon = null
 const isProd = process.env.NETWORK === 'PROD'
 
 const initContract = async chain => {
-  // if (contract !== null) return
+  if (contract !== null) return
   const providers = new Web3().providers
 
   if (chain && chain === 'dexon') {
     const web3 = new Web3(
-      new providers.WebsocketProvider('wss://testnet-rpc.dexon.org/ws')
+      new providers.WebsocketProvider('https://testnet-rpc.dexon.org')
     )
     contractDexon = newContract(
       web3,
@@ -69,8 +68,8 @@ const initContract = async chain => {
     const web3 = new Web3(
       new providers.WebsocketProvider(
         isProd
-          ? 'wss://mainnet.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
-          : 'wss://ropsten.infura.io/ws/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
+          ? 'https://mainnet.infura.io/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
+          : 'https://ropsten.infura.io/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
       )
     )
     contract = newContract(
@@ -123,7 +122,7 @@ app.get('/share/:chain/:groupId/:address/:round*?', async (req, res) => {
   let imageName = ''
   try {
     const lang = supportLang.indexOf(l) === -1 ? 'en' : l
-    imageName = `${imageDir}${groupId}/${address}/${round}-${lang.toUpperCase()}.png`
+    imageName = `${imageDir}/${chain}/${groupId}/${address}/${round}-${lang.toUpperCase()}.png`
     const image = await Jimp.read(imageName)
     if (image) {
       image.quality(100)['getBuffer'](Jimp.MIME_PNG, (err, data) => {
@@ -177,6 +176,7 @@ app.get('/share/:chain/:groupId/:address/:round*?', async (req, res) => {
     totalDays: challengeRes.totalDays,
     challenger: address,
     goal: challengeRes.goal,
+    chain,
     amount: challengeRes.amount + ' ' + APP_COIN(chain)
   }
 
