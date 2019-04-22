@@ -9,7 +9,7 @@ const translation = {
   'zh-CN': require('../dist/translation/zh-CN.json')
 }
 
-const sourceTpl = {}
+const sourceTpl = { ethereum: {}, dexon: {} }
 let logoSource
 
 let fonts = {
@@ -28,7 +28,12 @@ const initTpl = async () => {
     return
   }
   for (let i = 1; i < 4; i++) {
-    sourceTpl[i.toString()] = await Jimp.read(resourceDir + `${i}.jpg`)
+    sourceTpl['ethereum'][i.toString()] = await Jimp.read(
+      resourceDir + `ethereum/${i}.jpg`
+    )
+    sourceTpl['dexon'][i.toString()] = await Jimp.read(
+      resourceDir + `dexon/${i}.jpg`
+    )
   }
   logoSource = await Jimp.read(path.join(__dirname, '../dist/images/logo.png'))
   fonts['EN']['FONT_BLACK_64'] = await Jimp.loadFont(
@@ -87,7 +92,7 @@ let textConfig = {
 
 exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
   await initTpl()
-  const { groupId, challenger, round } = challengeData
+  const { groupId, challenger, round, chain } = challengeData
 
   let lng = challengeData.lng || 'en'
   let isEn = lng === 'en'
@@ -119,7 +124,7 @@ exports.generateImage = async ({ challengeData, isPreview, cbk, errorCbk }) => {
 
   if (hasImage) return
 
-  const cloneSourceTpl = sourceTpl[String(groupId)].clone()
+  const cloneSourceTpl = sourceTpl[chain.toLowerCase()][String(groupId)].clone()
 
   const logo = await logoSource.clone().resize(60, 60)
   cloneSourceTpl.composite(logo, 10, 470, [Jimp.BLEND_DESTINATION_OVER])

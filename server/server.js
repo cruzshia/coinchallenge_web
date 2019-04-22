@@ -53,20 +53,21 @@ let contractDexon = null
 const isProd = process.env.NETWORK === 'PROD'
 
 const initContract = async chain => {
-  if (contract !== null) return
   const providers = new Web3().providers
 
   if (chain && chain === 'dexon') {
+    if (contractDexon !== null) return
     const web3 = new Web3(
-      new providers.WebsocketProvider('https://testnet-rpc.dexon.org')
+      new providers.HttpProvider('https://testnet-rpc.dexon.org')
     )
     contractDexon = newContract(
       web3,
       '0x0fc4f5c56299FF58019623c3d7daF6D1c78d7d57'
     )
   } else {
+    if (contract !== null) return
     const web3 = new Web3(
-      new providers.WebsocketProvider(
+      new providers.HttpProvider(
         isProd
           ? 'https://mainnet.infura.io/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
           : 'https://ropsten.infura.io/v3/8bf4cd050c0f4dcebfba65a2ceab3fe0'
