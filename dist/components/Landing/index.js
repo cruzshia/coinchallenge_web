@@ -5,9 +5,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _reactIntl = require("react-intl");
+
 var _react = _interopRequireDefault(require("react"));
 
-var _reactIntl = require("react-intl");
+var _common = require("../../contants/common");
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,6 +36,17 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var StyleId = 'landing-link';
+var LangBlk = (0, _styledComponents.default)('div')(_defineProperty({
+  fontSize: '16px',
+  textAlign: 'center',
+  margin: '-40px 0 20px',
+  a: {
+    marginLeft: '8px',
+    textDecoration: 'underline'
+  }
+}, "@media (max-width: ".concat(_common.breakPoint, ")"), {
+  fontSize: '12px'
+}));
 
 var Landing =
 /*#__PURE__*/
@@ -192,7 +207,9 @@ function (_React$PureComponent) {
         className: "appDescriptionContainer"
       }, _react.default.createElement("p", {
         className: "appDescription"
-      }, "According to behavioral psychology, it takes 21 ~ 90 days to form a new habit. CoinChallenges let you form habits effortlessly by using cryptocurrency.")), _react.default.createElement("div", {
+      }, intl.formatMessage({
+        id: 'landing.desc'
+      }))), _react.default.createElement("div", {
         className: "downloadButtonsContainer"
       }, _react.default.createElement("a", {
         className: "appStoreLink",
@@ -213,7 +230,11 @@ function (_React$PureComponent) {
         className: "iconTop fas fa-dumbbell fa-stack-1x"
       }))), _react.default.createElement("div", {
         className: "featureText"
-      }, _react.default.createElement("h3", null, "Form Habits"), _react.default.createElement("p", null, "Set up how many days do you want to form a habit."))), _react.default.createElement("div", {
+      }, _react.default.createElement("h3", null, intl.formatMessage({
+        id: 'landing.desc.item.1.title'
+      })), _react.default.createElement("p", null, intl.formatMessage({
+        id: 'landing.desc.item.1.desc'
+      })))), _react.default.createElement("div", {
         className: "feature"
       }, _react.default.createElement("div", null, _react.default.createElement("span", {
         className: "fa-stack fa-1x"
@@ -223,7 +244,11 @@ function (_React$PureComponent) {
         className: "iconTop fab fa-bitcoin fa-stack-1x"
       }))), _react.default.createElement("div", {
         className: "featureText"
-      }, _react.default.createElement("h3", null, "Gamification"), _react.default.createElement("p", null, "Put your cryptocurrency into smart contract. The more cryptocurrency you put in, the more likely you will be to achieve the goal!"))), _react.default.createElement("div", {
+      }, _react.default.createElement("h3", null, intl.formatMessage({
+        id: 'landing.desc.item.2.title'
+      })), _react.default.createElement("p", null, intl.formatMessage({
+        id: 'landing.desc.item.2.desc'
+      })))), _react.default.createElement("div", {
         className: "feature"
       }, _react.default.createElement("div", null, _react.default.createElement("span", {
         className: "fa-stack fa-1x"
@@ -233,7 +258,11 @@ function (_React$PureComponent) {
         className: "iconTop far fa-gem fa-stack-1x"
       }))), _react.default.createElement("div", {
         className: "featureText"
-      }, _react.default.createElement("h3", null, "Earn Cryptocurrency"), _react.default.createElement("p", null, "After you succeed, you can get back all of your cryptocurrency and also can get sponsors from your friends."))), _react.default.createElement("div", {
+      }, _react.default.createElement("h3", null, intl.formatMessage({
+        id: 'landing.desc.item.3.title'
+      })), _react.default.createElement("p", null, intl.formatMessage({
+        id: 'landing.desc.item.3.desc'
+      })))), _react.default.createElement("div", {
         className: "feature"
       }, _react.default.createElement("div", null, _react.default.createElement("span", {
         className: "fa-stack fa-1x"
@@ -243,7 +272,11 @@ function (_React$PureComponent) {
         className: "iconTop fas fa-reply fa-stack-1x"
       }))), _react.default.createElement("div", {
         className: "featureText"
-      }, _react.default.createElement("h3", null, "Social Sharing"), _react.default.createElement("p", null, "Share your challenge via social media and let friends encourage you."))), _react.default.createElement("div", {
+      }, _react.default.createElement("h3", null, intl.formatMessage({
+        id: 'landing.desc.item.4.title'
+      })), _react.default.createElement("p", null, intl.formatMessage({
+        id: 'landing.desc.item.4.desc'
+      })))), _react.default.createElement("div", {
         className: "feature"
       }, _react.default.createElement("div", null, _react.default.createElement("span", {
         className: "fa-stack fa-1x"
@@ -253,7 +286,11 @@ function (_React$PureComponent) {
         className: "iconTop fas fa-child fa-stack-1x"
       }))), _react.default.createElement("div", {
         className: "featureText"
-      }, _react.default.createElement("h3", null, "Sponsor"), _react.default.createElement("p", null, "Sponsor friends' challenges. Change together."))), _react.default.createElement("div", {
+      }, _react.default.createElement("h3", null, intl.formatMessage({
+        id: 'landing.desc.item.5.title'
+      })), _react.default.createElement("p", null, intl.formatMessage({
+        id: 'landing.desc.item.5.desc'
+      })))), _react.default.createElement("div", {
         className: "feature"
       }, _react.default.createElement("div", null, _react.default.createElement("span", {
         className: "fa-stack fa-1x"
@@ -263,7 +300,11 @@ function (_React$PureComponent) {
         className: "iconTop fas fa-check-circle fa-stack-1x"
       }))), _react.default.createElement("div", {
         className: "featureText"
-      }, _react.default.createElement("h3", null, "Secure"), _react.default.createElement("p", null, "Verified trusted smart contract ensures your cryptocurrency is secure.")))), _react.default.createElement("footer", null, _react.default.createElement("div", {
+      }, _react.default.createElement("h3", null, intl.formatMessage({
+        id: 'landing.desc.item.6.title'
+      })), _react.default.createElement("p", null, intl.formatMessage({
+        id: 'landing.desc.item.6.desc'
+      }))))), _react.default.createElement("footer", null, _react.default.createElement("div", {
         className: "footerIcons"
       }, _react.default.createElement("a", {
         href: "https://twitter.com/coin_challenges"
@@ -297,7 +338,13 @@ function (_React$PureComponent) {
         className: "socialIconBack fas fa-circle fa-stack-2x"
       }), _react.default.createElement("i", {
         className: "socialIconTop fas fa-envelope fa-stack-1x"
-      }))))))));
+      })))), _react.default.createElement(LangBlk, null, _react.default.createElement("a", {
+        href: "/?l=en"
+      }, "En"), _react.default.createElement("a", {
+        href: "/?l=zh-TW"
+      }, "\u7E41\u9AD4\u4E2D\u6587"), _react.default.createElement("a", {
+        href: "/?l=zh-CN"
+      }, "\u7B80\u4F53\u4E2D\u6587"))))));
     }
   }]);
 

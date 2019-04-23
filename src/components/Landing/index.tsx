@@ -1,9 +1,23 @@
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import React from 'react'
-import { injectIntl, InjectedIntlProps } from 'react-intl'
-import Language from '@material-ui/icons/Language'
-import { Helmet } from 'react-helmet'
+import { breakPoint } from '@Src/contants/common'
+import styled from 'styled-components'
 
 const StyleId = 'landing-link'
+
+const LangBlk = styled('div')({
+  fontSize: '16px',
+  textAlign: 'center',
+  margin: '-40px 0 20px',
+  a: {
+    marginLeft: '8px',
+    textDecoration: 'underline'
+  },
+  [`@media (max-width: ${breakPoint})`]: {
+    fontSize: '12px'
+  }
+})
 
 class Landing extends React.PureComponent<InjectedIntlProps> {
   private ref: HTMLElement | null = null
@@ -138,9 +152,7 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
               </div>
               <div className='appDescriptionContainer'>
                 <p className='appDescription'>
-                  According to behavioral psychology, it takes 21 ~ 90 days to
-                  form a new habit. CoinChallenges let you form habits
-                  effortlessly by using cryptocurrency.
+                  {intl.formatMessage({ id: 'landing.desc' })}
                 </p>
               </div>
               <div className='downloadButtonsContainer'>
@@ -165,8 +177,12 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                   </span>
                 </div>
                 <div className='featureText'>
-                  <h3>Form Habits</h3>
-                  <p>Set up how many days do you want to form a habit.</p>
+                  <h3>
+                    {intl.formatMessage({ id: 'landing.desc.item.1.title' })}
+                  </h3>
+                  <p>
+                    {intl.formatMessage({ id: 'landing.desc.item.1.desc' })}
+                  </p>
                 </div>
               </div>
               <div className='feature'>
@@ -177,11 +193,11 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                   </span>
                 </div>
                 <div className='featureText'>
-                  <h3>Gamification</h3>
+                  <h3>
+                    {intl.formatMessage({ id: 'landing.desc.item.2.title' })}
+                  </h3>
                   <p>
-                    Put your cryptocurrency into smart contract. The more
-                    cryptocurrency you put in, the more likely you will be to
-                    achieve the goal!
+                    {intl.formatMessage({ id: 'landing.desc.item.2.desc' })}
                   </p>
                 </div>
               </div>
@@ -193,10 +209,11 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                   </span>
                 </div>
                 <div className='featureText'>
-                  <h3>Earn Cryptocurrency</h3>
+                  <h3>
+                    {intl.formatMessage({ id: 'landing.desc.item.3.title' })}
+                  </h3>
                   <p>
-                    After you succeed, you can get back all of your
-                    cryptocurrency and also can get sponsors from your friends.
+                    {intl.formatMessage({ id: 'landing.desc.item.3.desc' })}
                   </p>
                 </div>
               </div>
@@ -208,10 +225,11 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                   </span>
                 </div>
                 <div className='featureText'>
-                  <h3>Social Sharing</h3>
+                  <h3>
+                    {intl.formatMessage({ id: 'landing.desc.item.4.title' })}
+                  </h3>
                   <p>
-                    Share your challenge via social media and let friends
-                    encourage you.
+                    {intl.formatMessage({ id: 'landing.desc.item.4.desc' })}
                   </p>
                 </div>
               </div>
@@ -223,8 +241,12 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                   </span>
                 </div>
                 <div className='featureText'>
-                  <h3>Sponsor</h3>
-                  <p>Sponsor friends' challenges. Change together.</p>
+                  <h3>
+                    {intl.formatMessage({ id: 'landing.desc.item.5.title' })}
+                  </h3>
+                  <p>
+                    {intl.formatMessage({ id: 'landing.desc.item.5.desc' })}
+                  </p>
                 </div>
               </div>
               <div className='feature'>
@@ -235,10 +257,11 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                   </span>
                 </div>
                 <div className='featureText'>
-                  <h3>Secure</h3>
+                  <h3>
+                    {intl.formatMessage({ id: 'landing.desc.item.6.title' })}
+                  </h3>
                   <p>
-                    Verified trusted smart contract ensures your cryptocurrency
-                    is secure.
+                    {intl.formatMessage({ id: 'landing.desc.item.6.desc' })}
                   </p>
                 </div>
               </div>
@@ -270,6 +293,11 @@ class Landing extends React.PureComponent<InjectedIntlProps> {
                   </span>
                 </a>
               </div>
+              <LangBlk>
+                <a href='/?l=en'>En</a>
+                <a href='/?l=zh-TW'>繁體中文</a>
+                <a href='/?l=zh-CN'>简体中文</a>
+              </LangBlk>
             </footer>
           </div>
         </div>
