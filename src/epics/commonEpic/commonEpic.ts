@@ -77,7 +77,7 @@ export const initContractEpic = (
         }
 
         const providers = new Web3().providers
-        injectProvider = new providers.WebsocketProvider(network)
+        injectProvider = new providers.WebsocketProvider(txNetwork)
         web3 = new Web3(injectProvider)
 
         try {

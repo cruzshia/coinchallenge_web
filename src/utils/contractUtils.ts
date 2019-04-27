@@ -7,6 +7,8 @@ let networkAddress =
   'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
 let contractAddress = '0x26965fB7d9F93CA5D45042C3a0364932f9B1a111'
 
+const isProd = process.env.REACT_APP_NETWORK === 'PROD'
+
 export const newContract = (web3Interface: Web3, address?: string) => {
   let newContract = null
   try {
@@ -42,7 +44,11 @@ export const detectNetwork = async (web3: Web3 | null, chain?: string) => {
   let netId = 0
   chain = chain || 'ethereum'
   if (!web3) {
-    netId = isDexon(chain) ? 238 : 3
+    if (isProd) {
+      netId = isDexon(chain) ? 237 : 1
+    } else {
+      netId = isDexon(chain) ? 238 : 3
+    }
   } else {
     netId = await web3.eth.net.getId()
   }
