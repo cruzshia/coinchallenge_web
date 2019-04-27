@@ -147,6 +147,10 @@ var defaultGroupState = {
   maxDelayDays: '7',
   minAmount: ''
 };
+var defaultError = {
+  minDays: '',
+  maxDays: ''
+};
 
 var hasError = function hasError(val) {
   return val !== undefined && val !== '';
@@ -200,10 +204,7 @@ function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
       challengeGroup: _objectSpread({}, defaultGroupState),
-      error: {
-        minDays: '',
-        maxDays: ''
-      },
+      error: _objectSpread({}, defaultError),
       agent: '',
       canSend: false
     });
@@ -376,6 +377,7 @@ function (_React$Component) {
         });
         this.setState({
           challengeGroup: _objectSpread({}, defaultGroupState),
+          error: _objectSpread({}, defaultError),
           agent: ''
         });
       }

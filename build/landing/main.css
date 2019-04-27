@@ -287,8 +287,9 @@ nav>ul li a:active {
 
 .iphoneScreen {
     width: 349px;
-    -webkit-clip-path: url(#screenMask);
-    clip-path: url(#screenMask);
+    border-radius: 20px;
+    /* -webkit-clip-path: url(#screenMask);
+    clip-path: url(#screenMask); */
     margin-left: 26px;
     margin-top: 23px
 }
@@ -340,8 +341,9 @@ nav>ul li a:active {
     .iphoneScreen {
         width: 226px;
         height: 488px;
-        -webkit-clip-path: url(#screenMask);
-        clip-path: url(#screenMask);
+        border-radius: 20px;
+        /* -webkit-clip-path: url(#screenMask);
+        clip-path: url(#screenMask); */
         margin: 0px;
         margin-top: 17px
     }

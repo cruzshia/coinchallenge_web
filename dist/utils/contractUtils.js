@@ -19,6 +19,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var networkAddress = 'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
 var contractAddress = '0x26965fB7d9F93CA5D45042C3a0364932f9B1a111';
+var isProd = process.env.REACT_APP_NETWORK === 'PROD';
 
 var newContract = function newContract(web3Interface, address) {
   var newContract = null;
@@ -70,7 +71,12 @@ function () {
               break;
             }
 
-            netId = (0, _.isDexon)(chain) ? 238 : 3;
+            if (isProd) {
+              netId = (0, _.isDexon)(chain) ? 237 : 1;
+            } else {
+              netId = (0, _.isDexon)(chain) ? 238 : 3;
+            }
+
             _context.next = 9;
             break;
 

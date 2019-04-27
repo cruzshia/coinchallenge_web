@@ -123,7 +123,7 @@ var initContractEpic = function initContractEpic(action$, state$) {
 
             case 31:
               providers = new _web.default().providers;
-              injectProvider = new providers.WebsocketProvider(network);
+              injectProvider = new providers.WebsocketProvider(txNetwork);
               web3 = new _web.default(injectProvider);
               _context.prev = 34;
 
