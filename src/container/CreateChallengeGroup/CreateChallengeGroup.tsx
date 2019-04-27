@@ -129,6 +129,11 @@ const defaultGroupState = {
   minAmount: ''
 }
 
+const defaultError = {
+  minDays: '',
+  maxDays: ''
+}
+
 interface CreateChallengeGroupProp
   extends InjectedIntlProps,
     RouteComponentProps {
@@ -196,8 +201,7 @@ class CreateChallengeGroup extends React.Component<
   public state = {
     challengeGroup: { ...defaultGroupState } as ChallengeGroupType,
     error: {
-      minDays: '',
-      maxDays: ''
+      ...defaultError
     } as ErrorProp,
     agent: '',
     canSend: false
@@ -374,7 +378,11 @@ class CreateChallengeGroup extends React.Component<
         response: {},
         error: false
       })
-      this.setState({ challengeGroup: { ...defaultGroupState }, agent: '' })
+      this.setState({
+        challengeGroup: { ...defaultGroupState },
+        error: { ...defaultError },
+        agent: ''
+      })
     }
   }
 
