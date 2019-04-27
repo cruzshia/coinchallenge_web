@@ -62,7 +62,9 @@ const initContract = async chain => {
     )
     contractDexon = newContract(
       web3,
-      '0x0fc4f5c56299FF58019623c3d7daF6D1c78d7d57'
+      isProd
+        ? '0xE021C75841a07801d06bA714C51b79C651e0a390'
+        : '0x0fc4f5c56299FF58019623c3d7daF6D1c78d7d57'
     )
   } else {
     if (contract !== null) return
@@ -76,7 +78,7 @@ const initContract = async chain => {
     contract = newContract(
       web3,
       isProd
-        ? '0xeEe43e9258D59F118F700aae73a91765A0BD2bcC'
+        ? '0xf7eAF1eFdC121B00dba59e07e87616170a6e7bEC'
         : '0x26965fB7d9F93CA5D45042C3a0364932f9B1a111'
     )
   }
