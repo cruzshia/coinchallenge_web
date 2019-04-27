@@ -58,7 +58,11 @@ const initContract = async chain => {
   if (chain && chain === 'dexon') {
     if (contractDexon !== null) return
     const web3 = new Web3(
-      new providers.HttpProvider('https://testnet-rpc.dexon.org')
+      new providers.HttpProvider(
+        isProd
+          ? 'https://mainnet-rpc.dexon.org'
+          : 'https://testnet-rpc.dexon.org'
+      )
     )
     contractDexon = newContract(
       web3,
