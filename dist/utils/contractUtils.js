@@ -24,9 +24,7 @@ var newContract = function newContract(web3Interface, address) {
   var newContract = null;
 
   try {
-    newContract = new web3Interface.eth.Contract(_CoinChallenges.default.abi, address || contractAddress, {
-      gas: 6000000
-    });
+    newContract = new web3Interface.eth.Contract(_CoinChallenges.default.abi, address || contractAddress);
   } catch (err) {
     console.log(err);
   }
