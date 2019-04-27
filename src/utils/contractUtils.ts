@@ -12,10 +12,7 @@ export const newContract = (web3Interface: Web3, address?: string) => {
   try {
     newContract = new web3Interface.eth.Contract(
       CoinChallengs.abi,
-      address || contractAddress,
-      {
-        gas: 6000000
-      }
+      address || contractAddress
     )
   } catch (err) {
     console.log(err)
