@@ -122,6 +122,7 @@
         "build": "node scripts/build.js",
         "test": "node scripts/test.js",
         "build-prod": "npm run build && npm run compile",
+        "build-prod-env": "REACT_APP_NETWORK=PROD npm run build && npm run compile",
         "serve": "cross-env NODE_ENV=production node ./server/index.js",
         "serve-prod": "NETWORK=PROD npm run serve",
         "clean": "rm -rf ./dist",
