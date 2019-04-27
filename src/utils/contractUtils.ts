@@ -75,7 +75,7 @@ export const detectNetwork = async (web3: Web3 | null, chain?: string) => {
 const getContract = (env: 'PROD' | 'TEST' | 'LOCAL') => {
   switch (env) {
     case 'PROD':
-      contractAddress = '0xeEe43e9258D59F118F700aae73a91765A0BD2bcC'
+      contractAddress = '0xf7eAF1eFdC121B00dba59e07e87616170a6e7bEC'
       break
     case 'TEST':
       contractAddress = '0x26965fB7d9F93CA5D45042C3a0364932f9B1a111'
@@ -88,7 +88,7 @@ const getContract = (env: 'PROD' | 'TEST' | 'LOCAL') => {
 const getDexonContract = (env: 'PROD' | 'TEST' | 'LOCAL') => {
   switch (env) {
     case 'PROD':
-      contractAddress = ''
+      contractAddress = '0xE021C75841a07801d06bA714C51b79C651e0a390'
       break
     case 'TEST':
       contractAddress = '0x0fc4f5c56299FF58019623c3d7daF6D1c78d7d57'

@@ -131,7 +131,7 @@ exports.detectNetwork = detectNetwork;
 var getContract = function getContract(env) {
   switch (env) {
     case 'PROD':
-      contractAddress = '0xeEe43e9258D59F118F700aae73a91765A0BD2bcC';
+      contractAddress = '0xf7eAF1eFdC121B00dba59e07e87616170a6e7bEC';
       break;
 
     case 'TEST':
@@ -146,7 +146,7 @@ var getContract = function getContract(env) {
 var getDexonContract = function getDexonContract(env) {
   switch (env) {
     case 'PROD':
-      contractAddress = '';
+      contractAddress = '0xE021C75841a07801d06bA714C51b79C651e0a390';
       break;
 
     case 'TEST':
