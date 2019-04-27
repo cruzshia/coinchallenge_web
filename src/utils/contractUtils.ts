@@ -61,6 +61,10 @@ export const detectNetwork = async (web3: Web3 | null, chain?: string) => {
         'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f'
       CHAIN_ADDRESS[chain]('TEST')
       break
+    case 237: //'DEXON main Network'
+      networkAddress = 'wss://mainnet-rpc.dexon.org/ws'
+      CHAIN_ADDRESS[chain]('PROD')
+      break
     case 238: //'DEXON Test Network'
       networkAddress = 'wss://testnet-rpc.dexon.org/ws'
       CHAIN_ADDRESS[chain]('TEST')

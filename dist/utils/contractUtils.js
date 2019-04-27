@@ -85,35 +85,41 @@ function () {
 
           case 9:
             _context.t0 = netId;
-            _context.next = _context.t0 === 1 ? 12 : _context.t0 === 3 ? 15 : _context.t0 === 238 ? 18 : 21;
+            _context.next = _context.t0 === 1 ? 12 : _context.t0 === 3 ? 15 : _context.t0 === 237 ? 18 : _context.t0 === 238 ? 21 : 24;
             break;
 
           case 12:
             //main net
             networkAddress = 'wss://mainnet.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
             CHAIN_ADDRESS[chain]('PROD');
-            return _context.abrupt("break", 23);
+            return _context.abrupt("break", 26);
 
           case 15:
             //ropsten
             networkAddress = 'wss://ropsten.infura.io/ws/v3/9d6ecc41833d434a921bf5de878f834f';
             CHAIN_ADDRESS[chain]('TEST');
-            return _context.abrupt("break", 23);
+            return _context.abrupt("break", 26);
 
           case 18:
+            //'DEXON main Network'
+            networkAddress = 'wss://mainnet-rpc.dexon.org/ws';
+            CHAIN_ADDRESS[chain]('PROD');
+            return _context.abrupt("break", 26);
+
+          case 21:
             //'DEXON Test Network'
             networkAddress = 'wss://testnet-rpc.dexon.org/ws';
             CHAIN_ADDRESS[chain]('TEST');
-            return _context.abrupt("break", 23);
+            return _context.abrupt("break", 26);
 
-          case 21:
+          case 24:
             networkAddress = 'ws://localhost:7545';
             CHAIN_ADDRESS[chain]('LOCAL');
 
-          case 23:
+          case 26:
             return _context.abrupt("return", networkAddress);
 
-          case 24:
+          case 27:
           case "end":
             return _context.stop();
         }
