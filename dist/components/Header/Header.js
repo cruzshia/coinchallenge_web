@@ -99,7 +99,7 @@ var MonetizationOnIcon = (0, _styledComponents.default)(_MonetizationOn.default)
 var Balance = (0, _styledComponents.default)('div')(_defineProperty({
   position: 'absolute',
   top: 2,
-  right: 70,
+  right: 71,
   color: '#fff',
   fontSize: '14px'
 }, "@media (max-width: ".concat(_common.breakPoint, ")"), {

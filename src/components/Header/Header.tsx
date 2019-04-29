@@ -58,7 +58,7 @@ const MonetizationOnIcon = styled(MonetizationOn)({
 const Balance = styled('div')({
   position: 'absolute',
   top: 2,
-  right: 70,
+  right: 71,
   color: '#fff',
   fontSize: '14px',
   [`@media (max-width: ${breakPoint})`]: {
